@@ -30,4 +30,4 @@ Following are the services that will be required to be deployed to cloud to supp
 #Technologies
 We are going to build this app using Android Studio and SQLite for local database. The services will be built using NodeJS. These cloud services will be deployed to Amazon EC2. We are going to use MongoDB to support this application from the cloud.
 
-
+View More https://docs.google.com/document/d/1KfEqFIpRsM7HEJ1Rif3ArSaMllR-Fd4g9WNkiyyeAQk/edit
