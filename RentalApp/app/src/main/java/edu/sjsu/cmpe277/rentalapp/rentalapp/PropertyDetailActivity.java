@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import edu.sjsu.cmpe277.rentalapp.R;
 
 /**
  * An activity representing a single Property detail screen. This

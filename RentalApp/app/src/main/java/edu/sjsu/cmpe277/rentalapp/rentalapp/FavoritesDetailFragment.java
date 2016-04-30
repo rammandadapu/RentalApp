@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,15 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 
 /**
  * A fragment representing a single Property detail screen.
- * This fragment is either contained in a {@link PropertyListActivity}
- * in two-pane mode (on tablets) or a {@link PropertyDetailActivity}
+ * This fragment is either contained in a {@link edu.sjsu.cmpe277.rentalapp.favorites.PropertyListActivity}
+ * in two-pane mode (on tablets) or a {@link edu.sjsu.cmpe277.rentalapp.favorites.PropertyDetailActivity}
  * on handsets.
  */
-public class PropertyDetailFragment extends Fragment {
+public class FavoritesDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -33,7 +34,7 @@ public class PropertyDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PropertyDetailFragment() {
+    public FavoritesDetailFragment() {
     }
 
     @Override

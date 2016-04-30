@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
+
+import edu.sjsu.cmpe277.rentalapp.R;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,7 +100,7 @@ public class NavActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         }
         else if (id == R.id.nav_favorites) {
-            fragment = new PropertyListFragment();
+            fragment = new FavoritesListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         }
         else if (id == R.id.nav_saved_searches) {

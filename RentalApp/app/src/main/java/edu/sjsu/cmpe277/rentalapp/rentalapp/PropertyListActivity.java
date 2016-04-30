@@ -1,24 +1,17 @@
-package edu.sjsu.cmpe277.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 
+import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
-
-import java.util.List;
 
 /**
  * An activity representing a list of Properties. This activity
@@ -60,6 +53,7 @@ public class PropertyListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,DummyContent.ITEMS));
+        //modify this according to the search implementation
+        //recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,DummyContent.ITEMS));
     }
 }

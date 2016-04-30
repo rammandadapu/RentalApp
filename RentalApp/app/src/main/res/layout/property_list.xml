@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="edu.sjsu.cmpe277.rentalapp.PropertyListActivity"
+    tools:context=".rentalapp.PropertyListActivity"
     tools:listitem="@layout/property_list_content" />

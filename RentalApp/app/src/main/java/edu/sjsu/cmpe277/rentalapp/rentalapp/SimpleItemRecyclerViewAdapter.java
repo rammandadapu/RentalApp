@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 
 /**
@@ -20,9 +23,9 @@ public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private final List<DummyContent.DummyItem> mValues;
+    private final ArrayList mValues;
 
-    public SimpleItemRecyclerViewAdapter(Context context, List<DummyContent.DummyItem> items) {
+    public SimpleItemRecyclerViewAdapter(Context context, ArrayList items) {
         this.context = context;
         mValues = items;
     }
@@ -36,9 +39,9 @@ public class SimpleItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        HashMap<String, String> map = (HashMap<String, String>) mValues.get(position);
+        holder.mIdView.setText(map.get("_id"));
+        holder.mContentView.setText(map.get("name"));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

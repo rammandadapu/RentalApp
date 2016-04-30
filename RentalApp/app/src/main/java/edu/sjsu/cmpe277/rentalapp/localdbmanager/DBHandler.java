@@ -9,11 +9,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Property;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -36,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "create table " + TABLE + " ( "
                 + TABLE_PROPERTY_ID + " TEXT PRIMARY KEY,"
-                + TABLE_PROPERTY_NAME + " TEXT,"
+                + TABLE_PROPERTY_NAME + " TEXT"
                 + ")";
         db.execSQL(query);
     }
@@ -85,18 +88,18 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
-        ArrayList<HashMap<String, String>> restaurantList = new ArrayList<>();
+        ArrayList<HashMap<String, String>> propertyList = new ArrayList<>();
         while (!cursor.isAfterLast()) {
             HashMap<String, String> property = new HashMap<>();
             property.put("propertyId", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
             property.put("propertyName", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_NAME)));
 
             cursor.moveToNext();
-            restaurantList.add(property);
+            propertyList.add(property);
         }
         cursor.close();
-        db.close();;
-        return restaurantList;
+        db.close();
+        return propertyList;
     }
 
     public ArrayList<String> getAllPropertyIds() {
@@ -132,4 +135,46 @@ public class DBHandler extends SQLiteOpenHelper {
         return !cursor.isAfterLast();
     }
 
+    public static void main(String args[]) {
+        DBHandler dbHandler = new DBHandler(null,null,null,0);
+        RentalProperty property = new RentalProperty();
+        /*property.setPropertyId("1");
+        property.setName("house 1");
+        dbHandler.addProperty(property);
+        property.setPropertyId("2");
+        property.setName("house 2");
+        dbHandler.addProperty(property);
+        property.setPropertyId("3");
+        property.setName("house 3");
+        dbHandler.addProperty(property);
+        property.setPropertyId("4");
+        property.setName("house 4");
+        dbHandler.addProperty(property);
+        property.setPropertyId("5");
+        property.setName("house 5");
+        dbHandler.addProperty(property);
+        property.setPropertyId("6");
+        property.setName("house 6");
+        dbHandler.addProperty(property);
+        property.setPropertyId("7");
+        property.setName("house 7");
+        dbHandler.addProperty(property);
+        property.setPropertyId("8");
+        property.setName("house 8");
+        dbHandler.addProperty(property);
+        property.setPropertyId("9");
+        property.setName("house 9");
+        dbHandler.addProperty(property);
+        property.setPropertyId("10");
+        property.setName("house 10");
+        dbHandler.addProperty(property);
+        property.setPropertyId("11");
+        property.setName("house 11");
+        dbHandler.addProperty(property);
+        property.setPropertyId("12");
+        property.setName("house 12");
+        dbHandler.addProperty(property);*/
+
+        System.out.println(dbHandler.getAllProperties());
+    }
 }

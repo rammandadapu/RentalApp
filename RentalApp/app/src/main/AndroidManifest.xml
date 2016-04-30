@@ -9,24 +9,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PropertyListActivity"
+            android:name=".rentalapp.PropertyListActivity"
             android:label="@string/title_property_list"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.sjsu.cmpe277.rentalapp.NavActivity" />
+                android:value=".rentalapp.NavActivity" />
         </activity>
         <activity
-            android:name=".PropertyDetailActivity"
+            android:name=".rentalapp.PropertyDetailActivity"
             android:label="@string/title_property_detail"
-            android:parentActivityName=".PropertyListActivity"
+            android:parentActivityName=".rentalapp.PropertyListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.sjsu.cmpe277.rentalapp.PropertyListActivity" />
+                android:value=".rentalapp.PropertyListActivity" />
         </activity>
         <activity
-            android:name=".NavActivity"
+            android:name=".rentalapp.NavActivity"
             android:label="@string/title_activity_nav"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
