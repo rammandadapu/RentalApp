@@ -2,14 +2,15 @@ var express = require('express')
 	, http = require('http')
 	, nodeMailer = require('nodemailer')
 	, bodyParser = require('body-parser')
-	, index = require('./routes/index');
+	, index = require('./routes/index')
+	,mailcomponent = require('./routes/mailcomponent');
 
 var app = express();
 app.use(bodyParser.json());
 
 //service
 app.get('/', index.helloWorld);
-app.post('/sendMail', index.sendMail);
+app.post('/sendMail', mailcomponent.sendMail);
 
 
 http.createServer(app).listen(1337, '127.0.0.1');
