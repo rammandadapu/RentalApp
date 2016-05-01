@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.favorites;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;

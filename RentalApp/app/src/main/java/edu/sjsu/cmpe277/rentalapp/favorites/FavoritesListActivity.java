@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.favorites;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,14 +11,14 @@ import android.view.View;
 
 
 import edu.sjsu.cmpe277.rentalapp.R;
-import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
 
 /**
  * An activity representing a list of Properties. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link edu.sjsu.cmpe277.rentalapp.rentalapp.FavoritesDetailActivity} representing
+ * lead to a {@link FavoritesDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
@@ -57,5 +57,6 @@ public class FavoritesListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, dbHandler.getAllProperties()));
+        System.out.println(dbHandler.getAllProperties());
     }
 }

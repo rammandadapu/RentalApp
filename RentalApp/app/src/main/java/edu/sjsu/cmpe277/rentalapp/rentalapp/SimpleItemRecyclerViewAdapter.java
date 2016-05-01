@@ -40,8 +40,8 @@ public class SimpleItemRecyclerViewAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         HashMap<String, String> map = (HashMap<String, String>) mValues.get(position);
-        holder.mIdView.setText(map.get("_id"));
-        holder.mContentView.setText(map.get("name"));
+        holder.mIdView.setText(map.get("propertyId"));
+        holder.mContentView.setText(map.get("propertyName"));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

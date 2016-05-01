@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.favorites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import edu.sjsu.cmpe277.rentalapp.*;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyListActivity;
 
 /**
  * An activity representing a single Property detail screen. This
@@ -56,7 +58,7 @@ public class FavoritesDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(edu.sjsu.cmpe277.rentalapp.rentalapp.FavoritesDetailFragment.ARG_ITEM_ID,
+            arguments.putString(FavoritesDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(PropertyDetailFragment.ARG_ITEM_ID));
             PropertyDetailFragment fragment = new PropertyDetailFragment();
             fragment.setArguments(arguments);

@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.favorites;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +29,7 @@ public class FavoritesListFragment extends Fragment {
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
         mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(getActivity(), dbHandler.getAllProperties());
         mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
+        System.out.println(dbHandler.getAllProperties());
         return view;
     }
 }

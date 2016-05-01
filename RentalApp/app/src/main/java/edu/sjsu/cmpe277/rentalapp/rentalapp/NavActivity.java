@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
