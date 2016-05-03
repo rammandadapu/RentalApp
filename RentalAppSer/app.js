@@ -3,7 +3,8 @@ var express = require('express')
 	, nodeMailer = require('nodemailer')
 	, bodyParser = require('body-parser')
 	, index = require('./routes/index')
-	,mailcomponent = require('./routes/mailcomponent');
+	, mailcomponent = require('./routes/mailcomponent')
+	, gcm = require('android-gcm');
 
 var app = express();
 app.use(bodyParser.json());
