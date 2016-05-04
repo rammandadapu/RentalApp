@@ -30,7 +30,7 @@ app.post('/test',function(req,res){console.log(req.body);res.end();});
 
 
 //Chitti
-app.post('/searchtest', searchProperty.search);
+app.get('/searchtest', searchProperty.search);
 
 
 
