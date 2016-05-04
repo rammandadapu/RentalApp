@@ -1,12 +1,11 @@
 /**
  * http://usejsdoc.org/
  */
-var gcm = require('android-gcm');
-
 
 exports.helloWorld = function(req, res) {
+	//sample code for push notifications
 	// initialize new androidGcm object 
-	var gcmObject = new gcm.AndroidGcm('AIzaSyCAPTa1lApHqXFxgn8uNtAxFgvYKd-W3WE');
+	/*var gcmObject = new gcm.AndroidGcm('AIzaSyCAPTa1lApHqXFxgn8uNtAxFgvYKd-W3WE');
 	 
 	// create new message 
 	var message = new gcm.Message({
@@ -18,7 +17,7 @@ exports.helloWorld = function(req, res) {
 	});
 	 
 	// send the message 
-	gcmObject.send(message, function(err, response) {});
+	gcmObject.send(message, function(err, response) {});*/
 	res.end("Hello World");
 };
 
