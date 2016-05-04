@@ -21,11 +21,17 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
-    private static final String TABLE_PROPERTY_NAME = "name";
     private static final String TABLE_PROPERTY_ID = "_id";
+    private static final String TABLE_PROPERTY_ADDRESSLINE1 = "addressLine1";
+    private static final String TABLE_PROPERTY_ADDRESSCITY = "addressCity";
+    private static final String TABLE_PROPERTY_ADDRESSSTATE = "addressState";
+    private static final String TABLE_PROPERTY_ADDRESSZIP = "addressZip";
+    private static final String TABLE_PROPERTY_PRICE = "price";
+    private static final String TABLE_PROPERTY_BED = "bed";
+    private static final String TABLE_PROPERTY_BATH = "bath";
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB, factory, DB_VERSION);
@@ -39,7 +45,13 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "create table " + TABLE + " ( "
                 + TABLE_PROPERTY_ID + " TEXT PRIMARY KEY,"
-                + TABLE_PROPERTY_NAME + " TEXT"
+                + TABLE_PROPERTY_ADDRESSLINE1 + " TEXT,"
+                + TABLE_PROPERTY_ADDRESSCITY + " TEXT,"
+                + TABLE_PROPERTY_ADDRESSSTATE + " TEXT,"
+                + TABLE_PROPERTY_ADDRESSZIP + " TEXT,"
+                + TABLE_PROPERTY_PRICE + " TEXT,"
+                + TABLE_PROPERTY_BED + " TEXT,"
+                + TABLE_PROPERTY_BATH + " TEXT"
                 + ")";
         db.execSQL(query);
     }
@@ -63,8 +75,14 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addProperty(RentalProperty property) {
 
         ContentValues values = new ContentValues();
-        values.put(TABLE_PROPERTY_ID, property.getPropertyId());
-        values.put(TABLE_PROPERTY_NAME, property.getName());
+        values.put(TABLE_PROPERTY_ID, property.get_id());
+        values.put(TABLE_PROPERTY_ADDRESSLINE1, property.getAddressLine1());
+        values.put(TABLE_PROPERTY_ADDRESSCITY, property.getAddressCity());
+        values.put(TABLE_PROPERTY_ADDRESSSTATE, property.getAddressState());
+        values.put(TABLE_PROPERTY_ADDRESSZIP, property.getAddressZip());
+        values.put(TABLE_PROPERTY_PRICE, property.getPrice());
+        values.put(TABLE_PROPERTY_BATH, property.getBath());
+        values.put(TABLE_PROPERTY_BED, property.getBed());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE, null, values);
         db.close();
@@ -91,8 +109,14 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<HashMap<String, String>> propertyList = new ArrayList<>();
         while (!cursor.isAfterLast()) {
             HashMap<String, String> property = new HashMap<>();
-            property.put("propertyId", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
-            property.put("propertyName", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_NAME)));
+            property.put("_id", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
+            property.put("addressLine1", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSLINE1)));
+            property.put("addressCity", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSCITY)));
+            property.put("addressState", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSSTATE)));
+            property.put("addressZip", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSZIP)));
+            property.put("price", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_PRICE)));
+            property.put("bed", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BED)));
+            property.put("bath", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BATH)));
 
             cursor.moveToNext();
             propertyList.add(property);
@@ -133,48 +157,5 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         return !cursor.isAfterLast();
-    }
-
-    public static void main(String args[]) {
-        DBHandler dbHandler = new DBHandler(null,null,null,0);
-        RentalProperty property = new RentalProperty();
-        /*property.setPropertyId("1");
-        property.setName("house 1");
-        dbHandler.addProperty(property);
-        property.setPropertyId("2");
-        property.setName("house 2");
-        dbHandler.addProperty(property);
-        property.setPropertyId("3");
-        property.setName("house 3");
-        dbHandler.addProperty(property);
-        property.setPropertyId("4");
-        property.setName("house 4");
-        dbHandler.addProperty(property);
-        property.setPropertyId("5");
-        property.setName("house 5");
-        dbHandler.addProperty(property);
-        property.setPropertyId("6");
-        property.setName("house 6");
-        dbHandler.addProperty(property);
-        property.setPropertyId("7");
-        property.setName("house 7");
-        dbHandler.addProperty(property);
-        property.setPropertyId("8");
-        property.setName("house 8");
-        dbHandler.addProperty(property);
-        property.setPropertyId("9");
-        property.setName("house 9");
-        dbHandler.addProperty(property);
-        property.setPropertyId("10");
-        property.setName("house 10");
-        dbHandler.addProperty(property);
-        property.setPropertyId("11");
-        property.setName("house 11");
-        dbHandler.addProperty(property);
-        property.setPropertyId("12");
-        property.setName("house 12");
-        dbHandler.addProperty(property);*/
-
-        System.out.println(dbHandler.getAllProperties());
     }
 }

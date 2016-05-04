@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.DividerItemDecoration;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
 
 /**
@@ -29,6 +30,7 @@ public class FavoritesListFragment extends Fragment {
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
         mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(getActivity(), dbHandler.getAllProperties());
         mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         System.out.println(dbHandler.getAllProperties());
         return view;
     }

@@ -38,17 +38,19 @@ public class SimpleItemRecyclerViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         HashMap<String, String> map = (HashMap<String, String>) mValues.get(position);
-        holder.mIdView.setText(map.get("propertyId"));
-        holder.mContentView.setText(map.get("propertyName"));
+
+        holder.mRentView.setText(map.get("price"));
+        holder.mAddressView.setText(map.get("addressLine1"));
+        holder.mBedBathView.setText(map.get("bath"));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (NavActivity.mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get("_id"));
                     PropertyDetailFragment fragment = new PropertyDetailFragment();
                     fragment.setArguments(arguments);
                     ((NavActivity)context).getSupportFragmentManager().beginTransaction()
@@ -57,7 +59,7 @@ public class SimpleItemRecyclerViewAdapter
                 } else {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PropertyDetailActivity.class);
-                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get("_id"));
 
                     context.startActivity(intent);
                 }
@@ -72,20 +74,17 @@ public class SimpleItemRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mRentView;
+        public final TextView mBedBathView;
+        public final TextView mAddressView;
         public DummyContent.DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            mRentView = (TextView) view.findViewById(R.id.rent_list);
+            mBedBathView = (TextView) view.findViewById(R.id.bed_bath_list);
+            mAddressView = (TextView) view.findViewById(R.id.address_list);
         }
     }
 }

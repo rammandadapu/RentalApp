@@ -13,6 +13,7 @@ import android.view.View;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.DividerItemDecoration;
 
 /**
  * An activity representing a list of Properties. This activity
@@ -57,6 +58,7 @@ public class FavoritesListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, dbHandler.getAllProperties()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         System.out.println(dbHandler.getAllProperties());
     }
 }
