@@ -3,9 +3,10 @@ var express = require('express')
 	, nodeMailer = require('nodemailer')
 	, bodyParser = require('body-parser')
 	, index = require('./routes/index')
-	,mailcomponent = require('./routes/mailcomponent')
-	,fileupload= require('./routes/fileupload')
-	,multer  =   require('multer')
+	, mailcomponent = require('./routes/mailcomponent')
+	, fileupload= require('./routes/fileupload')
+	, searchProperty = require('./routes/search')
+	, multer  =   require('multer')
 	, gcm = require('android-gcm')
 	, mongodb = require('mongodb');
 
@@ -26,6 +27,10 @@ app.post('/upload', upload.array('photos', 12), function (req, res, next) {
 	});
 app.post('/test',function(req,res){console.log(req.body);res.end();});
 
+
+
+//Chitti
+app.post('/searchtest', searchProperty.search);
 
 
 
