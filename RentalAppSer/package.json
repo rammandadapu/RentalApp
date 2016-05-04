@@ -18,7 +18,8 @@
   "dependencies": {
     "express": "^4.13.4",
     "nodemailer": "0.7.1",
-    "body-parser" : "*",
-    "multer": "*"
+    "body-parser" : "1.15.0",
+    "multer": "1.1.0",
+    "mongodb": "2.1.18"
   }
 }
