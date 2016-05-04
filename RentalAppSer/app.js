@@ -3,9 +3,13 @@ var express = require('express')
 	, nodeMailer = require('nodemailer')
 	, bodyParser = require('body-parser')
 	, index = require('./routes/index')
+<<<<<<< HEAD
 	,mailcomponent = require('./routes/mailcomponent')
 	,fileupload= require('./routes/fileupload')
 	,multer  =   require('multer')
+=======
+	, mailcomponent = require('./routes/mailcomponent')
+>>>>>>> origin/master
 	, gcm = require('android-gcm')
 	, mongodb = require('mongodb');
 

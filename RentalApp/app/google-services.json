@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "156242089062",
+    "project_id": "rental-app-1299"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156242089062:android:8a406962f90dfa6c",
+        "android_client_info": {
+          "package_name": "edu.sjsu.cmpe277.rentalapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNwU4MeHYzLfudMrXaT-KLTNpnwT0mAz0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
