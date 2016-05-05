@@ -12,12 +12,7 @@ import android.widget.TextView;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 
-/**
- * A fragment representing a single Property detail screen.
- * This fragment is either contained in a {@link edu.sjsu.cmpe277.rentalapp.favorites.PropertyListActivity}
- * in two-pane mode (on tablets) or a {@link edu.sjsu.cmpe277.rentalapp.favorites.PropertyDetailActivity}
- * on handsets.
- */
+
 public class FavoritesDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -62,7 +57,7 @@ public class FavoritesDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.property_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.rent_detail)).setText(mItem.details);
         }
 
         return rootView;
