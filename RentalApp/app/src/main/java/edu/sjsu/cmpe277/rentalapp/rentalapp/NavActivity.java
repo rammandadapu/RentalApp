@@ -45,6 +45,8 @@ public class NavActivity extends AppCompatActivity
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
 
+
+                //code for notification START
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_find_in_page_24dp)
@@ -72,6 +74,7 @@ public class NavActivity extends AppCompatActivity
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
                 mNotificationManager.notify(1, mBuilder.build());
+                //code for notification END
             }
         });
 
@@ -83,6 +86,9 @@ public class NavActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         if (findViewById(R.id.property_detail_container) != null) {
             // The detail container view will be present only in the
@@ -106,7 +112,7 @@ public class NavActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.nav, menu);
+        //getMenuInflater().inflate(R.menu.nav, menu);
         return true;
     }
 
