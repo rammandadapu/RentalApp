@@ -1,36 +1,33 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.app.TaskStackBuilder;
-
-import android.app.NotificationManager;
-import android.content.Context;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Intent;
+import android.view.View;
 
 import edu.sjsu.cmpe277.rentalapp.R;
-import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListActivity;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static boolean mTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,16 +139,13 @@ public class NavActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             fragment = new PropertyListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        }
-        else if (id == R.id.nav_favorites) {
+        } else if (id == R.id.nav_favorites) {
             fragment = new FavoritesListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        }
-        else if (id == R.id.nav_saved_searches) {
+        } else if (id == R.id.nav_saved_searches) {
             fragment = new PropertyListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        }
-        else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manage) {
             fragment = new PropertyListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         }
