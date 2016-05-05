@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 var upload = multer({ dest: 'uploads/' });
 
 //service
-app.get('/', index.helloWorld);
+app.get('/', index.test);
 app.post('/sendMail', mailcomponent.sendMail);
 app.post('/upload', upload.array('photos', 12), function (req, res, next) {
 	fileupload.upload(req,res);

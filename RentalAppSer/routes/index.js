@@ -1,7 +1,7 @@
 /**
  * http://usejsdoc.org/
  */
-
+var constants = require('./constants');
 exports.helloWorld = function(req, res) {
 	//sample code for push notifications
 	// initialize new androidGcm object 
@@ -20,6 +20,10 @@ exports.helloWorld = function(req, res) {
 	gcmObject.send(message, function(err, response) {});*/
 	res.end("Hello World");
 };
+
+exports.test=function(req,res){
+	console.log(constants.CONST);
+}
 
 
 
