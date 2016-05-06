@@ -168,24 +168,31 @@ public class NavActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_search) {
-            fragment = new PropertyListFragment();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        } else if (id == R.id.nav_favorites) {
-            fragment = new FavoritesListFragment();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        } else if (id == R.id.nav_saved_searches) {
-            fragment = new PropertyListFragment();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        } else if (id == R.id.nav_manage) {
-            fragment = new PropertyListFragment();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        }
-        else if (id == R.id.nav_logout) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("logout",true);
-            startActivity(intent);
-            return true;
+        switch (id){
+            case R.id.nav_search:
+                fragment = new PropertyListFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                break;
+            case R.id.nav_post:
+                fragment=new CreateNewPropertyFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent,fragment).commit();
+            case R.id.nav_favorites:
+                fragment = new FavoritesListFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                break;
+            case R.id.nav_saved_searches:
+                fragment = new PropertyListFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                break;
+            case R.id.nav_manage:
+                fragment = new PropertyListFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                break;
+            case  R.id.nav_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("logout",true);
+                startActivity(intent);
+                return true;
         }
 
         // Highlight the selected item has been done by NavigationView
