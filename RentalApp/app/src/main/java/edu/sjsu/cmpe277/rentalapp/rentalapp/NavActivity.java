@@ -22,6 +22,7 @@ import android.view.View;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
+import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -148,6 +149,12 @@ public class NavActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
             fragment = new PropertyListFragment();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        }
+        else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("logout",true);
+            startActivity(intent);
+            return true;
         }
 
         // Highlight the selected item has been done by NavigationView
