@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,9 +17,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.net.URI;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
@@ -29,6 +35,12 @@ public class NavActivity extends AppCompatActivity
 
     public static boolean mTwoPane;
 
+    public String userName;
+    public String userMail;
+
+    TextView userNameTextView;
+    TextView userEmailTextView;
+    ImageView userImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +107,24 @@ public class NavActivity extends AppCompatActivity
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        userNameTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.username);
+        userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
+        userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            userName = extras.getString("username");
+            userMail=extras.getString("email");
+            Uri imageUri=(Uri)extras.get("imageuri");
+            if(!TextUtils.isEmpty(userName))
+               userNameTextView.setText(userName);
+            if(!TextUtils.isEmpty(userMail))
+               userEmailTextView.setText(userMail);
+            userImageView.setImageURI(imageUri);
+
+        }
+
+
     }
 
     @Override
@@ -128,6 +158,7 @@ public class NavActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

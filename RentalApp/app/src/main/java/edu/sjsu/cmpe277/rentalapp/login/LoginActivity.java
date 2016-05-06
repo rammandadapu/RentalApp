@@ -144,11 +144,12 @@ public class LoginActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+
            // mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+            updateUI(true,  acct);
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            updateUI(false,null);
         }
     }
     // [END handleSignInResult]
@@ -170,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        updateUI(false,null);
                         // [END_EXCLUDE]
                     }
                 });
@@ -184,7 +185,7 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        updateUI(false);
+                        updateUI(false,null);
                         // [END_EXCLUDE]
                     }
                 });
@@ -214,12 +215,15 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
 
-    private void updateUI(boolean signedIn) {
+    private void updateUI(boolean signedIn,GoogleSignInAccount acct) {
         if (signedIn) {
             hideProgressDialog();
             //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, NavActivity.class);
+            intent.putExtra("username",acct.getDisplayName());
+            intent.putExtra("email",acct.getEmail());
+            intent.putExtra("imageuri",acct.getPhotoUrl());
             startActivity(intent);
         } else {
             //mStatusTextView.setText(R.string.signed_out);
