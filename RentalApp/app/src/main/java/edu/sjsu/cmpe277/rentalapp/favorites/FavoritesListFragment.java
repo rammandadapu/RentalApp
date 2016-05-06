@@ -18,7 +18,7 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
  */
 public class FavoritesListFragment extends Fragment {
     private RecyclerView mRecycleView;
-    private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
+    private SimpleItemRecyclerViewAdapterFavorites mSimpleItemRecyclerViewAdapter;
     DBHandler dbHandler;
     public FavoritesListFragment() {
         // Required empty public constructor
@@ -28,7 +28,7 @@ public class FavoritesListFragment extends Fragment {
         dbHandler = new DBHandler(getActivity(),null,null,0);
         View view = inflater.inflate(R.layout.property_list, container, false);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
-        mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(getActivity(), dbHandler.getAllProperties());
+        mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapterFavorites(getActivity(), dbHandler.getAllProperties());
         mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         System.out.println(dbHandler.getAllProperties());

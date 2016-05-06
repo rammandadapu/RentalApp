@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
@@ -52,8 +53,8 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 if (!dbHandler.isFavourite(propertyId)) {
                     RentalProperty rentalProperty = new RentalProperty();
                     rentalProperty.set_id(propertyId);
-                    rentalProperty.setPrice(findViewById(R.id.rent_detail).toString());
-                    rentalProperty.setBath(findViewById(R.id.bed_bath_detail).toString());
+                    rentalProperty.setPrice(((TextView)findViewById(R.id.rent_detail)).getText().toString());
+                    rentalProperty.setBath(((TextView)findViewById(R.id.bed_bath_detail)).getText().toString());
                     dbHandler.addProperty(rentalProperty);
                     toggleFavouriteImage(true);
                     Toast.makeText(getApplicationContext(), "Added to saved houses", Toast.LENGTH_SHORT).show();

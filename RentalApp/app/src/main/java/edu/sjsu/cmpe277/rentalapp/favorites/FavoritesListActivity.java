@@ -57,7 +57,7 @@ public class FavoritesListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, dbHandler.getAllProperties()));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapterFavorites(this, dbHandler.getAllProperties()));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         System.out.println(dbHandler.getAllProperties());
     }

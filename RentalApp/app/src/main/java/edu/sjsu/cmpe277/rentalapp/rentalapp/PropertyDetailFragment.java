@@ -84,7 +84,6 @@ public class PropertyDetailFragment extends Fragment {
                         super.onPostExecute(map);
                         //progressDialog.dismiss();
                         try {
-                            System.out.println("Hiiiiiiiiii");
                             rentView.setText(map.get("rent").toString());
                             bedBathView.setText(map.get("bed").toString());
                         } catch (NullPointerException e) {
