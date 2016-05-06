@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
 
 

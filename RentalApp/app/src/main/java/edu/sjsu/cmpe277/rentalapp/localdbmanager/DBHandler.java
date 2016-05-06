@@ -21,17 +21,19 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
-    private static final String TABLE_PROPERTY_ID = "_id";
-    private static final String TABLE_PROPERTY_ADDRESSLINE1 = "addressLine1";
-    private static final String TABLE_PROPERTY_ADDRESSCITY = "addressCity";
-    private static final String TABLE_PROPERTY_ADDRESSSTATE = "addressState";
-    private static final String TABLE_PROPERTY_ADDRESSZIP = "addressZip";
-    private static final String TABLE_PROPERTY_PRICE = "price";
-    private static final String TABLE_PROPERTY_BED = "bed";
-    private static final String TABLE_PROPERTY_BATH = "bath";
+    public static final String TABLE_PROPERTY_ID = "_id";
+    public static final String TABLE_PROPERTY_ADDRESS = "address";
+    public static final String TABLE_PROPERTY_ADDRESSLINE1 = "line1";
+    public static final String TABLE_PROPERTY_ADDRESSCITY = "city";
+    public static final String TABLE_PROPERTY_ADDRESSSTATE = "state";
+    public static final String TABLE_PROPERTY_ADDRESSZIP = "zip";
+    public static final String TABLE_PROPERTY_PRICE = "price";
+    public static final String TABLE_PROPERTY_BED = "bedNo";
+    public static final String TABLE_PROPERTY_BATH = "bathNo";
+    public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB, factory, DB_VERSION);
@@ -51,7 +53,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + TABLE_PROPERTY_ADDRESSZIP + " TEXT,"
                 + TABLE_PROPERTY_PRICE + " TEXT,"
                 + TABLE_PROPERTY_BED + " TEXT,"
-                + TABLE_PROPERTY_BATH + " TEXT"
+                + TABLE_PROPERTY_BATH + " TEXT,"
+                + TABLE_PROPERTY_IMAGE_URL + " TEXT"
                 + ")";
         db.execSQL(query);
     }
@@ -83,6 +86,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(TABLE_PROPERTY_PRICE, property.getPrice());
         values.put(TABLE_PROPERTY_BATH, property.getBath());
         values.put(TABLE_PROPERTY_BED, property.getBed());
+        values.put(TABLE_PROPERTY_IMAGE_URL, property.getImage_url());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE, null, values);
         db.close();
@@ -109,14 +113,15 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<HashMap<String, String>> propertyList = new ArrayList<>();
         while (!cursor.isAfterLast()) {
             HashMap<String, String> property = new HashMap<>();
-            property.put("_id", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
-            property.put("addressLine1", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSLINE1)));
-            property.put("addressCity", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSCITY)));
-            property.put("addressState", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSSTATE)));
-            property.put("addressZip", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSZIP)));
-            property.put("price", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_PRICE)));
-            property.put("bed", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BED)));
-            property.put("bath", cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BATH)));
+            property.put(TABLE_PROPERTY_ID, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
+            property.put(TABLE_PROPERTY_ADDRESSLINE1, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSLINE1)));
+            property.put(TABLE_PROPERTY_ADDRESSCITY, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSCITY)));
+            property.put(TABLE_PROPERTY_ADDRESSSTATE, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSSTATE)));
+            property.put(TABLE_PROPERTY_ADDRESSZIP, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSZIP)));
+            property.put(TABLE_PROPERTY_PRICE, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_PRICE)));
+            property.put(TABLE_PROPERTY_BED, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BED)));
+            property.put(TABLE_PROPERTY_BATH, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BATH)));
+            property.put(TABLE_PROPERTY_IMAGE_URL, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_IMAGE_URL)));
 
             cursor.moveToNext();
             propertyList.add(property);
@@ -124,26 +129,6 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return propertyList;
-    }
-
-    public ArrayList<String> getAllPropertyIds() {
-
-        String query = "select * from " + TABLE;
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        ArrayList<String> restaurantIdsList = new ArrayList<>();
-        while (!cursor.isAfterLast()) {
-            restaurantIdsList.add(cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
-            cursor.moveToNext();
-            /*restaurant.setPhone(cursor.getString(cursor.getColumnIndex(TABLE_RESTAURANT_PHONE)));
-            restaurant.setUrl(cursor.getString(cursor.getColumnIndex(TABLE_RESTAURANT_URL)));
-            restaurant.setLocation(cursor.getString(cursor.getColumnIndex(TABLE_RESTAURANT_LOCATION)));*/
-
-        }
-        cursor.close();
-        db.close();
-        return restaurantIdsList;
     }
 
     /**

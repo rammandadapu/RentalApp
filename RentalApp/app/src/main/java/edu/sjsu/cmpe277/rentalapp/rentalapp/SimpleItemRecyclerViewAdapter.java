@@ -12,9 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.text.NumberFormat;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
+
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 
 /**
  * Created by divya.chittimalla on 4/27/16.
@@ -41,16 +44,17 @@ public class SimpleItemRecyclerViewAdapter
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         HashMap<String, String> map = (HashMap<String, String>) mValues.get(position);
 
-        holder.mRentView.setText(map.get("price"));
-        holder.mAddressView.setText(map.get("addressLine1"));
-        holder.mBedBathView.setText(map.get("bath"));
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        holder.mRentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE))));
+        holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
+        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED)+"bd   "+map.get(DBHandler.TABLE_PROPERTY_BATH)+"ba");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (NavActivity.mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get("_id"));
+                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
                     PropertyDetailFragment fragment = new PropertyDetailFragment();
                     fragment.setArguments(arguments);
                     ((NavActivity)context).getSupportFragmentManager().beginTransaction()
@@ -59,7 +63,7 @@ public class SimpleItemRecyclerViewAdapter
                 } else {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PropertyDetailActivity.class);
-                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get("_id"));
+                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
 
                     context.startActivity(intent);
                 }

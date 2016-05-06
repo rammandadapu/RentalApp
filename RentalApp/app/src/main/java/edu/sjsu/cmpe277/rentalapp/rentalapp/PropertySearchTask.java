@@ -23,6 +23,8 @@ import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+
 public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     private Context context;
     RecyclerView recyclerView;
@@ -42,7 +44,7 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
     protected ArrayList doInBackground(String... params) {
         WebService ws = new WebService();
-        String properties = ws.searchProperties("","","","","");
+        String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4]);
         System.out.println("lallalalalaaa "+properties);
         try {
             return processJson(properties);
@@ -67,21 +69,24 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
                     JSONObject c = result.getJSONObject(i);
 
                     // Storing  JSON item in a Variable
-                    String _id = c.getString("_id");
-                    String rent = c.getString("price");
-                    String addressLine1 = c.getJSONObject("address").getString("line1");
-                    String bath = c.getString("bathNo");
-                    //String address = c.getJSONObject(TAG_RES_LOCATION).getJSONArray(TAG_RES_ADDRESS).getString(0);
-                    //address += ", "+ c.getJSONObject(TAG_RES_LOCATION).getString(TAG_RES_CITY);
+                    String _id = c.getString(DBHandler.TABLE_PROPERTY_ID);
+                    String rent = c.getString(DBHandler.TABLE_PROPERTY_PRICE);
+                    String bath = c.getString(DBHandler.TABLE_PROPERTY_BATH);
+                    String bed = c.getString(DBHandler.TABLE_PROPERTY_BED);
+                    String address = c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSLINE1);
+                    address += ", "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
+                    address += ", "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
+                    address += " "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
 
                     // Adding value HashMap key => value
 
                     HashMap<String, String> map = new HashMap<String, String>();
 
-                    map.put("_id", _id);
-                    map.put("price", rent);
-                    map.put("addressLine1", addressLine1);
-                    map.put("bath", bath);
+                    map.put(DBHandler.TABLE_PROPERTY_ID, _id);
+                    map.put(DBHandler.TABLE_PROPERTY_PRICE, rent);
+                    map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
+                    map.put(DBHandler.TABLE_PROPERTY_BED, bed);
+                    map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
 
                     System.out.println("MAP: " + map.toString());
                     oslist.add(map);

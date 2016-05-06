@@ -12,11 +12,12 @@ public class RentalProperty {
     String price;
     String bed;
     String bath;
+    String image_url;
 
     public RentalProperty() {
     }
 
-    public RentalProperty(String _id, String addressLine1, String addressCity, String addressState, String addressZip, String price, String bed, String bath) {
+    public RentalProperty(String _id, String addressLine1, String addressCity, String addressState, String addressZip, String price, String bed, String bath, String image_url) {
         this._id = _id;
         this.addressLine1 = addressLine1;
         this.addressCity = addressCity;
@@ -25,6 +26,7 @@ public class RentalProperty {
         this.price = price;
         this.bed = bed;
         this.bath = bath;
+        this.image_url = image_url;
     }
 
     public String get_id() {
@@ -89,5 +91,13 @@ public class RentalProperty {
 
     public void setBath(String bath) {
         this.bath = bath;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }

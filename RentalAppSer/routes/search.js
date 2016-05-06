@@ -2,7 +2,7 @@ var gcm = require('android-gcm');
 var mongodb = require('mongodb');
 var constants = require('constants');
 
-var url = "mongodb://localhost:27017/rentalAppDB";
+var url = constants.MongoURL;//"mongodb://localhost:27017/rentalAppDB";
 var MongoClient = mongodb.MongoClient;
 
 exports.search = function(req, res) {
