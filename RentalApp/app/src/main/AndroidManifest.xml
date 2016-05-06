@@ -50,9 +50,7 @@
         <activity
             android:name=".rentalapp.NavActivity"
             android:label="@string/title_activity_nav"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
@@ -63,6 +61,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".createpost.CreateNewPropertyActivity"
+            android:label="@string/title_activity_create_new_property"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

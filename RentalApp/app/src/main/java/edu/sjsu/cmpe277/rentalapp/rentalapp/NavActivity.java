@@ -24,9 +24,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.URI;
-
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyFragment;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 
@@ -175,7 +174,7 @@ public class NavActivity extends AppCompatActivity
                 break;
             case R.id.nav_post:
                 fragment=new CreateNewPropertyFragment();
-                fragmentManager.beginTransaction().replace(R.id.flContent,fragment).commit();
+                fragmentManager.beginTransaction().add(R.id.flContent,fragment).commit();
             case R.id.nav_favorites:
                 fragment = new FavoritesListFragment();
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
