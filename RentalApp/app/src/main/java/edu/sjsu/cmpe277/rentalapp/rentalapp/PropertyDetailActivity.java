@@ -10,8 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
 
 /**
  * An activity representing a single Property detail screen. This
@@ -21,6 +24,9 @@ import edu.sjsu.cmpe277.rentalapp.R;
  */
 public class PropertyDetailActivity extends AppCompatActivity {
 
+    DBHandler dbHandler;
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +34,35 @@ public class PropertyDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        dbHandler=new DBHandler(this,null,null,0);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        Bundle extras = getIntent().getExtras();
+        String propertyId = extras.getString("_id");
+        if(dbHandler.isFavourite(propertyId)) {
+            toggleFavouriteImage(true);
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Bundle extras = getIntent().getExtras();
+                final String propertyId = extras.getString("_id");
+                if (!dbHandler.isFavourite(propertyId)) {
+                    RentalProperty rentalProperty = new RentalProperty();
+                    rentalProperty.set_id(propertyId);
+                    rentalProperty.setPrice(findViewById(R.id.rent_detail).toString());
+                    rentalProperty.setBath(findViewById(R.id.bed_bath_detail).toString());
+                    dbHandler.addProperty(rentalProperty);
+                    toggleFavouriteImage(true);
+                    Toast.makeText(getApplicationContext(), "Added to saved houses", Toast.LENGTH_SHORT).show();
+                } else {
+                    dbHandler.deleteProperty(propertyId);
+                    toggleFavouriteImage(false);
+                    Toast.makeText(getApplicationContext(), "Removed from saved houses", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -81,5 +110,12 @@ public class PropertyDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleFavouriteImage(boolean flag){
+        if(flag)
+            fab.setImageResource(R.mipmap.gold_star);
+        else
+            fab.setImageResource(R.mipmap.white_star);
     }
 }

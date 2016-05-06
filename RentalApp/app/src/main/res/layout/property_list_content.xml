@@ -3,24 +3,41 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
         android:id="@+id/property_image_list"
-        android:layout_marginRight="10dp"
+        android:src="@mipmap/apartment"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:scaleType="fitXY"
+        android:padding="0dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:id="@+id/property_gradient_list"
+        android:background="@mipmap/gradient"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+        android:scaleType="centerCrop"
+        android:padding="0dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textColor="#0b0a0a"
+        android:textColor="#FFFFFF"
         android:text="Rent"
         android:id="@+id/rent_list"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bed_bath_list"
         android:paddingTop="5dp"
-        android:layout_toRightOf="@+id/property_image_list" />
+        android:paddingLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,9 +45,9 @@
         android:text="BedBath"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/bed_bath_list"
-        android:layout_toRightOf="@+id/property_image_list"
-        android:layout_below="@+id/rent_list"
-        android:textColor="#555252" />
+        android:paddingLeft="5dp"
+        android:layout_above="@+id/address_list"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,8 +55,9 @@
         android:text="Address"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/address_list"
-        android:layout_toRightOf="@+id/property_image_list"
-        android:layout_toEndOf="@+id/property_image_list"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
         android:layout_alignBottom="@+id/property_image_list"
-        android:textColor="#555252" />
+        android:textColor="#FFFFFF" />
+
 </RelativeLayout>
