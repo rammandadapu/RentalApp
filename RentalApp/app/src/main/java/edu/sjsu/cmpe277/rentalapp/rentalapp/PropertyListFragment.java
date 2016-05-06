@@ -33,7 +33,7 @@ public class PropertyListFragment extends Fragment
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
         //modify this according to the search implementation
         //mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(getActivity(), DummyContent.ITEMS);
-        mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
+        //mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
         return view;
     }
 
@@ -54,7 +54,7 @@ public class PropertyListFragment extends Fragment
             searchView.setIconifiedByDefault(false);
             //searchView.setSubmitButtonEnabled(true);
             searchView.setQueryHint("Search here");
-            //searchView.setOnQueryTextListener(this);
+            searchView.setOnQueryTextListener(this);
 
             searchView.setMaxWidth(Integer.MAX_VALUE);
 
@@ -72,7 +72,7 @@ public class PropertyListFragment extends Fragment
     public boolean onQueryTextSubmit(String query)
     {
         //searchTerm = query;
-        //new RestaurantsSearchTask(NavActivity.this, list).execute(query, location, latLngString, sortOption);
+        new PropertySearchTask(getActivity(), mRecycleView).execute("", "san jose", "", "", "");
 
         //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         //imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
