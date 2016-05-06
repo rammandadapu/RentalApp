@@ -174,7 +174,8 @@ public class NavActivity extends AppCompatActivity
                 break;
             case R.id.nav_post:
                 fragment=new CreateNewPropertyFragment();
-                fragmentManager.beginTransaction().add(R.id.flContent,fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContent,fragment).commit();
+                break;
             case R.id.nav_favorites:
                 fragment = new FavoritesListFragment();
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();

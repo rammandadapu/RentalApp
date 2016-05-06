@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".createpost.CreateNewPropertyFragment">
+    tools:context=".createpost.CreateNewPropertyActivity">
 
     <!-- TODO: Update blank fragment layout -->
 

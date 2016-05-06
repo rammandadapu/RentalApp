@@ -6,8 +6,6 @@
     android:name="edu.sjsu.cmpe277.rentalapp.PropertyListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".rentalapp.PropertyListActivity"
     tools:listitem="@layout/property_list_content" />
