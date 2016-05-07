@@ -53,8 +53,9 @@ public class PropertyDetailActivity extends AppCompatActivity {
                 if (!dbHandler.isFavourite(propertyId)) {
                     RentalProperty rentalProperty = new RentalProperty();
                     rentalProperty.set_id(propertyId);
-                    rentalProperty.setPrice(((TextView)findViewById(R.id.rent_detail)).getText().toString());
-                    rentalProperty.setBath(((TextView)findViewById(R.id.bed_bath_detail)).getText().toString());
+                    rentalProperty.setPrice(((TextView) findViewById(R.id.rent_detail)).getText().toString());
+                    rentalProperty.setBedBath(((TextView) findViewById(R.id.bed_bath_detail)).getText().toString());
+                    rentalProperty.setAddress(((TextView) findViewById(R.id.address_detail)).getText().toString());
                     dbHandler.addProperty(rentalProperty);
                     toggleFavouriteImage(true);
                     Toast.makeText(getApplicationContext(), "Added to saved houses", Toast.LENGTH_SHORT).show();

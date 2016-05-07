@@ -31,6 +31,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_ADDRESSSTATE = "state";
     public static final String TABLE_PROPERTY_ADDRESSZIP = "zip";
     public static final String TABLE_PROPERTY_PRICE = "price";
+    public static final String TABLE_PROPERTY_BEDBATH = "bed_bath";
     public static final String TABLE_PROPERTY_BED = "bedNo";
     public static final String TABLE_PROPERTY_BATH = "bathNo";
     public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
@@ -47,13 +48,9 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "create table " + TABLE + " ( "
                 + TABLE_PROPERTY_ID + " TEXT PRIMARY KEY,"
-                + TABLE_PROPERTY_ADDRESSLINE1 + " TEXT,"
-                + TABLE_PROPERTY_ADDRESSCITY + " TEXT,"
-                + TABLE_PROPERTY_ADDRESSSTATE + " TEXT,"
-                + TABLE_PROPERTY_ADDRESSZIP + " TEXT,"
+                + TABLE_PROPERTY_ADDRESS + " TEXT,"
                 + TABLE_PROPERTY_PRICE + " TEXT,"
-                + TABLE_PROPERTY_BED + " TEXT,"
-                + TABLE_PROPERTY_BATH + " TEXT,"
+                + TABLE_PROPERTY_BEDBATH + " TEXT,"
                 + TABLE_PROPERTY_IMAGE_URL + " TEXT"
                 + ")";
         db.execSQL(query);
@@ -79,13 +76,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(TABLE_PROPERTY_ID, property.get_id());
-        values.put(TABLE_PROPERTY_ADDRESSLINE1, property.getAddressLine1());
-        values.put(TABLE_PROPERTY_ADDRESSCITY, property.getAddressCity());
-        values.put(TABLE_PROPERTY_ADDRESSSTATE, property.getAddressState());
-        values.put(TABLE_PROPERTY_ADDRESSZIP, property.getAddressZip());
+        values.put(TABLE_PROPERTY_ADDRESS, property.getAddress());
         values.put(TABLE_PROPERTY_PRICE, property.getPrice());
-        values.put(TABLE_PROPERTY_BATH, property.getBath());
-        values.put(TABLE_PROPERTY_BED, property.getBed());
+        values.put(TABLE_PROPERTY_BEDBATH, property.getBedBath());
         values.put(TABLE_PROPERTY_IMAGE_URL, property.getImage_url());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE, null, values);
@@ -114,13 +107,9 @@ public class DBHandler extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             HashMap<String, String> property = new HashMap<>();
             property.put(TABLE_PROPERTY_ID, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ID)));
-            property.put(TABLE_PROPERTY_ADDRESSLINE1, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSLINE1)));
-            property.put(TABLE_PROPERTY_ADDRESSCITY, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSCITY)));
-            property.put(TABLE_PROPERTY_ADDRESSSTATE, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSSTATE)));
-            property.put(TABLE_PROPERTY_ADDRESSZIP, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESSZIP)));
+            property.put(TABLE_PROPERTY_ADDRESS, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_ADDRESS)));
             property.put(TABLE_PROPERTY_PRICE, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_PRICE)));
-            property.put(TABLE_PROPERTY_BED, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BED)));
-            property.put(TABLE_PROPERTY_BATH, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BATH)));
+            property.put(TABLE_PROPERTY_BEDBATH, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BEDBATH)));
             property.put(TABLE_PROPERTY_IMAGE_URL, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_IMAGE_URL)));
 
             cursor.moveToNext();

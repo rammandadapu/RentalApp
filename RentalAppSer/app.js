@@ -6,6 +6,7 @@ var express = require('express')
 	, mailcomponent = require('./routes/mailcomponent')
 	, fileupload= require('./routes/fileupload')
 	, searchProperty = require('./routes/search')
+	, properties = require('./routes/properties')
 	, multer  =   require('multer')
 	, gcm = require('android-gcm')
 	, mongodb = require('mongodb');
@@ -31,6 +32,7 @@ app.post('/test',function(req,res){console.log(req.body);res.end();});
 
 //Chitti
 app.get('/searchtest', searchProperty.search);
+app.get('/property/:pid', properties.getProperty);
 
 
 

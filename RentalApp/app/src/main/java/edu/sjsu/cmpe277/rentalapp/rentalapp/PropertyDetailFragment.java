@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,7 +98,8 @@ public class PropertyDetailFragment extends Fragment {
     }
 
     public HashMap processJson(String jsonStuff) throws JSONException {
-        JSONObject json = new JSONObject(jsonStuff);
+        JSONArray jsonArray = new JSONArray(jsonStuff);
+        JSONObject json = jsonArray.getJSONObject(0);
 
         try {
             // Storing  JSON item in a Variable

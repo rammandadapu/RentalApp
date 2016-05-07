@@ -5,6 +5,7 @@ package edu.sjsu.cmpe277.rentalapp.localdbmanager;
  */
 public class RentalProperty {
     String _id;
+    String address;
     String addressLine1;
     String addressCity;
     String addressState;
@@ -12,6 +13,7 @@ public class RentalProperty {
     String price;
     String bed;
     String bath;
+    String bedBath;
     String image_url;
 
     public RentalProperty() {
@@ -91,6 +93,22 @@ public class RentalProperty {
 
     public void setBath(String bath) {
         this.bath = bath;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBedBath() {
+        return bedBath;
+    }
+
+    public void setBedBath(String bedBath) {
+        this.bedBath = bedBath;
     }
 
     public String getImage_url() {

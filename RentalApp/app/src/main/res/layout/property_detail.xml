@@ -6,6 +6,7 @@
     <TextView
         android:id="@+id/rent_detail"
         style="?android:attr/textAppearanceLarge"
+        android:text="rent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
@@ -13,8 +14,17 @@
 
     <TextView
         android:id="@+id/bed_bath_detail"
-        style="?android:attr/textAppearanceLarge"
+        style="?android:attr/textAppearanceMedium"
         android:layout_below="@id/rent_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:textIsSelectable="true"/>
+
+    <TextView
+        android:id="@+id/address_detail"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_below="@id/bed_bath_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
