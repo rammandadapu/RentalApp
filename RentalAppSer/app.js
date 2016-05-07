@@ -23,7 +23,7 @@ var upload = multer({ dest: 'uploads/' });
 //service
 app.get('/', index.test);
 app.post('/sendMail', mailcomponent.sendMail);
-app.post('/upload', upload.array('photos', 12), function (req, res, next) {
+app.post('/postproperty', upload.array('photos', 12), function (req, res, next) {
 	fileupload.upload(req,res);
 	});
 app.post('/test',function(req,res){console.log(req.body);res.end();});

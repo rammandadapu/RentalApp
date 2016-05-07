@@ -21,14 +21,18 @@ import java.io.BufferedReader;
 
 import java.net.HttpURLConnection;
 
+import edu.sjsu.cmpe277.rentalapp.pojo.Property;
+
 
 public class WebService {
 
     OAuthService service;
     HttpURLConnection urlConnection;
 
+    private static final String SERVER_URL = "http://10.0.2.2:1337/";
+
     public String searchProperties(String keyword, String location, String priceLow, String priceHigh, String type) {
-        OAuthRequest request = new OAuthRequest(Verb.GET, "http://10.0.2.2:1337/searchtest");
+        OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"searchtest");
         request.addQuerystringParameter("keyword", keyword);
         request.addQuerystringParameter("pricelow", priceLow);
         request.addQuerystringParameter("pricehigh", priceHigh);
@@ -37,6 +41,22 @@ public class WebService {
         Response response = request.send();
         return response.getBody();
     }
+
+
+    /***
+     *
+     * @param property
+     * @return true if server response code is 200
+     *         false if server resposne code is equla to 200
+     */
+    public boolean postProperty(Property property){
+        OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL+"postproperty");
+        request.addBodyParameter("title",property.getName());
+        Response response=request.send();
+        return response.getCode()==200;
+    }
+
+
 
     public String getPropertyDetails(String _id) {
         String requestStr = "http://10.0.2.2:1337/property/"+_id;
