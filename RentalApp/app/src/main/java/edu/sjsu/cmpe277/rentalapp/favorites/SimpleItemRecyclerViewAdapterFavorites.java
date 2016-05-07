@@ -47,7 +47,7 @@ public class SimpleItemRecyclerViewAdapterFavorites
 
         holder.mRentView.setText(map.get(DBHandler.TABLE_PROPERTY_PRICE));
         holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
-        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED));
+        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BEDBATH));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

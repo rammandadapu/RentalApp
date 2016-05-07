@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
@@ -30,6 +31,7 @@ public class PropertyDetailFragment extends Fragment {
 
     TextView rentView;
     TextView bedBathView;
+    TextView addressView;
 
     public PropertyDetailFragment() {
     }
@@ -52,6 +54,7 @@ public class PropertyDetailFragment extends Fragment {
 
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
+        addressView = (TextView) rootView.findViewById(R.id.address_detail);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             //fetching code - START
@@ -85,8 +88,10 @@ public class PropertyDetailFragment extends Fragment {
                         super.onPostExecute(map);
                         //progressDialog.dismiss();
                         try {
-                            rentView.setText(map.get("rent").toString());
-                            bedBathView.setText(map.get("bed").toString());
+                            NumberFormat format = NumberFormat.getCurrencyInstance();
+                            rentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE).toString())));
+                            bedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED).toString() + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH).toString() + "ba");
+                            addressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString());
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
@@ -103,10 +108,15 @@ public class PropertyDetailFragment extends Fragment {
 
         try {
             // Storing  JSON item in a Variable
-            String rent = json.getString("price");
+            String rent = json.getString(DBHandler.TABLE_PROPERTY_PRICE);
             //String address = json.getJSONObject(TAG_RES_LOCATION).getJSONArray(TAG_RES_ADDRESS).getString(0);
             //address += ", "+ json.getJSONObject(TAG_RES_LOCATION).getString(TAG_RES_CITY);
-            String bed = json.getString("bathNo");
+            String bed = json.getString(DBHandler.TABLE_PROPERTY_BED);
+            String bath = json.getString(DBHandler.TABLE_PROPERTY_BATH);
+            String address = json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSLINE1);
+            address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
+            address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
+            address += " "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
 
             //String image_url = c.getString("image_url");
 
@@ -114,8 +124,10 @@ public class PropertyDetailFragment extends Fragment {
 
             HashMap<String, String> map = new HashMap<String, String>();
 
-            map.put("rent", rent);
-            map.put("bed", bed);
+            map.put(DBHandler.TABLE_PROPERTY_PRICE, rent);
+            map.put(DBHandler.TABLE_PROPERTY_BED, bed);
+            map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
+            map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
             //map.put("image_url", image_url);
 
             System.out.println("MAP: " + map.toString());
