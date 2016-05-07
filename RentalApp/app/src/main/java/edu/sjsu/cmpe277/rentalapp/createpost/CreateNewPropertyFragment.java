@@ -1,19 +1,15 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
@@ -39,12 +35,21 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private OnFragmentInteractionListener mListener;
 
 
-    private EditText editTextTitle;
-    private EditText editTextDetails;
-    private EditText editTextAddress;
-    private Spinner spinnerNoofBedrooms;
-    private Spinner spinnerNoofBathrooms;
-    private Button buttonSubmit;
+    private EditText titleEditText;
+    private EditText detailsEditText;
+    private EditText areaSftEditText;
+    private Spinner apartmentTypeSpinner;
+    private Spinner noOfBedRoomsSpinner;
+    private Spinner noOfBathRoomsSpinner;
+    private EditText rentAmountEditText;
+    private EditText phoneNoEditText;
+    private EditText emailEditText;
+    private EditText addressLineEditText;
+    private EditText cityEditText;
+    private EditText stateEditText;
+    private EditText zipCodeEditText;
+    private Button submitButton;
+
 
     public CreateNewPropertyFragment() {
         // Required empty public constructor
@@ -82,17 +87,31 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_create_new_property, container, false);
-        editTextTitle=(EditText)view.findViewById(R.id.post_name);
-        editTextDetails=(EditText)view.findViewById(R.id.post_description);
-        editTextAddress=(EditText)view.findViewById(R.id.post_line);
-        spinnerNoofBathrooms=(Spinner)view.findViewById(R.id.post_noofbathrooms);
-        spinnerNoofBedrooms=(Spinner)view.findViewById(R.id.post_noofbedrooms);
-        buttonSubmit=(Button)view.findViewById(R.id.post_submit);
-        buttonSubmit.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_create_new_property, container, false);
+        getUIReferance(view);
+        submitButton.setOnClickListener(this);
 
 
         return view;
+    }
+
+    private void getUIReferance(View view){
+        //start: getting UI elements ref
+        titleEditText = (EditText) view.findViewById(R.id.post_name);
+        detailsEditText = (EditText) view.findViewById(R.id.post_description);
+        areaSftEditText = (EditText) view.findViewById(R.id.post_area_units);
+        apartmentTypeSpinner = (Spinner) view.findViewById(R.id.post_apartment_type);
+        noOfBedRoomsSpinner = (Spinner) view.findViewById(R.id.post_noofbedrooms);
+        noOfBathRoomsSpinner = (Spinner) view.findViewById(R.id.post_noofbathrooms);
+        rentAmountEditText = (EditText) view.findViewById(R.id.post_rent);
+        phoneNoEditText = (EditText) view.findViewById(R.id.post_contactnumber);
+        emailEditText = (EditText) view.findViewById(R.id.post_email);
+        addressLineEditText = (EditText) view.findViewById(R.id.post_line);
+        cityEditText = (EditText) view.findViewById(R.id.post_city);
+        stateEditText = (EditText) view.findViewById(R.id.post_state);
+        zipCodeEditText = (EditText) view.findViewById(R.id.post_zip);
+        submitButton = (Button) view.findViewById(R.id.post_submit);
+        //end UI ref
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -128,13 +147,41 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void submitToServer(){
-        Property property=new Property();
-        property.setName(editTextTitle.getText().toString());
-        property.setDescription(editTextDetails.getText().toString());
-        property.getAddress().setLine(editTextAddress.getText().toString());
+    /**
+     * Send data to server
+     */
+    private void submitToServer() {
+
+        Property property=getProperty();
         new CreatePostTask(getContext()).execute(property);
     }
+
+    /**
+     * To populate property object
+     * @return
+     */
+    private Property getProperty(){
+        Property property = new Property();
+        property.setName(titleEditText.getText().toString());
+        property.setDescription(detailsEditText.getText().toString());
+        String sft = areaSftEditText.getText().toString();
+        if (!TextUtils.isEmpty(sft))
+            property.setSize(Integer.parseInt(sft));
+        property.setType(apartmentTypeSpinner.getSelectedItem().toString());
+        property.setNoOfBedRooms(noOfBedRoomsSpinner.getSelectedItemPosition() + 1);
+        property.setNoOfBathRooms(noOfBathRoomsSpinner.getSelectedItemPosition() + 1);
+        String rentAmount = areaSftEditText.getText().toString();
+        if (!TextUtils.isEmpty(rentAmount))
+            property.setPrice(Double.parseDouble(rentAmount));
+        property.setPhone(phoneNoEditText.getText().toString());
+        property.setUserEmail(emailEditText.getText().toString());
+        property.getAddress().setLine(addressLineEditText.getText().toString());
+        property.getAddress().setCity(cityEditText.getText().toString());
+        property.getAddress().setState(stateEditText.getText().toString());
+        property.getAddress().setZip(zipCodeEditText.getText().toString());
+        return property;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

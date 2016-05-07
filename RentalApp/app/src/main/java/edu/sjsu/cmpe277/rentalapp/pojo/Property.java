@@ -13,6 +13,8 @@ public class Property {
     private Address address;
     private int size;
     private double price;
+    private int noOfViwes;
+    private String status;
     private String phone;
     private String userEmail;
     private String userName;
@@ -114,6 +116,22 @@ public class Property {
 
     public void setImageUrl(String[] imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getNoOfViwes() {
+        return noOfViwes;
+    }
+
+    public void setNoOfViwes(int noOfViwes) {
+        this.noOfViwes = noOfViwes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public class Address{

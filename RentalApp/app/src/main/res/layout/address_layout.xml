@@ -17,7 +17,7 @@
         android:inputType="phone"
         android:ems="10"
         android:hint="@string/post_phone_number"
-        android:id="@+id/editText" />
+        android:id="@+id/post_contactnumber" />
 
     <EditText
         android:layout_width="match_parent"

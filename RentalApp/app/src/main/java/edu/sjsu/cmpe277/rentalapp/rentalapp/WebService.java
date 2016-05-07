@@ -6,6 +6,8 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.content.Context;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.json.JSONObject;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
@@ -13,6 +15,8 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
+
+import java.io.IOException;
 import java.net.URL;
 import java.io.InputStreamReader;
 import java.io.InputStream;
@@ -51,7 +55,14 @@ public class WebService {
      */
     public boolean postProperty(Property property){
         OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL+"postproperty");
-        request.addBodyParameter("title",property.getName());
+        ObjectMapper objectMapper=new ObjectMapper();
+        String requestBody=null;
+        try {
+            requestBody= objectMapper.writeValueAsString(property);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        request.addPayload(requestBody);
         Response response=request.send();
         return response.getCode()==200;
     }
