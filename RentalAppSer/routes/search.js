@@ -1,5 +1,4 @@
 var gcm = require('android-gcm');
-var QueryBuilder = require('mongodb-querybuilder');
 var mongodb = require('mongodb');
 var constants = require('constants');
 
@@ -22,7 +21,8 @@ exports.search = function(req, res) {
 		    var house = req.query.house;
 		    var townhouse = req.query.townhouse;
 		    var pricelow = req.query.pricelow;
-		    var pricehigh = req.query.pricehigh;	
+		    var pricehigh = req.query.pricehigh;
+		    var createdBy = req.query.createdBy;
 		    
 		    var query = {};
 		    var total = [];
@@ -80,6 +80,10 @@ exports.search = function(req, res) {
 		    	locArray.push(JSON.parse('{"address.city": { "$regex": ".*'+location+'.*", "$options": "i"}}'));
 		    	locArray.push(JSON.parse('{"address.zip": { "$regex": ".*'+location+'.*", "$options": "i"}}'));
 		    	query["$or"] = JSON.parse(JSON.stringify(locArray));//JSON.parse('[{"address.city": "{ "$regex": ".*'+location+'.*", "$options": "i"}}, {"address.zip": { "$regex": ".*'+location+'.*", "$options": "i"}}]');
+		    }
+		    
+		    if(createdBy !== undefined && createdBy !== "") {
+		    	query["createdBy"] = createdBy;
 		    }
 		    
 		    console.log(query);
