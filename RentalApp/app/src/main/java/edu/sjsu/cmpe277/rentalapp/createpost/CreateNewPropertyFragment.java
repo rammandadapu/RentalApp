@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.Spinner;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+
+import java.util.regex.Pattern;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
@@ -120,11 +123,12 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         //end UI ref
     }
 
+
     private void setUIValidation(){
          final String ERROR_NOTEMPTY ="Can't be blank";
          final String ERROR_INVALIDPHONE ="INVALID CONTACT";
          final String ERROR_INVALIDEMAIL="INVALID EMAIL";
-         final String EMAIL_REGEX="";
+
 
         mAwesomeValidation.addValidation(titleEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(detailsEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
@@ -132,6 +136,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         mAwesomeValidation.addValidation(rentAmountEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(emailEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(emailEditText,android.util.Patterns.EMAIL_ADDRESS, ERROR_INVALIDEMAIL);
         mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.TELEPHONE, ERROR_INVALIDPHONE);
         mAwesomeValidation.addValidation(addressLineEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(cityEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
