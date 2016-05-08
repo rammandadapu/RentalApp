@@ -1,14 +1,19 @@
 package edu.sjsu.cmpe277.rentalapp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by ram.mandadapu on 5/7/16.
  */
 public class Property {
 
     private String name;
+    @JsonProperty("desc")
     private String description;
     private String type;
+    @JsonProperty("bedNo")
     private int noOfBedRooms;
+    @JsonProperty("bathNo")
     private int noOfBathRooms;
     private Address address;
     private int size;
@@ -16,6 +21,7 @@ public class Property {
     private int noOfViwes;
     private String status;
     private String phone;
+    @JsonProperty("email")
     private String userEmail;
     private String userName;
     private String[] imageUrl;
@@ -135,6 +141,7 @@ public class Property {
     }
 
     public class Address{
+        @JsonProperty("line1")
         private String line;
         private String city;
         private String state;

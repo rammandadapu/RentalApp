@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 
@@ -34,7 +38,6 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
 
     private OnFragmentInteractionListener mListener;
 
-
     private EditText titleEditText;
     private EditText detailsEditText;
     private EditText areaSftEditText;
@@ -48,9 +51,10 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private EditText cityEditText;
     private EditText stateEditText;
     private EditText zipCodeEditText;
+
     private Button submitButton;
 
-
+    AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
     public CreateNewPropertyFragment() {
         // Required empty public constructor
     }
@@ -89,6 +93,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_new_property, container, false);
         getUIReferance(view);
+        setUIValidation();
+
         submitButton.setOnClickListener(this);
 
 
@@ -112,6 +118,26 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         zipCodeEditText = (EditText) view.findViewById(R.id.post_zip);
         submitButton = (Button) view.findViewById(R.id.post_submit);
         //end UI ref
+    }
+
+    private void setUIValidation(){
+         final String ERROR_NOTEMPTY ="Can't be blank";
+         final String ERROR_INVALIDPHONE ="INVALID CONTACT";
+         final String ERROR_INVALIDEMAIL="INVALID EMAIL";
+         final String EMAIL_REGEX="";
+
+        mAwesomeValidation.addValidation(titleEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(detailsEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(areaSftEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(rentAmountEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(emailEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.TELEPHONE, ERROR_INVALIDPHONE);
+        mAwesomeValidation.addValidation(addressLineEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(cityEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(stateEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(zipCodeEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -151,9 +177,10 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
      * Send data to server
      */
     private void submitToServer() {
-
-        Property property=getProperty();
-        new CreatePostTask(getContext()).execute(property);
+        if(mAwesomeValidation.validate()) {
+            Property property = getProperty();
+            new CreatePostTask(getContext()).execute(property);
+        }
     }
 
     /**
@@ -181,6 +208,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.getAddress().setZip(zipCodeEditText.getText().toString());
         return property;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
