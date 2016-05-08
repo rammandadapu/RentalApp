@@ -2,6 +2,7 @@ package edu.sjsu.cmpe277.rentalapp.createpost;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertySearchTask;
@@ -32,7 +34,10 @@ public class UserPostHistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.property_list, container, false);
         setHasOptionsMenu(true);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
-        new PropertySearchTask(getActivity(), mRecycleView).execute("", "san jose", "", "", "");
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        String uniqueUserID=((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).getText().toString();
+        //TODO: NEED to add user ID in search terms
+        new SearchUserPostsTask(getActivity(), mRecycleView).execute("", "san jose", "", "", "");
 
 
 

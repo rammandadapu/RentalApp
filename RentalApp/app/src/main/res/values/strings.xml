@@ -84,14 +84,15 @@
     <!--address-->
     <string name="post_line">Enter Street Name</string>
     <string name="post_city">Enter City</string>
-    <string name="post_state">Enter State</string>
-    <string name="post_zip">Enter ZIP code</string>
+    <string name="post_state">Enter State (E.g. CA)</string>
+    <string name="post_zip">Enter ZIP code(95113)</string>
     <!--address end-->
     
     <!--Apartment Type-->
     <string name="house">House</string>
     <string name="townhouse">Town House</string>
     <string name="apartment">Apartment/Condo</string>
+    <string name="condo">Condo</string>
     <!--end apartment-->
 
     <string name="post_success">Posted Successfully</string>
