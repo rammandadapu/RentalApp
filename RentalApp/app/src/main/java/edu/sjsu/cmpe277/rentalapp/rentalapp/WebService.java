@@ -34,15 +34,21 @@ public class WebService {
     HttpURLConnection urlConnection;
 
     private static final String SERVER_URL = "http://10.0.2.2:1337/";
+    private static final String LOCAL_URL = "http://127.0.0.1:1337/";
 
-    public String searchProperties(String keyword, String location, String priceLow, String priceHigh, String type) {
+    public String searchProperties(String keyword, String location, String priceLow, String priceHigh, String condo, String apartment, String house, String townhouse) {
         OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"searchtest");
         request.addQuerystringParameter("keyword", keyword);
         request.addQuerystringParameter("pricelow", priceLow);
         request.addQuerystringParameter("pricehigh", priceHigh);
         request.addQuerystringParameter("location", location);
-        request.addQuerystringParameter("type", type);
+        request.addQuerystringParameter("condo", condo);
+        request.addQuerystringParameter("apartment", apartment);
+        request.addQuerystringParameter("house", house);
+        request.addQuerystringParameter("townhouse", townhouse);
+
         Response response = request.send();
+        System.out.println(response.getBody());
         return response.getBody();
     }
 
@@ -107,7 +113,8 @@ public class WebService {
 
     public static void main(String[] args) {
         WebService ws = new WebService();
-        String response = ws.getPropertyDetails("\"572ce6cb6007603237f1b13e\")");
+        //String response = ws.getPropertyDetails("\"572ce6cb6007603237f1b13e\")");
+        String response = ws.searchProperties("","San Jose","0","10000","true","true","true","true");
 
         System.out.println(response);
     }
