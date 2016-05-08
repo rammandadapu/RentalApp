@@ -53,9 +53,9 @@ public class WebService {
         request.addQuerystringParameter("house", house);
         request.addQuerystringParameter("townhouse", townhouse);
         request.addQuerystringParameter("createdBy", createdBy);
-
+        System.out.println("HIIIIIII"+request.toString());
         Response response = request.send();
-        System.out.println(response.getBody());
+        System.out.println("HELLOOOOO"+response.getBody());
         return response.getBody();
         }
         catch (RuntimeException runTimeException){
@@ -142,7 +142,7 @@ public class WebService {
     public static void main(String[] args) {
         WebService ws = new WebService();
         //String response = ws.getPropertyDetails("\"572ce6cb6007603237f1b13e\")");
-        String response = ws.searchProperties("", "San Jose", "0", "10000", "true", "true", "true", "true","");
+        String response = ws.searchProperties("", "San Jose", "0", "10000", "true", "true", "true", "true", "");
 
         System.out.println(response);
     }
