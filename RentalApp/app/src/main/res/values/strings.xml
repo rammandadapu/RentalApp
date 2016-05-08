@@ -62,4 +62,41 @@
          from https://console.developers.google.com/ -->
     <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
     <string name="title_activity_create_new_property">CreateNewPropertyActivity</string>
+
+    <string name="post_title">Enter Your Property Details:</string>
+    <string name="post_caption">Enter Tag Line</string>
+    <string name="post_description">Enter Small Description</string>
+    <string name="post_address">Address</string>
+    <string name="post_bedrooms">BedRooms</string>
+    <string name="post_bathrooms">Bathrooms</string>
+    <string name="post_submit">Submit Details</string>
+    <string name="post_area">Area(sft)</string>
+    <string name="post_area_units">SFT</string>
+    <string name="post_apttype">Apartment Type</string>
+    <string name="post_phone_number">Enter Contact Number</string>
+    <string name="post_email_id">Enter Email</string>
+    <string name="post_contact_details">Contact Details</string>
+    <string name="post_rent">Rent(USD)</string>
+    <string name="post_rent_format">00000.00</string>
+
+    <!--address-->
+    <string name="post_line">Enter Street Name</string>
+    <string name="post_city">Enter City</string>
+    <string name="post_state">Enter State</string>
+    <string name="post_zip">Enter ZIP code</string>
+    <!--address end-->
+    
+    <!--Apartment Type-->
+    <string name="house">House</string>
+    <string name="townhouse">Town House</string>
+    <string name="apartment">Apartment/Condo</string>
+    <!--end apartment-->
+
+    <string name="post_success">Posted Successfully</string>
+    <string name="post_fail">Fail to Submit. Please try again.!</string>
+    
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
 </resources>

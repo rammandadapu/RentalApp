@@ -21,7 +21,7 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
     public static final String TABLE_PROPERTY_ID = "_id";

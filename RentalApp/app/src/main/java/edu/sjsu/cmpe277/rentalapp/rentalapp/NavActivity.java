@@ -40,6 +40,7 @@ public class NavActivity extends AppCompatActivity
     TextView userNameTextView;
     TextView userEmailTextView;
     ImageView userImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +112,7 @@ public class NavActivity extends AppCompatActivity
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if (null != extras) {
             userName = extras.getString("username");
             userMail=extras.getString("email");
             Uri imageUri=(Uri)extras.get("imageuri");
@@ -199,4 +200,7 @@ public class NavActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }

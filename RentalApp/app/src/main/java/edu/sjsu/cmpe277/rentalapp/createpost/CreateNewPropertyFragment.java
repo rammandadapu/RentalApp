@@ -1,15 +1,22 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +26,7 @@ import edu.sjsu.cmpe277.rentalapp.R;
  * Use the {@link CreateNewPropertyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateNewPropertyFragment extends Fragment {
+public class CreateNewPropertyFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,6 +38,23 @@ public class CreateNewPropertyFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private EditText titleEditText;
+    private EditText detailsEditText;
+    private EditText areaSftEditText;
+    private Spinner apartmentTypeSpinner;
+    private Spinner noOfBedRoomsSpinner;
+    private Spinner noOfBathRoomsSpinner;
+    private EditText rentAmountEditText;
+    private EditText phoneNoEditText;
+    private EditText emailEditText;
+    private EditText addressLineEditText;
+    private EditText cityEditText;
+    private EditText stateEditText;
+    private EditText zipCodeEditText;
+
+    private Button submitButton;
+
+    AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
     public CreateNewPropertyFragment() {
         // Required empty public constructor
     }
@@ -56,20 +80,64 @@ public class CreateNewPropertyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        System.out.print("Reached*************");
-        return inflater.inflate(R.layout.fragment_create_new_property, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_new_property, container, false);
+        getUIReferance(view);
+        setUIValidation();
+
+        submitButton.setOnClickListener(this);
+
+
+        return view;
+    }
+
+    private void getUIReferance(View view){
+        //start: getting UI elements ref
+        titleEditText = (EditText) view.findViewById(R.id.post_name);
+        detailsEditText = (EditText) view.findViewById(R.id.post_description);
+        areaSftEditText = (EditText) view.findViewById(R.id.post_area_units);
+        apartmentTypeSpinner = (Spinner) view.findViewById(R.id.post_apartment_type);
+        noOfBedRoomsSpinner = (Spinner) view.findViewById(R.id.post_noofbedrooms);
+        noOfBathRoomsSpinner = (Spinner) view.findViewById(R.id.post_noofbathrooms);
+        rentAmountEditText = (EditText) view.findViewById(R.id.post_rent);
+        phoneNoEditText = (EditText) view.findViewById(R.id.post_contactnumber);
+        emailEditText = (EditText) view.findViewById(R.id.post_email);
+        addressLineEditText = (EditText) view.findViewById(R.id.post_line);
+        cityEditText = (EditText) view.findViewById(R.id.post_city);
+        stateEditText = (EditText) view.findViewById(R.id.post_state);
+        zipCodeEditText = (EditText) view.findViewById(R.id.post_zip);
+        submitButton = (Button) view.findViewById(R.id.post_submit);
+        //end UI ref
+    }
+
+    private void setUIValidation(){
+         final String ERROR_NOTEMPTY ="Can't be blank";
+         final String ERROR_INVALIDPHONE ="INVALID CONTACT";
+         final String ERROR_INVALIDEMAIL="INVALID EMAIL";
+         final String EMAIL_REGEX="";
+
+        mAwesomeValidation.addValidation(titleEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(detailsEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(areaSftEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(rentAmountEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(emailEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.TELEPHONE, ERROR_INVALIDPHONE);
+        mAwesomeValidation.addValidation(addressLineEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(cityEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(stateEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(zipCodeEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -96,6 +164,53 @@ public class CreateNewPropertyFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.post_submit:
+                submitToServer();
+                break;
+        }
+    }
+
+    /**
+     * Send data to server
+     */
+    private void submitToServer() {
+        if(mAwesomeValidation.validate()) {
+            Property property = getProperty();
+            new CreatePostTask(getContext()).execute(property);
+        }
+    }
+
+    /**
+     * To populate property object
+     * @return
+     */
+    private Property getProperty(){
+        Property property = new Property();
+        property.setName(titleEditText.getText().toString());
+        property.setDescription(detailsEditText.getText().toString());
+        String sft = areaSftEditText.getText().toString();
+        if (!TextUtils.isEmpty(sft))
+            property.setSize(Integer.parseInt(sft));
+        property.setType(apartmentTypeSpinner.getSelectedItem().toString());
+        property.setNoOfBedRooms(noOfBedRoomsSpinner.getSelectedItemPosition() + 1);
+        property.setNoOfBathRooms(noOfBathRoomsSpinner.getSelectedItemPosition() + 1);
+        String rentAmount = areaSftEditText.getText().toString();
+        if (!TextUtils.isEmpty(rentAmount))
+            property.setPrice(Double.parseDouble(rentAmount));
+        property.setPhone(phoneNoEditText.getText().toString());
+        property.setUserEmail(emailEditText.getText().toString());
+        property.getAddress().setLine(addressLineEditText.getText().toString());
+        property.getAddress().setCity(cityEditText.getText().toString());
+        property.getAddress().setState(stateEditText.getText().toString());
+        property.getAddress().setZip(zipCodeEditText.getText().toString());
+        return property;
+    }
+
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -110,4 +225,6 @@ public class CreateNewPropertyFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

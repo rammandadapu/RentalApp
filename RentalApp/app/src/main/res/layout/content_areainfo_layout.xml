@@ -1,0 +1,132 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="3dp">
+        <!-- Layout file for Apt type, rooms, sft etc-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/post_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_area" />
+
+            <EditText
+                android:id="@+id/post_area_units"
+                android:layout_width="76dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/post_area_units"
+                android:inputType="numberDecimal" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="40dp">
+
+            <TextView
+                android:id="@+id/post_apartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_apttype" />
+
+            <Spinner
+                android:id="@+id/post_apartment_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:entries="@array/apartment_type" /> 
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/post_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_bedrooms" />
+
+            <Spinner
+                android:id="@+id/post_noofbedrooms"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:entries="@array/noofbedrooms" /> 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="50dp"
+            >
+
+            <TextView
+                android:id="@+id/post_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_bathrooms" />
+
+            <Spinner
+                android:id="@+id/post_noofbathrooms"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:entries="@array/noofbedrooms" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_rent" />
+
+            <EditText
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:hint="@string/post_rent_format"
+                android:id="@+id/post_rent" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+

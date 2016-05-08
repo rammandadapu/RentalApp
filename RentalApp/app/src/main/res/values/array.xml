@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="noofbedrooms">
+        <item>@string/one</item>
+        <item>@string/two</item>
+        <item>@string/three</item>
+        <item>@string/four</item>
+    </string-array>
+    <string-array name="apartment_type">
+        <item>@string/house</item>
+        <item>@string/townhouse</item>
+        <item>@string/apartment</item>
+    </string-array>
+</resources>
