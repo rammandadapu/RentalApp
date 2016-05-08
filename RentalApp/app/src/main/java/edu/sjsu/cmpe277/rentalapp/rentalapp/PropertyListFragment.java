@@ -1,6 +1,8 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,8 @@ public class PropertyListFragment extends Fragment
         implements SearchView.OnQueryTextListener {
     private RecyclerView mRecycleView;
     SearchView searchView;
+    String location;
+
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
     public PropertyListFragment() {
         // Required empty public constructor
@@ -31,9 +35,12 @@ public class PropertyListFragment extends Fragment
         View view = inflater.inflate(R.layout.property_list, container, false);
         setHasOptionsMenu(true);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
-        //modify this according to the search implementation
-        //mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(getActivity(), DummyContent.ITEMS);
-        //mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
+
+        if(savedInstanceState == null) {
+            //TODO: change this to default the current location
+            location = "San Jose";
+        }
+
         return view;
     }
 
@@ -53,12 +60,11 @@ public class PropertyListFragment extends Fragment
 
             searchView.setIconifiedByDefault(false);
             //searchView.setSubmitButtonEnabled(true);
-            searchView.setQueryHint("Search here");
+            searchView.setQueryHint("Location...");
             searchView.setOnQueryTextListener(this);
 
             searchView.setMaxWidth(Integer.MAX_VALUE);
-
-            searchView.setQuery("test", false);
+            searchView.setQuery(location,true);
         }
     }
 
@@ -74,8 +80,37 @@ public class PropertyListFragment extends Fragment
         //searchTerm = query;
         new PropertySearchTask(getActivity(), mRecycleView).execute("", "san jose", "", "", "");
 
-        //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.sort) {
+
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View searchFilterDialog = inflater.inflate(R.layout.search_filter_dialog,
+                    null, false);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+            //alertDialogBuilder.setMessage(message);
+
+            alertDialogBuilder.setView(searchFilterDialog);
+
+            alertDialogBuilder.setCancelable(true);
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
