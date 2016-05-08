@@ -28,7 +28,10 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/post_area_units"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:maxWidth="6dp"
+                android:numeric="decimal" />
 
 
         </LinearLayout>
@@ -122,8 +125,12 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
+                android:maxLength="8"
                 android:hint="@string/post_rent_format"
-                android:id="@+id/post_rent" />
+                android:id="@+id/post_rent"
+                android:maxLines="1"
+                android:maxWidth="8dp"
+                android:numeric="decimal" />
 
 
         </LinearLayout>
