@@ -11,9 +11,8 @@ import org.scribe.model.Response;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Map;
-import java.util.Set;
 
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 
@@ -45,17 +44,18 @@ public class WebService {
     public boolean postProperty(Property property) {
         OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> objectAsMap = objectMapper.convertValue(property, Map.class);
-        Set<Map.Entry<String, Object>> entrySet = objectAsMap.entrySet();
-        for (Map.Entry cursor : entrySet) {
-            request.addBodyParameter(String.valueOf(cursor.getKey()), String.valueOf(cursor.getValue()));
+        String requestBody = null;
+        try {
+            requestBody= objectMapper.writeValueAsString(property);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        //String requestBody = null;
-        //requestBody= objectMapper.writeValueAsString(property);
-        //request.addPayload(requestBody);
+        request.addBodyParameter("post", requestBody);
         Response response = request.send();
-        return response.getCode() == 200;
+        return response.getCode() == 201;
+
     }
+
 
 
     public String getPropertyDetails(String _id) {

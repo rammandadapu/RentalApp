@@ -2,13 +2,13 @@ package edu.sjsu.cmpe277.rentalapp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 
 /**
  * Created by ram.mandadapu on 5/7/16.
  */
-@JsonAutoDetect
 public class Property implements Serializable {
 
 
@@ -24,12 +24,14 @@ public class Property implements Serializable {
     private Address address;
     private int size;
     private double price;
+    @JsonProperty("viewCount")
     private int noOfViwes;
     private String status;
     private String phone;
     @JsonProperty("email")
     private String userEmail;
     private String[] imageUrl;
+    @JsonProperty("createdBy")
     private String uniqueUserId;
 
     public String getName() {
