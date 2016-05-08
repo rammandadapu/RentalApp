@@ -27,7 +27,21 @@ public class WebService {
     private static final String SERVER_URL = "http://10.0.2.2:1337/";
     private static final String LOCAL_URL = "http://127.0.0.1:1337/";
 
-    public String searchProperties(String keyword, String location, String priceLow, String priceHigh, String condo, String apartment, String house, String townhouse) {
+    /**
+     *
+     * @param keyword
+     * @param location
+     * @param priceLow
+     * @param priceHigh
+     * @param condo
+     * @param apartment
+     * @param house
+     * @param townhouse
+     * @param createdBy
+     * @return
+     */
+    public String searchProperties(String keyword, String location, String priceLow, String priceHigh,
+                                   String condo, String apartment, String house, String townhouse,String createdBy) {
         try{
         OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"searchtest");
         request.addQuerystringParameter("keyword", keyword);
@@ -38,6 +52,7 @@ public class WebService {
         request.addQuerystringParameter("apartment", apartment);
         request.addQuerystringParameter("house", house);
         request.addQuerystringParameter("townhouse", townhouse);
+        request.addQuerystringParameter("createdBy", createdBy);
 
         Response response = request.send();
         System.out.println(response.getBody());
@@ -57,8 +72,8 @@ public class WebService {
 
     /***
      * @param property
-     * @return true if server response code is 200
-     * false if server resposne code is equla to 200
+     * @return true if server response code is 201
+     * false if server response code is not equal to 201
      */
     public boolean postProperty(Property property) {
         try {
@@ -127,7 +142,7 @@ public class WebService {
     public static void main(String[] args) {
         WebService ws = new WebService();
         //String response = ws.getPropertyDetails("\"572ce6cb6007603237f1b13e\")");
-        String response = ws.searchProperties("","San Jose","0","10000","true","true","true","true");
+        String response = ws.searchProperties("", "San Jose", "0", "10000", "true", "true", "true", "true","");
 
         System.out.println(response);
     }

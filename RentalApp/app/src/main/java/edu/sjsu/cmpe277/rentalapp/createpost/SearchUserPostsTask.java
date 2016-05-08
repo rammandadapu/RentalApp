@@ -40,7 +40,7 @@ public class SearchUserPostsTask extends AsyncTask<String, String, List> {
 
     protected List doInBackground(String... params) {
         WebService ws = new WebService();
-        String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7]);
+        String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7],params[8]);
         try {
             return processJson(properties);
         } catch (JSONException e) {

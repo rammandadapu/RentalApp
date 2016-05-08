@@ -19,6 +19,8 @@ import android.widget.SearchView;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
+import org.apache.commons.codec.binary.StringUtils;
+
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 /**
@@ -107,7 +109,7 @@ public class PropertyListFragment extends Fragment
     {
         //searchTerm = query;
         locationFilter = query;
-        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter));
+        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
@@ -166,7 +168,8 @@ public class PropertyListFragment extends Fragment
         priceLowFilter = price.getSelectedMinValue().toString();
         priceHighFilter = price.getSelectedMaxValue().toString();
 
-        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter));
+        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
+                String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
         System.out.println("keyword filter" + keywordFilter);
     }
 }
