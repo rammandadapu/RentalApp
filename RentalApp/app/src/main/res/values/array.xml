@@ -10,5 +10,6 @@
         <item>@string/house</item>
         <item>@string/townhouse</item>
         <item>@string/apartment</item>
+        <item>@string/condo</item>
     </string-array>
 </resources>
