@@ -6,14 +6,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.view.MenuInflater;
+import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
@@ -23,8 +27,25 @@ import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 public class PropertyListFragment extends Fragment
         implements SearchView.OnQueryTextListener {
     private RecyclerView mRecycleView;
-    SearchView searchView;
-    String location;
+
+    SearchView location;
+    EditText keyword;
+    CheckBox apartment;
+    CheckBox house;
+    CheckBox condo;
+    CheckBox townhouse;
+    RangeSeekBar price;
+
+    String keywordFilter;
+    String locationFilter;
+    String priceLowFilter;
+    String priceHighFilter;
+    boolean condoFilter;
+    boolean houseFilter;
+    boolean apartmentFilter;
+    boolean townhouseFilter;
+
+
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
     public PropertyListFragment() {
@@ -38,7 +59,14 @@ public class PropertyListFragment extends Fragment
 
         if(savedInstanceState == null) {
             //TODO: change this to default the current location
-            location = "San Jose";
+            locationFilter = "San Jose";
+            keywordFilter = "";
+            priceLowFilter = "";
+            priceHighFilter = "";
+            condoFilter = true;
+            houseFilter = true;
+            apartmentFilter = true;
+            townhouseFilter = true;
         }
 
         return view;
@@ -56,15 +84,15 @@ public class PropertyListFragment extends Fragment
         /** Get the edit text from the action view */
         //SearchView searchView1 = ( SearchView ) v.findViewById(R.id.search_view);
         if(v instanceof SearchView) {
-            searchView = (SearchView) v;
+            location = (SearchView) v;
 
-            searchView.setIconifiedByDefault(false);
+            location.setIconifiedByDefault(false);
             //searchView.setSubmitButtonEnabled(true);
-            searchView.setQueryHint("Location...");
-            searchView.setOnQueryTextListener(this);
+            location.setQueryHint("Location...");
+            location.setOnQueryTextListener(this);
 
-            searchView.setMaxWidth(Integer.MAX_VALUE);
-            searchView.setQuery(location,true);
+            location.setMaxWidth(Integer.MAX_VALUE);
+            location.setQuery(locationFilter,true);
         }
     }
 
@@ -78,10 +106,11 @@ public class PropertyListFragment extends Fragment
     public boolean onQueryTextSubmit(String query)
     {
         //searchTerm = query;
-        new PropertySearchTask(getActivity(), mRecycleView).execute("", "san jose", "", "", "");
+        locationFilter = query;
+        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter));
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
 
         return true;
     }
@@ -97,20 +126,47 @@ public class PropertyListFragment extends Fragment
         if (id == R.id.sort) {
 
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View searchFilterDialog = inflater.inflate(R.layout.search_filter_dialog,
-                    null, false);
+            final View searchFilterDialog = inflater.inflate(R.layout.search_filter_dialog, null, false);
+
+            keyword = (EditText) searchFilterDialog.findViewById(R.id.keyword_filter);
+            house = (CheckBox) searchFilterDialog.findViewById(R.id.house_checkbox);
+            townhouse = (CheckBox) searchFilterDialog.findViewById(R.id.townhouse_checkbox);
+            apartment = (CheckBox) searchFilterDialog.findViewById(R.id.apartment_checkbox);
+            condo = (CheckBox) searchFilterDialog.findViewById(R.id.condo_checkbox);
+            price = (RangeSeekBar) searchFilterDialog.findViewById(R.id.price_range_filter);
+
+
+
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-            //alertDialogBuilder.setMessage(message);
 
             alertDialogBuilder.setView(searchFilterDialog);
 
             alertDialogBuilder.setCancelable(true);
 
+            alertDialogBuilder.setPositiveButton("View results", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    getFilterValues();
+                }
+            });
+
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getFilterValues() {
+        keywordFilter = keyword.getText().toString();
+        condoFilter = condo.isChecked();
+        apartmentFilter = apartment.isChecked();
+        townhouseFilter = townhouse.isChecked();
+        houseFilter = house.isChecked();
+        priceLowFilter = price.getSelectedMinValue().toString();
+        priceHighFilter = price.getSelectedMaxValue().toString();
+
+        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter));
+        System.out.println("keyword filter" + keywordFilter);
     }
 }

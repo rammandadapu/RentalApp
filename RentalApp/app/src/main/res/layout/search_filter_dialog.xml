@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_margin="10dp"
     xmlns:rsb="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -94,14 +95,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="RENT"
+        android:id="@+id/rent_label"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_below="@id/line2"
+        android:layout_marginTop="15dp"/>
+
     <edu.sjsu.cmpe277.rentalapp.rentalapp.RangeSeekBar
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line2"
+        android:layout_below="@+id/rent_label"
+        android:id="@+id/price_range_filter"
         rsb:absoluteMinValue="20"
-        rsb:absoluteMaxValue="150"
+        rsb:absoluteMaxValue="15000"
 
         />
-
-
 </RelativeLayout>
