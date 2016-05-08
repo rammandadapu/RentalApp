@@ -4,6 +4,8 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
  * Created by divya.chittimalla on 5/4/16.
  */
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.scribe.model.OAuthRequest;
@@ -25,6 +27,7 @@ public class WebService {
     private static final String SERVER_URL = "http://10.0.2.2:1337/";
 
     public String searchProperties(String keyword, String location, String priceLow, String priceHigh, String type) {
+        try{
         OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL + "searchtest");
         request.addQuerystringParameter("keyword", keyword);
         request.addQuerystringParameter("pricelow", priceLow);
@@ -33,6 +36,16 @@ public class WebService {
         request.addQuerystringParameter("type", type);
         Response response = request.send();
         return response.getBody();
+        }
+        catch (RuntimeException runTimeException){
+            Log.e("Server con Failed",runTimeException.getMessage());
+            return "";
+        }
+        catch (Exception ex){
+            //Failed to connect to server
+            Log.e("Server con Failed",ex.getMessage());
+            return "";
+        }
     }
 
 
@@ -42,17 +55,28 @@ public class WebService {
      * false if server resposne code is equla to 200
      */
     public boolean postProperty(Property property) {
-        OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = null;
         try {
-            requestBody= objectMapper.writeValueAsString(property);
-        } catch (IOException e) {
-            e.printStackTrace();
+            OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String requestBody = null;
+            try {
+                requestBody = objectMapper.writeValueAsString(property);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            request.addBodyParameter("post", requestBody);
+            Response response = request.send();
+            return response.getCode() == 201;
         }
-        request.addBodyParameter("post", requestBody);
-        Response response = request.send();
-        return response.getCode() == 201;
+        catch (RuntimeException runTimeException){
+            Log.e("Server con Failed",runTimeException.getMessage());
+            return false;
+        }
+        catch (Exception ex){
+            //Failed to connect to server
+            Log.e("Server con Fail",ex.getMessage());
+            return false;
+        }
 
     }
 

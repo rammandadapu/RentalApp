@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
-import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyFragment;
+import edu.sjsu.cmpe277.rentalapp.createpost.UserPostHistoryFragment;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 
@@ -173,7 +173,8 @@ public class NavActivity extends AppCompatActivity
                 fragment = new PropertyListFragment();
                 break;
             case R.id.nav_post:
-                fragment=new CreateNewPropertyFragment();
+                //fragment=new CreateNewPropertyFragment();
+                fragment=new UserPostHistoryFragment();
                 break;
             case R.id.nav_favorites:
                 fragment = new FavoritesListFragment();

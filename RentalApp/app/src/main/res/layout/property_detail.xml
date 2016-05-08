@@ -1,33 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".rentalapp.PropertyDetailFragment">
 
     <TextView
         android:id="@+id/rent_detail"
         style="?android:attr/textAppearanceLarge"
-        android:text="rent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:text="rent"
+        android:textIsSelectable="true" />
 
     <TextView
         android:id="@+id/bed_bath_detail"
         style="?android:attr/textAppearanceMedium"
-        android:layout_below="@id/rent_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rent_detail"
         android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:textIsSelectable="true" />
 
     <TextView
         android:id="@+id/address_detail"
         style="?android:attr/textAppearanceSmall"
-        android:layout_below="@id/bed_bath_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/bed_bath_detail"
         android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:textIsSelectable="true" />
 
+    <Button
+        android:id="@+id/button_post_cancelled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/post_cancelled"
+        android:theme="@style/ThemeOverlay.RedButton"
+        android:drawableRight="@drawable/ic_delete_white_24dp"
+        />
 </RelativeLayout>

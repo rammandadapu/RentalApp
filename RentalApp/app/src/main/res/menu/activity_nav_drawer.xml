@@ -8,11 +8,11 @@
             android:title="Search houses" />
         <item
             android:id="@+id/nav_post"
-            android:icon="@drawable/ic_add_black_24dp"
-            android:title="Create Post" />
+            android:icon="@drawable/ic_reorder_black_24dp"
+            android:title="Manage Post" />
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_favorite_outline_24dp"
+            android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Saved houses" />
         <item
             android:id="@+id/nav_saved_searches"
@@ -24,7 +24,7 @@
             android:title="Manage your account" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_remove_black_24dp"
             android:title="Logout" />
     </group>
 
