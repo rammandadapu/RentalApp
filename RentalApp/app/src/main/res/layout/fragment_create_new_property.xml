@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/post_submit"
+            android:drawableRight="@drawable/ic_publish_white_24dp"
             android:theme="@style/ThemeOverlay.MyDarkButton" />
 
     </LinearLayout>

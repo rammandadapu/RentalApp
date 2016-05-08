@@ -1,5 +1,8 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,46 +10,59 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
-import edu.sjsu.cmpe277.rentalapp.createpost.UserPostHistoryFragment.OnListFragmentInteractionListener;
-import edu.sjsu.cmpe277.rentalapp.createpost.dummy.DummyContent.DummyItem;
+import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailActivity;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
 
+import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class UserPostRecyclerViewAdapter extends RecyclerView.Adapter<UserPostRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private Context context;
+    private final List mValues;
 
-    public UserPostRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public UserPostRecyclerViewAdapter(Context context, List items) {
+        this.context = context;
         mValues = items;
-        mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_user_post_item, parent, false);
+                .inflate(R.layout.property_list_content, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        HashMap<String, String> map = (HashMap<String, String>) mValues.get(position);
+
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        holder.mRentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE))));
+        holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
+        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED)+"bd   "+map.get(DBHandler.TABLE_PROPERTY_BATH)+"ba");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                if (NavActivity.mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
+                    PropertyDetailFragment fragment = new PropertyDetailFragment();
+                    fragment.setArguments(arguments);
+                    ((NavActivity)context).getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.property_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, PropertyDetailActivity.class);
+                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
+
+                    context.startActivity(intent);
                 }
             }
         });
@@ -59,20 +75,17 @@ public class UserPostRecyclerViewAdapter extends RecyclerView.Adapter<UserPostRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mRentView;
+        public final TextView mBedBathView;
+        public final TextView mAddressView;
+        public DummyContent.DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            mRentView = (TextView) view.findViewById(R.id.rent_list);
+            mBedBathView = (TextView) view.findViewById(R.id.bed_bath_list);
+            mAddressView = (TextView) view.findViewById(R.id.address_list);
         }
     }
 }

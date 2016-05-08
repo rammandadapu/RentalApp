@@ -70,7 +70,6 @@
     <string name="post_bedrooms">BedRooms</string>
     <string name="post_bathrooms">Bathrooms</string>
     <string name="post_submit">Submit Details</string>
-    <string name="post_cancelled">Close Post</string>
     <string name="post_area">Area(sft)</string>
     <string name="post_area_units">SFT</string>
     <string name="post_apttype">Apartment Type</string>
@@ -79,6 +78,8 @@
     <string name="post_contact_details">Contact Details</string>
     <string name="post_rent">Rent(USD)</string>
     <string name="post_rent_format">00000.00</string>
+    <string name="post_edit">EDIT POST</string>
+    <string name="post_cancelled">SOLD OUT</string>
 
     <!--address-->
     <string name="post_line">Enter Street Name</string>
