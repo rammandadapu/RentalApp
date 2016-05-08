@@ -2,21 +2,20 @@ package edu.sjsu.cmpe277.rentalapp.createpost;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-
-import java.util.regex.Pattern;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
@@ -56,6 +55,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private EditText zipCodeEditText;
 
     private Button submitButton;
+    private String uniqueUserID;
 
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
     public CreateNewPropertyFragment() {
@@ -97,7 +97,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.fragment_create_new_property, container, false);
         getUIReferance(view);
         setUIValidation();
-
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        uniqueUserID=((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).getText().toString();
         submitButton.setOnClickListener(this);
 
 
@@ -211,6 +212,9 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.getAddress().setCity(cityEditText.getText().toString());
         property.getAddress().setState(stateEditText.getText().toString());
         property.getAddress().setZip(zipCodeEditText.getText().toString());
+        property.setUniqueUserId(uniqueUserID);
+        property.setStatus("Available");
+
         return property;
     }
 

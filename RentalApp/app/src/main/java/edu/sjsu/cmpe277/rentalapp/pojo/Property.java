@@ -1,11 +1,17 @@
 package edu.sjsu.cmpe277.rentalapp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * Created by ram.mandadapu on 5/7/16.
  */
-public class Property {
+@JsonAutoDetect
+public class Property implements Serializable {
+
+
 
     private String name;
     @JsonProperty("desc")
@@ -23,8 +29,8 @@ public class Property {
     private String phone;
     @JsonProperty("email")
     private String userEmail;
-    private String userName;
     private String[] imageUrl;
+    private String uniqueUserId;
 
     public String getName() {
         return name;
@@ -108,14 +114,6 @@ public class Property {
         this.userEmail = userEmail;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String[] getImageUrl() {
         return imageUrl;
     }
@@ -138,6 +136,14 @@ public class Property {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUniqueUserId() {
+        return uniqueUserId;
+    }
+
+    public void setUniqueUserId(String uniqueUserId) {
+        this.uniqueUserId = uniqueUserId;
     }
 
     public class Address{

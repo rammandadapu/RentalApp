@@ -17,6 +17,7 @@
         android:inputType="phone"
         android:ems="10"
         android:hint="@string/post_phone_number"
+        android:maxLength="10"
         android:id="@+id/post_contactnumber" />
 
     <EditText
@@ -39,6 +40,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
+        android:maxLength="20"
         android:hint="@string/post_line"
         android:id="@+id/post_line" />
 
@@ -48,6 +50,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:hint="@string/post_city"
+        android:maxLength="15"
         android:id="@+id/post_city" />
 
     <EditText
@@ -56,6 +59,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:hint="@string/post_state"
+        android:maxLength="2"
         android:id="@+id/post_state" />
 
     <EditText
@@ -63,6 +67,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
+        android:maxLength="6"
         android:hint="@string/post_zip"
         android:id="@+id/post_zip" />
 </LinearLayout>
