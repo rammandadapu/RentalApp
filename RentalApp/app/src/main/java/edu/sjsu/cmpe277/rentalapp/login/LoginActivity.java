@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 /**
@@ -146,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
 
            // mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true,  acct);
+            updateUI(true, acct);
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false,null);
@@ -221,6 +222,9 @@ public class LoginActivity extends AppCompatActivity implements
             //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, NavActivity.class);
+            GlobalPojo globalPojo= (GlobalPojo)getApplicationContext();
+            globalPojo.setUserName(acct.getDisplayName());
+            globalPojo.setEmail(acct.getEmail());
             intent.putExtra("username",acct.getDisplayName());
             intent.putExtra("email",acct.getEmail());
             intent.putExtra("imageuri",acct.getPhotoUrl());

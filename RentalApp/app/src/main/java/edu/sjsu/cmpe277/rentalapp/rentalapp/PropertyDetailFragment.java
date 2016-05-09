@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
+import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 
 
 public class PropertyDetailFragment extends Fragment {
@@ -33,6 +36,9 @@ public class PropertyDetailFragment extends Fragment {
     TextView bedBathView;
     TextView addressView;
 
+    Button editButton;
+    Button soldOutButton;
+    private GlobalPojo globalPojo;
     public PropertyDetailFragment() {
     }
 
@@ -45,6 +51,8 @@ public class PropertyDetailFragment extends Fragment {
         if (appBarLayout != null) {
             //appBarLayout.setTitle(mItem.content);
         }
+        globalPojo=(GlobalPojo)getActivity().getApplicationContext();
+        System.out.print("*****"+globalPojo.getEmail());
     }
 
     @Override
@@ -55,6 +63,8 @@ public class PropertyDetailFragment extends Fragment {
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
+        editButton=(Button)rootView.findViewById(R.id.button_post_edit);
+        soldOutButton=(Button)rootView.findViewById(R.id.sign_out_button);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             //fetching code - START
@@ -92,6 +102,11 @@ public class PropertyDetailFragment extends Fragment {
                             rentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE).toString())));
                             bedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED).toString() + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH).toString() + "ba");
                             addressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString());
+                            if(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString().equalsIgnoreCase(globalPojo.getEmail()))
+                            {
+                                editButton.setVisibility(View.VISIBLE);
+                                soldOutButton.setVisibility(View.VISIBLE);
+                            }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }

@@ -37,7 +37,7 @@ public class UserPostHistoryFragment extends Fragment {
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         String uniqueUserID=((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).getText().toString();
         //TODO: NEED to add user ID in search terms
-        new SearchUserPostsTask(getActivity(), mRecycleView).execute("", "", "", "", "","","","",uniqueUserID);
+        new PropertySearchTask(getActivity(), mRecycleView).execute("", "", "", "", "","","","",uniqueUserID);
 
 
 
