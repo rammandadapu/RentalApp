@@ -53,7 +53,7 @@ public class WebService {
         request.addQuerystringParameter("house", house);
         request.addQuerystringParameter("townhouse", townhouse);
         request.addQuerystringParameter("createdBy", createdBy);
-        System.out.println("HIIIIIII"+request.toString());
+        System.out.println("HIIIIIII" + request.toString());
         Response response = request.send();
         System.out.println("HELLOOOOO"+response.getBody());
         return response.getBody();
@@ -75,7 +75,7 @@ public class WebService {
      * @return true if server response code is 201
      * false if server response code is not equal to 201
      */
-    public boolean postProperty(Property property) {
+    public String postProperty(Property property) {
         try {
             OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -87,18 +87,17 @@ public class WebService {
             }
             request.addBodyParameter("post", requestBody);
             Response response = request.send();
-            return response.getCode() == 201;
+            System.out.println(response.getBody());
+            return response.getBody();
         }
         catch (RuntimeException runTimeException){
             Log.e("Server con Failed",runTimeException.getMessage());
-            return false;
         }
         catch (Exception ex){
             //Failed to connect to server
             Log.e("Server con Fail",ex.getMessage());
-            return false;
         }
-
+        return null;
     }
 
 

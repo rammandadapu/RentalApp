@@ -63,6 +63,7 @@ public class PropertyListFragment extends Fragment
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
         emptyView = (TextView)view.findViewById(R.id.empty_view);
 
+
         if(savedInstanceState == null) {
             //TODO: change this to default the current location
             locationFilter = "San Jose";
