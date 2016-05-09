@@ -21,7 +21,7 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
     public static final String TABLE_PROPERTY_ID = "_id";
@@ -35,6 +35,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_BED = "bedNo";
     public static final String TABLE_PROPERTY_BATH = "bathNo";
     public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
+    public static final String TABLE_PROPERTY_CREATEDBY="createdBy";
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB, factory, DB_VERSION);
@@ -51,7 +52,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + TABLE_PROPERTY_ADDRESS + " TEXT,"
                 + TABLE_PROPERTY_PRICE + " TEXT,"
                 + TABLE_PROPERTY_BEDBATH + " TEXT,"
-                + TABLE_PROPERTY_IMAGE_URL + " TEXT"
+                + TABLE_PROPERTY_IMAGE_URL + " TEXT,"
+                + TABLE_PROPERTY_CREATEDBY + "TEXT"
                 + ")";
         db.execSQL(query);
     }
@@ -80,6 +82,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(TABLE_PROPERTY_PRICE, property.getPrice());
         values.put(TABLE_PROPERTY_BEDBATH, property.getBedBath());
         values.put(TABLE_PROPERTY_IMAGE_URL, property.getImage_url());
+        values.put(TABLE_PROPERTY_CREATEDBY, property.getCreatedBy());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE, null, values);
         db.close();
@@ -111,7 +114,7 @@ public class DBHandler extends SQLiteOpenHelper {
             property.put(TABLE_PROPERTY_PRICE, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_PRICE)));
             property.put(TABLE_PROPERTY_BEDBATH, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_BEDBATH)));
             property.put(TABLE_PROPERTY_IMAGE_URL, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_IMAGE_URL)));
-
+            property.put(TABLE_PROPERTY_CREATEDBY, cursor.getString(cursor.getColumnIndex(TABLE_PROPERTY_CREATEDBY)));
             cursor.moveToNext();
             propertyList.add(property);
         }

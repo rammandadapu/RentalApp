@@ -15,11 +15,13 @@ public class RentalProperty {
     String bath;
     String bedBath;
     String image_url;
-
+    String createdBy;
     public RentalProperty() {
     }
 
-    public RentalProperty(String _id, String addressLine1, String addressCity, String addressState, String addressZip, String price, String bed, String bath, String image_url) {
+    public RentalProperty(String _id, String addressLine1, String addressCity, String addressState,
+                          String addressZip, String price, String bed, String bath, String image_url,
+                          String createdBy) {
         this._id = _id;
         this.addressLine1 = addressLine1;
         this.addressCity = addressCity;
@@ -29,6 +31,7 @@ public class RentalProperty {
         this.bed = bed;
         this.bath = bath;
         this.image_url = image_url;
+        this.createdBy=createdBy;
     }
 
     public String get_id() {
@@ -117,5 +120,13 @@ public class RentalProperty {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }
