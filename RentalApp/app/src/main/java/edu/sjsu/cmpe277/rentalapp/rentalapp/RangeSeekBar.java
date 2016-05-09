@@ -504,7 +504,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                   selectedValuesAreDefault);
 
         // draw the text if sliders have moved from default edges
-        if (!selectedValuesAreDefault) {
+        //if (!selectedValuesAreDefault) {
             paint.setTextSize(mTextSize);
             paint.setColor(Color.BLACK);
             // give text a bit more space here so it doesn't get cut off
@@ -527,7 +527,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                             normalizedToScreen(normalizedMaxValue) - maxTextWidth * 0.5f,
                             mDistanceToTop + mTextSize,
                             paint);
-        }
+        //}
 
     }
 

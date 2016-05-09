@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SearchView;
@@ -66,7 +67,7 @@ public class PropertyListFragment extends Fragment
             //TODO: change this to default the current location
             locationFilter = "San Jose";
             keywordFilter = "";
-            priceLowFilter = "0";
+            priceLowFilter = "20";
             priceHighFilter = "15000";
             condoFilter = true;
             houseFilter = true;
@@ -97,7 +98,7 @@ public class PropertyListFragment extends Fragment
             location.setOnQueryTextListener(this);
 
             location.setMaxWidth(Integer.MAX_VALUE);
-            location.setQuery(locationFilter,true);
+            location.setQuery(locationFilter, true);
         }
     }
 
@@ -158,10 +159,40 @@ public class PropertyListFragment extends Fragment
                 }
             });
 
-            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialogBuilder.setNeutralButton("Reset filters", null);
+
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+
+            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                  @Override
+                  public void onShow(DialogInterface dialog) {
+
+                      Button b = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                      b.setOnClickListener(new View.OnClickListener() {
+
+                          @Override
+                          public void onClick(View view) {
+                              setDefaultFilterValues();
+                          }
+                      });
+                  }
+              });
+
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setDefaultFilterValues() {
+        keywordFilter = "";
+        priceLowFilter = "20";
+        priceHighFilter = "15000";
+        condoFilter = true;
+        houseFilter = true;
+        apartmentFilter = true;
+        townhouseFilter = true;
+        setFilterValues();
     }
 
     private void getFilterValues() {

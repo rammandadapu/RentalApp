@@ -1,117 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_margin="10dp"
-    xmlns:rsb="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="HOMETYPE"
-        android:id="@+id/home_type_filter"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:padding="4dp">
 
-    <CheckBox
-        android:id="@+id/apartment_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apartment"
-        android:checked="true"
-        android:layout_below="@+id/home_type_filter"
-        android:layout_alignRight="@+id/home_type_filter"
-        android:layout_alignEnd="@+id/home_type_filter" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="HOMETYPE"
+            android:id="@+id/home_type_filter"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="House"
-        android:id="@+id/house_checkbox"
-        android:checked="true"
-        android:layout_below="@+id/apartment_checkbox"
-        android:layout_alignLeft="@+id/apartment_checkbox"
-        android:layout_alignStart="@+id/apartment_checkbox" />
+        <CheckBox
+            android:id="@+id/apartment_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apartment"
+            android:checked="true"
+            android:layout_below="@+id/home_type_filter"
+            android:layout_alignRight="@+id/home_type_filter"
+            android:layout_alignEnd="@+id/home_type_filter" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Condo"
-        android:id="@+id/condo_checkbox"
-        android:layout_alignTop="@+id/apartment_checkbox"
-        android:layout_centerHorizontal="true"
-        android:checked="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House"
+            android:id="@+id/house_checkbox"
+            android:checked="true"
+            android:layout_below="@+id/apartment_checkbox"
+            android:layout_alignLeft="@+id/apartment_checkbox"
+            android:layout_alignStart="@+id/apartment_checkbox" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Townhouse"
-        android:id="@+id/townhouse_checkbox"
-        android:layout_below="@+id/condo_checkbox"
-        android:layout_alignLeft="@+id/condo_checkbox"
-        android:layout_alignStart="@+id/condo_checkbox"
-        android:checked="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Condo"
+            android:id="@+id/condo_checkbox"
+            android:layout_alignTop="@+id/apartment_checkbox"
+            android:layout_centerHorizontal="true"
+            android:checked="true" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:id="@+id/line1"
-        android:background="#8d8d8d"
-        android:layout_below="@+id/house_checkbox" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Townhouse"
+            android:id="@+id/townhouse_checkbox"
+            android:layout_below="@+id/condo_checkbox"
+            android:layout_alignLeft="@+id/condo_checkbox"
+            android:layout_alignStart="@+id/condo_checkbox"
+            android:checked="true" />
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="KEYWORD"
-        android:id="@+id/keyword_label"
-        android:layout_below="@+id/line1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:id="@+id/line1"
+            android:background="#8d8d8d"
+            android:layout_below="@+id/house_checkbox" />
 
-    <EditText
-        android:id="@+id/keyword_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="e.g. pool or fireplace"
-        android:layout_below="@+id/keyword_label"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <requestFocus />
-    </EditText>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="KEYWORD"
+            android:id="@+id/keyword_label"
+            android:layout_below="@+id/line1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:id="@+id/line2"
-        android:background="#8d8d8d"
-        android:layout_below="@+id/keyword_filter"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:id="@+id/keyword_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="e.g. pool or fireplace"
+            android:layout_below="@+id/keyword_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <requestFocus />
+        </EditText>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="RENT"
-        android:id="@+id/rent_label"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_below="@id/line2"
-        android:layout_marginTop="15dp"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:id="@+id/line2"
+            android:background="#8d8d8d"
+            android:layout_below="@+id/keyword_filter"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <edu.sjsu.cmpe277.rentalapp.rentalapp.RangeSeekBar
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rent_label"
-        android:id="@+id/price_range_filter"
-        rsb:absoluteMinValue="20"
-        rsb:absoluteMaxValue="15000"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="RENT"
+            android:id="@+id/rent_label"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_below="@id/line2"
+            android:layout_marginTop="10dp"/>
 
-        />
-</RelativeLayout>
+        <edu.sjsu.cmpe277.rentalapp.rentalapp.RangeSeekBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_range_filter"
+            rsb:absoluteMinValue="20"
+            rsb:absoluteMaxValue="15000"
+            android:layout_alignTop="@+id/rent_label"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="20dp" />
+
+    </RelativeLayout>
+</ScrollView>
