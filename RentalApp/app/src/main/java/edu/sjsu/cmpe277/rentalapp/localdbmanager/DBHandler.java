@@ -21,7 +21,7 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 8;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
     public static final String TABLE_PROPERTY_ID = "_id";
@@ -53,7 +53,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + TABLE_PROPERTY_PRICE + " TEXT,"
                 + TABLE_PROPERTY_BEDBATH + " TEXT,"
                 + TABLE_PROPERTY_IMAGE_URL + " TEXT,"
-                + TABLE_PROPERTY_CREATEDBY + "TEXT"
+                + TABLE_PROPERTY_CREATEDBY + " TEXT"
                 + ")";
         db.execSQL(query);
     }
@@ -71,7 +71,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Add the restaurant
+     * Add the property
      * @param property
      */
     public void addProperty(RentalProperty property) {
@@ -97,7 +97,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Return list of all favourite restaurants. If nothing exist returns empty list.
+     * Return list of all favourite properties. If nothing exist returns empty list.
      * @return
      */
     public ArrayList<HashMap<String, String>> getAllProperties() {
