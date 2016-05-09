@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,15 +29,17 @@ import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     private Context context;
     RecyclerView recyclerView;
+    TextView emptyView;
     ArrayList<HashMap<String, String>> oslist;
     ArrayList<String>  busineesIdList;
     ArrayList<String> businessNamesList;
 
     SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
 
-    public PropertySearchTask(Context context, RecyclerView recyclerView) {
+    public PropertySearchTask(Context context, RecyclerView recyclerView, TextView emptyView) {
         this.context = context.getApplicationContext();
         this.recyclerView = recyclerView;
+        this.emptyView = emptyView;
         oslist = new ArrayList<HashMap<String, String>>();
         busineesIdList=new ArrayList<>();
         businessNamesList=new ArrayList<>();
@@ -55,10 +58,17 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
     @Override
     protected void onPostExecute(ArrayList list) {
-        mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(context, list);
-        recyclerView.setAdapter(mSimpleItemRecyclerViewAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
-
+        if(list == null) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+            mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(context, list);
+            recyclerView.setAdapter(mSimpleItemRecyclerViewAdapter);
+            recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        }
     }
 
     ArrayList processJson(String jsonStuff) throws JSONException {

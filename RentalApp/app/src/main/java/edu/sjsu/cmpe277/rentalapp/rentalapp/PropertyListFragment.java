@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.widget.TextView;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.w3c.dom.Text;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
@@ -29,6 +30,7 @@ import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 public class PropertyListFragment extends Fragment
         implements SearchView.OnQueryTextListener {
     private RecyclerView mRecycleView;
+    private TextView emptyView;
 
     SearchView location;
     EditText keyword;
@@ -58,13 +60,14 @@ public class PropertyListFragment extends Fragment
         View view = inflater.inflate(R.layout.property_list, container, false);
         setHasOptionsMenu(true);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
+        emptyView = (TextView)view.findViewById(R.id.empty_view);
 
         if(savedInstanceState == null) {
             //TODO: change this to default the current location
             locationFilter = "San Jose";
             keywordFilter = "";
-            priceLowFilter = "";
-            priceHighFilter = "";
+            priceLowFilter = "0";
+            priceHighFilter = "15000";
             condoFilter = true;
             houseFilter = true;
             apartmentFilter = true;
@@ -90,7 +93,7 @@ public class PropertyListFragment extends Fragment
 
             location.setIconifiedByDefault(false);
             //searchView.setSubmitButtonEnabled(true);
-            location.setQueryHint("Location...");
+            location.setQueryHint("Location");
             location.setOnQueryTextListener(this);
 
             location.setMaxWidth(Integer.MAX_VALUE);
@@ -112,7 +115,7 @@ public class PropertyListFragment extends Fragment
     {
         //searchTerm = query;
         locationFilter = query;
-        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
+        new PropertySearchTask(getActivity(), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
@@ -140,8 +143,7 @@ public class PropertyListFragment extends Fragment
             condo = (CheckBox) searchFilterDialog.findViewById(R.id.condo_checkbox);
             price = (RangeSeekBar) searchFilterDialog.findViewById(R.id.price_range_filter);
 
-
-
+            setFilterValues();
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
@@ -171,8 +173,18 @@ public class PropertyListFragment extends Fragment
         priceLowFilter = price.getSelectedMinValue().toString();
         priceHighFilter = price.getSelectedMaxValue().toString();
 
-        new PropertySearchTask(getActivity(), mRecycleView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
+        new PropertySearchTask(getActivity(), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
                 String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
         System.out.println("keyword filter" + keywordFilter);
+    }
+
+    private void setFilterValues() {
+        keyword.setText(keywordFilter);
+        condo.setChecked(condoFilter);
+        apartment.setChecked(apartmentFilter);
+        house.setChecked(houseFilter);
+        townhouse.setChecked(townhouseFilter);
+        price.setSelectedMinValue(Integer.parseInt(priceLowFilter));
+        price.setSelectedMaxValue(Integer.parseInt(priceHighFilter));
     }
 }

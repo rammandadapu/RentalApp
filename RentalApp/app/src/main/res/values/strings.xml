@@ -102,4 +102,6 @@
     <string name="two">2</string>
     <string name="three">3</string>
     <string name="four">4</string>
+
+    <string name="no_data_available">No Matching Listings</string>
 </resources>
