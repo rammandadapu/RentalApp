@@ -15,7 +15,7 @@ exports.upload=function(req,res){
 		    var collection = db.collection('property');		    		   
 
 		    var newPost  = JSON.parse(req.body.post);	
-		    console.log(newPost);
+		    //console.log(newPost);
 		    //console.log(newPost.post);
 		   // res.send();
 		    //console.log(newPost)	 
@@ -23,8 +23,9 @@ exports.upload=function(req,res){
 		      if (err) {
 		        console.log(err);
 		      } else{
+		    	  console.log(result.ops[0]._id);
 		    	  res.status(201);
-		    	  res.send("OK");
+		    	  res.send(result.ops[0]._id);
 		      } 
 		      //Close connection
 		      db.close();
