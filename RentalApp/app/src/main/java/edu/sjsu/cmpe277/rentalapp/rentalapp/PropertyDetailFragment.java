@@ -64,7 +64,7 @@ public class PropertyDetailFragment extends Fragment {
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
         editButton=(Button)rootView.findViewById(R.id.button_post_edit);
-        soldOutButton=(Button)rootView.findViewById(R.id.sign_out_button);
+        soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             //fetching code - START
@@ -102,7 +102,7 @@ public class PropertyDetailFragment extends Fragment {
                             rentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE).toString())));
                             bedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED).toString() + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH).toString() + "ba");
                             addressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString());
-                            if(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString().equalsIgnoreCase(globalPojo.getEmail()))
+                            if(map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail()))
                             {
                                 editButton.setVisibility(View.VISIBLE);
                                 soldOutButton.setVisibility(View.VISIBLE);
@@ -132,7 +132,7 @@ public class PropertyDetailFragment extends Fragment {
             address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
             address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
             address += " "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
-
+            String createdBy=json.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
             //String image_url = c.getString("image_url");
 
             // Adding value HashMap key => value
@@ -143,6 +143,7 @@ public class PropertyDetailFragment extends Fragment {
             map.put(DBHandler.TABLE_PROPERTY_BED, bed);
             map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
             map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
+            map.put(DBHandler.TABLE_PROPERTY_CREATEDBY, createdBy);
             //map.put("image_url", image_url);
 
             System.out.println("MAP: " + map.toString());

@@ -123,6 +123,7 @@ public class NavActivity extends AppCompatActivity
             if(!TextUtils.isEmpty(userMail))
                userEmailTextView.setText(userMail);
             download(imageUri, userImageView);
+
             //userImageView.setImageURI(imageUri);
 
         }
