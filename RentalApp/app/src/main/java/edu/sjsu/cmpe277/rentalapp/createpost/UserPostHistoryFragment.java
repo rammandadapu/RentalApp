@@ -27,17 +27,18 @@ public class UserPostHistoryFragment extends Fragment {
     }
 
     private RecyclerView mRecycleView;
-
+    private TextView emptyTextView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.property_list, container, false);
         setHasOptionsMenu(true);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
+        emptyTextView=(TextView)view.findViewById(R.id.empty_view);
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         String uniqueUserID=((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).getText().toString();
         //TODO: NEED to add user ID in search terms
-        new PropertySearchTask(getActivity(), mRecycleView).execute("", "", "", "", "","","","",uniqueUserID);
+        new PropertySearchTask(getActivity(), mRecycleView,emptyTextView).execute("", "", "", "", "","","","",uniqueUserID);
 
 
 
