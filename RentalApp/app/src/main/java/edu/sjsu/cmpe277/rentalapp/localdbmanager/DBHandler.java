@@ -9,14 +9,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Property;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -35,7 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_BED = "bedNo";
     public static final String TABLE_PROPERTY_BATH = "bathNo";
     public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
-    public static final String TABLE_PROPERTY_CREATEDBY="createdBy";
+    public static final String TABLE_PROPERTY_CREATEDBY = "createdBy";
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB, factory, DB_VERSION);
@@ -43,6 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * Creates the DB
+     *
      * @param db
      */
     @Override
@@ -60,6 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * Creates new table if version number changes
+     *
      * @param db
      * @param oldVersion
      * @param newVersion
@@ -72,6 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * Add the property
+     *
      * @param property
      */
     public void addProperty(RentalProperty property) {
@@ -98,6 +96,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * Return list of all favourite properties. If nothing exist returns empty list.
+     *
      * @return
      */
     public ArrayList<HashMap<String, String>> getAllProperties() {
@@ -125,6 +124,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * To check if already favourite
+     *
      * @param _id
      * @return
      */
