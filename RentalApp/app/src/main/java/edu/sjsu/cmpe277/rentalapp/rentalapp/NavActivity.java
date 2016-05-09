@@ -117,12 +117,15 @@ public class NavActivity extends AppCompatActivity
         if (null != extras) {
             userName = extras.getString("username");
             userMail=extras.getString("email");
-            String imageUri=extras.get("imageuri").toString();
+            if(null!=extras.get("imageuri")) {
+                String imageUri = extras.get("imageuri").toString();
+                download(imageUri, userImageView);
+            }
             if(!TextUtils.isEmpty(userName))
                userNameTextView.setText(userName);
             if(!TextUtils.isEmpty(userMail))
                userEmailTextView.setText(userMail);
-            download(imageUri, userImageView);
+
 
             //userImageView.setImageURI(imageUri);
 
