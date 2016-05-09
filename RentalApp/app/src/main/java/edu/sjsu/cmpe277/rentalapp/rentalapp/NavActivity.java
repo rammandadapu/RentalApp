@@ -29,6 +29,8 @@ import edu.sjsu.cmpe277.rentalapp.createpost.UserPostHistoryFragment;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 
+import android.graphics.drawable.Drawable;
+
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -115,12 +117,13 @@ public class NavActivity extends AppCompatActivity
         if (null != extras) {
             userName = extras.getString("username");
             userMail=extras.getString("email");
-            Uri imageUri=(Uri)extras.get("imageuri");
+            String imageUri=extras.get("imageuri").toString();
             if(!TextUtils.isEmpty(userName))
                userNameTextView.setText(userName);
             if(!TextUtils.isEmpty(userMail))
                userEmailTextView.setText(userMail);
-            userImageView.setImageURI(imageUri);
+            download(imageUri, userImageView);
+            //userImageView.setImageURI(imageUri);
 
         }
 
@@ -202,6 +205,11 @@ public class NavActivity extends AppCompatActivity
         return true;
     }
 
-
+    private void download(String url, ImageView imageView) {
+        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
+        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+        imageView.setImageDrawable(downloadedDrawable);
+        task.execute(url);
+    }
 
 }
