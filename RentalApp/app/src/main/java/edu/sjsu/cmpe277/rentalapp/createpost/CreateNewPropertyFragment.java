@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -218,7 +219,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.getAddress().setState(stateEditText.getText().toString());
         property.getAddress().setZip(zipCodeEditText.getText().toString());
         property.setUniqueUserId(uniqueUserID);
-        property.setStatus("Available");
+        property.setStatus(PropertyDetailFragment.STATUS_AVAILABLE);
 
         return property;
     }

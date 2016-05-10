@@ -2,6 +2,7 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +26,7 @@ import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 
 
-public class PropertyDetailFragment extends Fragment {
+public class PropertyDetailFragment extends Fragment implements View.OnClickListener {
 
     public static final String ARG_ITEM_ID = "_id";
     public RentalProperty rentalProperty;
@@ -36,6 +38,10 @@ public class PropertyDetailFragment extends Fragment {
     Button editButton;
     Button soldOutButton;
     private GlobalPojo globalPojo;
+    public  static final String STATUS_AVAILABLE="Available";
+    public  static final String STATUS_SOLD="SOLD";
+    private String propertStatus=STATUS_AVAILABLE;
+    private String propertyIdentifier;
     public PropertyDetailFragment() {
     }
 
@@ -62,10 +68,12 @@ public class PropertyDetailFragment extends Fragment {
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
         editButton=(Button)rootView.findViewById(R.id.button_post_edit);
         soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
-
+        soldOutButton.setOnClickListener(this);
+        editButton.setOnClickListener(this);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             //fetching code - START
             final String propertyId = getArguments().getString(ARG_ITEM_ID);
+            propertyIdentifier=propertyId;
             //Toast.makeText(getContext(),"id:"+businessId,Toast.LENGTH_LONG).show();
             if (propertyId != null) {
                 new AsyncTask<String, String, HashMap>() {
@@ -103,6 +111,9 @@ public class PropertyDetailFragment extends Fragment {
                             {
                                 editButton.setVisibility(View.VISIBLE);
                                 soldOutButton.setVisibility(View.VISIBLE);
+                                //Always next two line one after another
+                                propertStatus=map.get(DBHandler.TABLE_PROPERTY_STATUS).toString();
+                                handleSoldAvailableButton();
                             }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
@@ -130,6 +141,7 @@ public class PropertyDetailFragment extends Fragment {
             address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
             address += " "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
             String createdBy=json.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
+            String status=json.getString(DBHandler.TABLE_PROPERTY_STATUS);
             //String image_url = c.getString("image_url");
 
             // Adding value HashMap key => value
@@ -141,6 +153,7 @@ public class PropertyDetailFragment extends Fragment {
             map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
             map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
             map.put(DBHandler.TABLE_PROPERTY_CREATEDBY, createdBy);
+            map.put(DBHandler.TABLE_PROPERTY_STATUS, status);
             //map.put("image_url", image_url);
 
             System.out.println("MAP: " + map.toString());
@@ -149,5 +162,62 @@ public class PropertyDetailFragment extends Fragment {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+
+    private void postChangeToDB(String propertStatus){
+        new AsyncTask<String,String,String>(){
+            @Override
+            protected String doInBackground(String... params) {
+                return new WebService().changePropetyStatus(params[0],propertyIdentifier);
+
+            }
+        }.execute(propertStatus);
+    }
+
+    private void setIcon(int icon){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            soldOutButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0);
+        }
+        else{
+            soldOutButton.setCompoundDrawables(null,null,null,null);
+
+        }
+    }
+    private void handleSoldAvailableButton(){
+        if(STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)){
+            soldOutButton.setText(R.string.post_cancelled);
+            setIcon(R.drawable.ic_lock_white_24dp);
+        }
+        else {
+            soldOutButton.setText(R.string.post_available);
+            setIcon(R.drawable.ic_lock_open_white_24dp);
+        }
+
+    }
+    private void togglePropertyStatus(){
+        if(STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)){
+            propertStatus=STATUS_SOLD;
+        }
+        else{
+            propertStatus=STATUS_AVAILABLE;
+        }
+        handleSoldAvailableButton();
+        postChangeToDB(propertStatus);
+    }
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.button_post_cancelled:
+                togglePropertyStatus();
+                Toast.makeText(getContext(),"Request Submitted",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button_post_edit:
+
+                break;
+
+        }
     }
 }

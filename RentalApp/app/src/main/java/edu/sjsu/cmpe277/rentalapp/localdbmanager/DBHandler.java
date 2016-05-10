@@ -31,6 +31,9 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_BATH = "bathNo";
     public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
     public static final String TABLE_PROPERTY_CREATEDBY = "createdBy";
+    public static final String TABLE_PROPERTY_STATUS="status";
+    public static final String TABLE_PROPERTY_TYPE="type";
+    public static final String TABLE_PROPERTY_PHONE="phone";
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB, factory, DB_VERSION);
