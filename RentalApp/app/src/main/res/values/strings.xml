@@ -87,7 +87,7 @@
     <string name="post_state">Enter State (E.g. CA)</string>
     <string name="post_zip">Enter ZIP code(95113)</string>
     <!--address end-->
-    
+
     <!--Apartment Type-->
     <string name="house">House</string>
     <string name="townhouse">Town House</string>
@@ -97,11 +97,15 @@
 
     <string name="post_success">Posted Successfully</string>
     <string name="post_fail">Fail to Submit. Please try again.!</string>
-    
+
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
     <string name="four">4</string>
 
     <string name="no_data_available">No Matching Listings</string>
+
+    <string name="title_activity_post_successscreen">PostSuccessscreenActivity</string>
+    <string name="post_success_button">Done</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

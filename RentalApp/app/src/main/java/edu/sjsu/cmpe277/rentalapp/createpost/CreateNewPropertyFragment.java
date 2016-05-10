@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import org.scribe.model.Response;
 import java.util.concurrent.ExecutionException;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
 
@@ -192,7 +194,27 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         if(mAwesomeValidation.validate()) {
             Property property = getProperty();
             new CreatePostTask(getContext()).execute(property);
+            clearForm();
+            Intent intent = new Intent(getContext(), PostSuccessscreenActivity.class);
+            startActivity(intent);
         }
+    }
+
+    private void clearForm(){
+        titleEditText.setText("");
+        detailsEditText.setText("");
+        areaSftEditText.setText("");
+        apartmentTypeSpinner.setSelection(0);
+        noOfBedRoomsSpinner.setSelection(0);
+        noOfBathRoomsSpinner.setSelection(0);
+        rentAmountEditText.setText("");
+        phoneNoEditText.setText("");
+        emailEditText.setText("");
+        addressLineEditText.setText("");
+        cityEditText.setText("");
+        stateEditText .setText("");
+        zipCodeEditText.setText("");
+
     }
 
     /**
