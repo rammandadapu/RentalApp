@@ -34,6 +34,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     ArrayList<String>  busineesIdList;
     ArrayList<String> businessNamesList;
 
+    boolean connectionFailed;
+
     SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
 
     public PropertySearchTask(Context context, RecyclerView recyclerView, TextView emptyView) {
@@ -49,11 +51,16 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
         WebService ws = new WebService();
         String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7],params[8]);
         System.out.println("lallalalalaaa "+properties);
-        try {
-            return processJson(properties);
-        } catch (JSONException e) {
-            return null;
+        if(properties != "connection failed") {
+            try {
+                return processJson(properties);
+            } catch (JSONException e) {
+                return null;
+            }
         }
+        else
+            connectionFailed = true;
+            return null;
     }
 
     @Override
@@ -61,6 +68,12 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
         if(list == null) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
+            if(connectionFailed) {
+                emptyView.setText("Connection to server failed. Please check your internet connection and try again!");
+            }
+            else {
+                emptyView.setText("No Matching Listings");
+            }
         }
         else {
             recyclerView.setVisibility(View.VISIBLE);
@@ -72,9 +85,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     }
 
     ArrayList processJson(String jsonStuff) throws JSONException {
-        JSONArray result = new JSONArray(jsonStuff);
-
         try {
+                JSONArray result = new JSONArray(jsonStuff);
                 for (int i = 0; i < result.length(); i++) {
                     JSONObject c = result.getJSONObject(i);
 

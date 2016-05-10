@@ -50,6 +50,8 @@ public class PropertyListFragment extends Fragment
     boolean apartmentFilter;
     boolean townhouseFilter;
 
+    boolean filtersInitialized;
+
 
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
@@ -64,20 +66,28 @@ public class PropertyListFragment extends Fragment
         emptyView = (TextView)view.findViewById(R.id.empty_view);
 
 
-        if(savedInstanceState == null) {
-            //TODO: change this to default the current location
-            locationFilter = "San Jose";
-            keywordFilter = "";
-            priceLowFilter = "20";
-            priceHighFilter = "15000";
-            condoFilter = true;
-            houseFilter = true;
-            apartmentFilter = true;
-            townhouseFilter = true;
-        }
+       if(filtersInitialized == false) {
+            setDefaultFilterValues();
+       }
 
         return view;
     }
+
+    //Not required - will work even if this code is removed - START
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //outState.putString("keyword",keywordFilter);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null) {
+            //keywordFilter = savedInstanceState.getString("keyword");
+        }
+    }
+    //Not required - will work even if this code is removed - END
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -175,6 +185,7 @@ public class PropertyListFragment extends Fragment
                           @Override
                           public void onClick(View view) {
                               setDefaultFilterValues();
+                              setFilterValues();
                           }
                       });
                   }
@@ -186,6 +197,7 @@ public class PropertyListFragment extends Fragment
     }
 
     private void setDefaultFilterValues() {
+        locationFilter = "San Jose";
         keywordFilter = "";
         priceLowFilter = "20";
         priceHighFilter = "15000";
@@ -193,7 +205,8 @@ public class PropertyListFragment extends Fragment
         houseFilter = true;
         apartmentFilter = true;
         townhouseFilter = true;
-        setFilterValues();
+        filtersInitialized = true;
+        //setFilterValues();
     }
 
     private void getFilterValues() {

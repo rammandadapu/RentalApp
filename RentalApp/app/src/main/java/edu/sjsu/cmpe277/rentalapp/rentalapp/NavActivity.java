@@ -43,6 +43,10 @@ public class NavActivity extends AppCompatActivity
     TextView userEmailTextView;
     ImageView userImageView;
 
+    Fragment fragment = null;
+
+    Fragment propertySearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +135,16 @@ public class NavActivity extends AppCompatActivity
 
         }
 
+        if(savedInstanceState != null) {
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
+        }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
     @Override
@@ -170,14 +183,16 @@ public class NavActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         switch (id){
             case R.id.nav_search:
-                fragment = new PropertyListFragment();
+                if(propertySearch == null) {
+                    propertySearch = new PropertyListFragment();
+                }
+                    fragment = propertySearch;
                 break;
             case R.id.nav_post:
                 //fragment=new CreateNewPropertyFragment();

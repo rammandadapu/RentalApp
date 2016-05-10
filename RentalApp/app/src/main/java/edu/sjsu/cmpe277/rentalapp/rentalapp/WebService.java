@@ -60,12 +60,12 @@ public class WebService {
         }
         catch (RuntimeException runTimeException){
             Log.e("Server con Failed",runTimeException.getMessage());
-            return "";
+            return "connection failed";
         }
         catch (Exception ex){
             //Failed to connect to server
             Log.e("Server con Failed",ex.getMessage());
-            return "";
+            return "connection failed";
         }
     }
 
