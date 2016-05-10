@@ -32,6 +32,12 @@ public class PropertyDetailFragment extends Fragment {
     TextView rentView;
     TextView bedBathView;
     TextView addressView;
+    TextView sizeView;
+    TextView descView;
+    TextView emailView;
+    TextView phoneView;
+    TextView viewCountView;
+    TextView typeView;
 
     Button editButton;
     Button soldOutButton;
@@ -60,6 +66,13 @@ public class PropertyDetailFragment extends Fragment {
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
+        sizeView = (TextView) rootView.findViewById(R.id.size_detail);
+        typeView = (TextView) rootView.findViewById(R.id.type_detail);
+        descView = (TextView) rootView.findViewById(R.id.desc_detail);
+        emailView = (TextView) rootView.findViewById(R.id.email_detail);
+        phoneView = (TextView) rootView.findViewById(R.id.phone_detail);
+        viewCountView = (TextView) rootView.findViewById(R.id.view_count_detail);
+
         editButton=(Button)rootView.findViewById(R.id.button_post_edit);
         soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
 
@@ -99,6 +112,12 @@ public class PropertyDetailFragment extends Fragment {
                             rentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE).toString())));
                             bedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED).toString() + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH).toString() + "ba");
                             addressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS).toString());
+                            sizeView.setText(map.get(DBHandler.TABLE_PROPERTY_SIZE).toString());
+                            typeView.setText(map.get(DBHandler.TABLE_PROPERTY_TYPE).toString());
+                            descView.setText(map.get(DBHandler.TABLE_PROPERTY_DESC).toString());
+                            emailView.setText(map.get(DBHandler.TABLE_PROPERTY_EMAIL).toString());
+                            phoneView.setText(map.get(DBHandler.TABLE_PROPERTY_PHONE).toString());
+                            viewCountView.setText(map.get(DBHandler.TABLE_PROPERTY_VIEWCOUNT).toString());
                             if(map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail()))
                             {
                                 editButton.setVisibility(View.VISIBLE);
@@ -130,6 +149,12 @@ public class PropertyDetailFragment extends Fragment {
             address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
             address += " "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
             String createdBy=json.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
+            String size = json.getString(DBHandler.TABLE_PROPERTY_SIZE);
+            String type = json.getString(DBHandler.TABLE_PROPERTY_TYPE);
+            String email = json.getString(DBHandler.TABLE_PROPERTY_EMAIL);
+            String phone = json.getString(DBHandler.TABLE_PROPERTY_PHONE);
+            String desc = json.getString(DBHandler.TABLE_PROPERTY_DESC);
+            String viewCount = json.getString(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
             //String image_url = c.getString("image_url");
 
             // Adding value HashMap key => value
@@ -141,6 +166,13 @@ public class PropertyDetailFragment extends Fragment {
             map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
             map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
             map.put(DBHandler.TABLE_PROPERTY_CREATEDBY, createdBy);
+            map.put(DBHandler.TABLE_PROPERTY_SIZE, size);
+            map.put(DBHandler.TABLE_PROPERTY_TYPE, type);
+            map.put(DBHandler.TABLE_PROPERTY_EMAIL, email);
+            map.put(DBHandler.TABLE_PROPERTY_PHONE, phone);
+            map.put(DBHandler.TABLE_PROPERTY_DESC, desc);
+            map.put(DBHandler.TABLE_PROPERTY_VIEWCOUNT, viewCount);
+
             //map.put("image_url", image_url);
 
             System.out.println("MAP: " + map.toString());

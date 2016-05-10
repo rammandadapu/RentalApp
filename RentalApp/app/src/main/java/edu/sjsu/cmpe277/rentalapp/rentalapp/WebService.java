@@ -100,18 +100,26 @@ public class WebService {
         return null;
     }
 
-
-
     public String getPropertyDetails(String _id) {
-        String requestStr = "http://10.0.2.2:1337/property/" + _id;
-        OAuthRequest request = new OAuthRequest(Verb.GET, requestStr);
-        //Dummy code until real API is available - START
-        //String response = "{\"_id\":\"572835524255d0944af1c63d\",\"address\":{\"line1\":\"1 S Market St Apt 502\",\"city\":\"San Jose\",\"state\":\"CA\",\"zip\":\"95113\"},\"type\":\"house\",\"roomsNo\":3,\"bathNo\":2,\"size\":1440,\"price\":5560,\"phone\":\"(238)-434-676\",\"email\":\"test@mail.com\",\"desc\":\"Large spacious apartment. Club house available for free all the time. Pet friendly. Smoke free including patio area.\"}";
-        //return response;
-        //Dummy code until real API is available - END
-        //Uncomment below lines
-        Response response = request.send();
-        return response.getBody();
+        try {
+            String requestStr = SERVER_URL + "property/" + _id;
+            OAuthRequest request = new OAuthRequest(Verb.GET, requestStr);
+            //Dummy code until real API is available - START
+            //String response = "{\"_id\":\"572835524255d0944af1c63d\",\"address\":{\"line1\":\"1 S Market St Apt 502\",\"city\":\"San Jose\",\"state\":\"CA\",\"zip\":\"95113\"},\"type\":\"house\",\"roomsNo\":3,\"bathNo\":2,\"size\":1440,\"price\":5560,\"phone\":\"(238)-434-676\",\"email\":\"test@mail.com\",\"desc\":\"Large spacious apartment. Club house available for free all the time. Pet friendly. Smoke free including patio area.\"}";
+            //return response;
+            //Dummy code until real API is available - END
+            //Uncomment below lines
+            Response response = request.send();
+            return response.getBody();
+        }
+        catch (RuntimeException runTimeException){
+            Log.e("Server con Failed",runTimeException.getMessage());
+        }
+        catch (Exception ex){
+            //Failed to connect to server
+            Log.e("Server con Fail",ex.getMessage());
+        }
+        return null;
     }
 
     /*public String searchProperties2() {

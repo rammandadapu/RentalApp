@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".rentalapp.PropertyDetailFragment">
+    tools:context=".rentalapp.PropertyDetailFragment"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/rent_detail"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:text="rent"
-        />
+        android:paddingTop="5dp" />
 
     <TextView
         android:id="@+id/bed_bath_detail"
@@ -20,42 +20,158 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rent_detail"
-        android:padding="16dp"
-        android:text="rent"
-         />
+        android:text="bed bath"
+        android:paddingTop="5dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line1"
+        android:background="#8d8d8d"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_below="@+id/bed_bath_detail" />
+
+    <TextView
+        style="?android:attr/textAppearanceMedium"
+        android:id="@+id/size_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="xxxx"
+        android:layout_marginLeft="134dp"
+        android:layout_marginStart="134dp"
+        android:layout_below="@+id/rent_detail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="5dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/size_unit"
+        android:layout_below="@id/rent_detail"
+        android:layout_toRightOf="@id/size_detail"
+        android:text=" sqft"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:id="@+id/type_detail"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/size_detail"
+        android:text="type"
+        android:paddingTop="5dp" />
 
     <TextView
         android:id="@+id/address_detail"
         style="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bed_bath_detail"
-        android:padding="16dp"
-        android:text="rent"
-        />
+        android:layout_below="@id/type_detail"
+        android:text="address"
+        android:paddingTop="5dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:id="@+id/desc_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address_detail"
+        android:text="details"
+        android:paddingTop="5dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line2"
+        android:background="#8d8d8d"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_below="@+id/desc_detail" />
+
+    <TextView
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_detail"
+        android:id="@+id/contact_label"
+        android:text="Contact landlord:"
+        android:paddingTop="10dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_detail"
+        android:layout_below="@id/contact_label"
+        android:text="email"
+        android:paddingTop="5dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone_detail"
+        android:layout_below="@id/email_detail"
+        android:text="phone"
+        android:paddingTop="5dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_count_label2"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/phone_detail"
+        android:text=" people."
+        android:paddingTop="20dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_count_detail"
+        android:layout_below="@id/phone_detail"
+        android:layout_toLeftOf="@id/view_count_label2"
+        android:text="views"
+        android:paddingTop="20dp" />
+
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_count_label1"
+        android:layout_below="@id/phone_detail"
+        android:layout_toLeftOf="@id/view_count_detail"
+        android:text="Viewed by "
+        android:paddingTop="20dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/address_detail"
-        android:layout_alignParentBottom="true">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/post_edit"
-        android:id="@+id/button_post_edit"
-        android:visibility="gone"
-        android:drawableRight="@drawable/ic_edit_white_24dp"
-        android:theme="@style/ThemeOverlay.MyDarkButton"/>
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/post_edit"
+            android:id="@+id/button_post_edit"
+            android:visibility="gone"
+            android:drawableRight="@drawable/ic_edit_white_24dp"
+            android:theme="@style/ThemeOverlay.MyDarkButton"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/post_cancelled"
+            android:id="@+id/button_post_cancelled"
+            android:visibility="gone"
+            android:theme="@style/ThemeOverlay.RedButton"
+            android:drawableRight="@drawable/ic_lock_white_24dp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/post_cancelled"
-        android:id="@+id/button_post_cancelled"
-        android:visibility="gone"
-        android:theme="@style/ThemeOverlay.RedButton"
-        android:drawableRight="@drawable/ic_lock_white_24dp" />
     </LinearLayout>
 </RelativeLayout>
