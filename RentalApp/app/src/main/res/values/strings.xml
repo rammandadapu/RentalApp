@@ -79,8 +79,8 @@
     <string name="post_rent">Rent(USD)</string>
     <string name="post_rent_format">00000.00</string>
     <string name="post_edit">EDIT POST</string>
-    <string name="post_cancelled">SOLD OUT</string>
-
+    <string name="post_cancelled">MARK AS SOLD OUT</string>
+    <string name="post_available">MARK AS AVAILABLE</string>
     <!--address-->
     <string name="post_line">Enter Street Name</string>
     <string name="post_city">Enter City</string>
