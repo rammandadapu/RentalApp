@@ -134,17 +134,6 @@ public class NavActivity extends AppCompatActivity
             //userImageView.setImageURI(imageUri);
 
         }
-
-        if(savedInstanceState != null) {
-            fragment = getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "fragment", fragment);
     }
 
     @Override
