@@ -27,6 +27,7 @@ app.post('/postproperty', upload.array('photos', 12), function (req, res, next) 
 	fileupload.upload(req,res);
 	});
 app.post('/test',function(req,res){console.log(req.body);res.end();});
+app.post('/property/:pid/status/:status',properties.changePropertyStatus);
 
 
 

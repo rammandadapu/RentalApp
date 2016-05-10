@@ -6,6 +6,38 @@ var ObjectId = require('mongodb').ObjectID;
 var url = "mongodb://localhost:27017/rentalAppDB";
 var MongoClient = mongodb.MongoClient;
 
+exports.changePropertyStatus=function(req,res){
+	MongoClient.connect(url, function (err, db) {
+		  if (err) {
+		    console.log('Unable to connect to the mongoDB server. Error:', err);
+		  } else {		 
+		    console.log('Connection established to', url);
+		    console.log("B");
+		 
+		   
+		    var id  = req.param("pid");	
+		    var status  = req.param("status");
+		    var query  = {};
+		    query["_id"] = new ObjectId(id);
+		    var updateFields={};
+		    updateFields["status"]=status;
+		    var updateFieldsDocument={$set:updateFields};
+		    var collection = db.collection('property');	
+		    collection.update(query,updateFieldsDocument,function(err,result){
+		    	if (err) {
+			        console.log(err);
+			        res.send("failed");
+			      } else if (result) {  
+			         // console.log(result);
+			    	  res.send("OK");
+			      }
+			      //Close connection
+			      db.close();
+		    
+		    });	
+		  }
+	});
+};
 exports.getProperty = function(req, res) {
 	console.log("A");
 	MongoClient.connect(url, function (err, db) {
@@ -45,4 +77,4 @@ exports.getProperty = function(req, res) {
 		    });
 		  }
 		});
-}
+};
