@@ -3,7 +3,7 @@
  */
 var nodemailer = require('nodemailer');
 
-function sendMailHelper(callback, to, subject, body){
+exports.sendMailHelper=function (callback, to, subject, body){
 	var smtpTransport = nodemailer.createTransport("SMTP", {
 		service : "Gmail",
 		auth : {
