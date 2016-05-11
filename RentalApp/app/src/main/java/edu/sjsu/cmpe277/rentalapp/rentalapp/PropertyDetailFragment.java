@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyActivity;
+import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyFragment;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
@@ -40,6 +43,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     TextView phoneView;
     TextView viewCountView;
     TextView typeView;
+    TextView viewCountPrefixView;
+    TextView viewCountPostfixView;
 
     Button editButton;
     Button soldOutButton;
@@ -78,6 +83,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         emailView = (TextView) rootView.findViewById(R.id.email_detail);
         phoneView = (TextView) rootView.findViewById(R.id.phone_detail);
         viewCountView = (TextView) rootView.findViewById(R.id.view_count_detail);
+        viewCountPrefixView=(TextView)rootView.findViewById(R.id.view_count_label1);
+        viewCountPostfixView=(TextView)rootView.findViewById(R.id.view_count_label2);
 
         editButton=(Button)rootView.findViewById(R.id.button_post_edit);
         soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
@@ -125,9 +132,13 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                             descView.setText(map.get(DBHandler.TABLE_PROPERTY_DESC).toString());
                             emailView.setText(map.get(DBHandler.TABLE_PROPERTY_EMAIL).toString());
                             phoneView.setText(map.get(DBHandler.TABLE_PROPERTY_PHONE).toString());
-                            viewCountView.setText(map.get(DBHandler.TABLE_PROPERTY_VIEWCOUNT).toString());
+
                             if(map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail()))
                             {
+                                viewCountView.setText(map.get(DBHandler.TABLE_PROPERTY_VIEWCOUNT).toString());
+                                viewCountView.setVisibility(View.VISIBLE);
+                                viewCountPrefixView.setVisibility(View.VISIBLE);
+                                viewCountPostfixView.setVisibility(View.VISIBLE);
                                 editButton.setVisibility(View.VISIBLE);
                                 soldOutButton.setVisibility(View.VISIBLE);
                                 //Always next two line one after another
@@ -238,6 +249,11 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         handleSoldAvailableButton();
         postChangeToDB(propertStatus);
     }
+
+    private void showEditScreen(){
+        Intent intent=new Intent(getContext(),CreateNewPropertyActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void onClick(View v) {
 
@@ -247,7 +263,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getContext(),"Request Submitted",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_post_edit:
-
+                showEditScreen();
                 break;
 
         }
