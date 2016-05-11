@@ -125,6 +125,7 @@
         android:id="@+id/view_count_label2"
         android:layout_alignParentRight="true"
         android:layout_below="@id/phone_detail"
+        android:visibility="gone"
         android:text=" people."
         android:paddingTop="20dp" />
 
@@ -135,6 +136,7 @@
         android:id="@+id/view_count_detail"
         android:layout_below="@id/phone_detail"
         android:layout_toLeftOf="@id/view_count_label2"
+        android:visibility="gone"
         android:text="views"
         android:paddingTop="20dp" />
 
@@ -145,6 +147,7 @@
         android:id="@+id/view_count_label1"
         android:layout_below="@id/phone_detail"
         android:layout_toLeftOf="@id/view_count_detail"
+        android:visibility="gone"
         android:text="Viewed by "
         android:paddingTop="20dp" />
 
