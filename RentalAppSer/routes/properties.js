@@ -32,16 +32,6 @@ function getOwnerEmail(recordId,callback){
 	})
 }
 
-/***
- * TODO: While writing update need to send email also
- * 
- * 
- * 
- * 
- * 
- */
-
-
 
 exports.changePropertyStatus=function(req,res){
 	MongoClient.connect(url, function (err, db) {
@@ -81,6 +71,19 @@ exports.changePropertyStatus=function(req,res){
 		  }
 	});
 };
+
+/***
+ * TODO: While writing update need to send email also
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+function updateViewCount(propertyId,callback){
+	
+}
 exports.getProperty = function(req, res) {
 	console.log("A");
 	MongoClient.connect(url, function (err, db) {
@@ -109,8 +112,12 @@ exports.getProperty = function(req, res) {
 		      if (err) {
 		        console.log(err);
 		      } else if (result.length) {
-		          console.log('Found:', result);
-		          res.send(result);
+		    	   collection.update(query,{ $inc: { viewCount: 1}},function(err,updateResult){
+		    		   console.log('Found:', result);
+		    		   console.log('No of Views Update:', updateResult);
+				        res.send(result);
+		    	   })
+		          
 		      } else {
 		        console.log('No document(s) found with defined "find" criteria!');
 		        res.end("no results");
