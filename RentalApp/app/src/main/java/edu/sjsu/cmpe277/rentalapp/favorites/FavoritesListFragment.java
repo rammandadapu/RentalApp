@@ -28,10 +28,19 @@ public class FavoritesListFragment extends Fragment {
         dbHandler = new DBHandler(getActivity(),null,null,0);
         View view = inflater.inflate(R.layout.property_list, container, false);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
+        /*mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapterFavorites(getActivity(), dbHandler.getAllProperties());
+        mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        System.out.println(dbHandler.getAllProperties());*/
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapterFavorites(getActivity(), dbHandler.getAllProperties());
         mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         System.out.println(dbHandler.getAllProperties());
-        return view;
     }
 }

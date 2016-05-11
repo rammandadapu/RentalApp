@@ -23,6 +23,7 @@ exports.search = function(req, res) {
 		    var pricelow = req.query.pricelow;
 		    var pricehigh = req.query.pricehigh;
 		    var createdBy = req.query.createdBy;
+		    var status = "Available";
 		    
 		    var query = {};
 		    var total = [];
@@ -58,6 +59,10 @@ exports.search = function(req, res) {
 		    	//change to search all the text			   
 		    	query["desc"] = JSON.parse('{"$regex": ".*'+keyword+'.*", "$options": "i"}');		  
 		    }		  
+		    
+		    if(status !== undefined && status !== "") {
+		    	query["status"] = status;
+		    }
 		    
 		    var price = [];
 		    		    		  
