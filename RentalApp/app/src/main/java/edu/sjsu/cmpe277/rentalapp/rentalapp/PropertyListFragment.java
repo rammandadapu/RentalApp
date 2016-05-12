@@ -235,7 +235,13 @@ public class PropertyListFragment extends Fragment
             public void onClick(DialogInterface arg0, int arg1) {
                 isDialogOpen = false;
                 saveFilterValues();
-                startSearch();
+                locationFilter = location.getQuery().toString();
+                if(locationFilter == "") {
+                    Toast.makeText(getContext(),"Please enter a location",Toast.LENGTH_LONG);
+                }
+                else {
+                    startSearch();
+                }
             }
         });
 
