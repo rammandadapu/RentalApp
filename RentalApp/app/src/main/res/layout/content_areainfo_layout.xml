@@ -20,6 +20,7 @@
                 android:id="@+id/post_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_form_labels"
                 android:text="@string/post_area" />
 
             <EditText
@@ -47,6 +48,7 @@
                 android:id="@+id/post_apartment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_form_labels"
                 android:text="@string/post_apttype" />
 
             <Spinner
@@ -80,6 +82,7 @@
                 android:id="@+id/post_bedrooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_form_labels"
                 android:text="@string/post_bedrooms" />
 
             <Spinner
@@ -101,6 +104,7 @@
                 android:id="@+id/post_bathrooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_form_labels"
                 android:text="@string/post_bathrooms" />
 
             <Spinner
@@ -119,6 +123,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_form_labels"
                 android:text="@string/post_rent" />
 
             <EditText

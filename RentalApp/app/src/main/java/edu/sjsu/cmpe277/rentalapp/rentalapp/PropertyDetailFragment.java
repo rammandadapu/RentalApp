@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,10 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     private String propertStatus=STATUS_AVAILABLE;
     private String propertyIdentifier;
 
+
+    DBHandler dbHandler;
+    FloatingActionButton fab;
+
     CollapsingToolbarLayout appBarLayout;
     public PropertyDetailFragment() {
     }
@@ -72,7 +77,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.property_detail, container, false);
-
+        dbHandler=new DBHandler(getContext(),null,null,0);
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
@@ -85,6 +90,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         viewCountPrefixView=(TextView)rootView.findViewById(R.id.view_count_label1);
         viewCountPostfixView=(TextView)rootView.findViewById(R.id.view_count_label2);
 
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
         editButton=(Button)rootView.findViewById(R.id.button_post_edit);
         soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
         soldOutButton.setOnClickListener(this);
@@ -93,6 +100,33 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             //fetching code - START
             final String propertyId = getArguments().getString(ARG_ITEM_ID);
             propertyIdentifier=propertyId;
+            if(dbHandler.isFavourite(propertyId)) {
+                toggleFavouriteImage(true);
+            }
+            final View view=rootView;
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle extras = getActivity().getIntent().getExtras();
+                    final String propertyId = extras.getString("_id");
+                    if (!dbHandler.isFavourite(propertyId)) {
+                        RentalProperty rentalProperty = new RentalProperty();
+                        rentalProperty.set_id(propertyId);
+                        rentalProperty.setPrice(((TextView) view.findViewById(R.id.rent_detail)).getText().toString());
+                        rentalProperty.setBedBath(((TextView) view.findViewById(R.id.bed_bath_detail)).getText().toString());
+                        rentalProperty.setAddress(((TextView) view.findViewById(R.id.address_detail)).getText().toString());
+                        dbHandler.addProperty(rentalProperty);
+                        toggleFavouriteImage(true);
+                        Toast.makeText(getActivity().getApplicationContext(), "Added to saved houses", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dbHandler.deleteProperty(propertyId);
+                        toggleFavouriteImage(false);
+                        Toast.makeText(getActivity().getApplicationContext(), "Removed from saved houses", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
             //Toast.makeText(getContext(),"id:"+businessId,Toast.LENGTH_LONG).show();
             if (propertyId != null) {
                 new AsyncTask<String, String, HashMap>() {
@@ -158,6 +192,12 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
+    private void toggleFavouriteImage(boolean flag){
+        if(flag)
+            fab.setImageResource(R.mipmap.gold_star);
+        else
+            fab.setImageResource(R.mipmap.white_star);
+    }
     public HashMap processJson(String jsonStuff) throws JSONException {
         JSONArray jsonArray = new JSONArray(jsonStuff);
         JSONObject json = jsonArray.getJSONObject(0);
