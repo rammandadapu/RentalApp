@@ -5,8 +5,10 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
  */
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,6 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 
 public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
@@ -30,6 +33,7 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     ArrayList<String> businessNamesList;
 
     boolean connectionFailed;
+    private ProgressDialog mProgressDialog;
 
     SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
 
@@ -43,6 +47,15 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     }
 
     protected ArrayList doInBackground(String... params) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                showProgressDialog();
+
+            }
+        });
+
         WebService ws = new WebService();
         String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7],params[8]);
         System.out.println("lallalalalaaa "+properties);
@@ -77,6 +90,15 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
             recyclerView.setAdapter(mSimpleItemRecyclerViewAdapter);
             recyclerView.addItemDecoration(new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL_LIST));
         }
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                hideProgressDialog();
+
+            }
+        });
+
     }
 
     ArrayList processJson(String jsonStuff) throws JSONException {
@@ -117,5 +139,21 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
             e.printStackTrace();
         }
         return null;
+    }
+    private void showProgressDialog() {
+        //Looper.prepare();
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(activity);
+            mProgressDialog.setMessage(activity.getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 }
