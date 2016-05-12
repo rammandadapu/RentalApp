@@ -107,8 +107,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle extras = getActivity().getIntent().getExtras();
-                    final String propertyId = extras.getString("_id");
+                    //Bundle extras = getActivity().getIntent().getExtras();
+                    //final String propertyId = extras.getString("_id");
                     if (!dbHandler.isFavourite(propertyId)) {
                         RentalProperty rentalProperty = new RentalProperty();
                         rentalProperty.set_id(propertyId);
