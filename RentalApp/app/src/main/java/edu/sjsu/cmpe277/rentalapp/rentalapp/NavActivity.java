@@ -57,13 +57,13 @@ public class NavActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /**FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();*/
+                            .setAction("Action", null).show();
 
 
                     //code for notification START
@@ -97,7 +97,7 @@ public class NavActivity extends AppCompatActivity
                     //code for notification END
                 }
             });
-        }
+        }**/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,6 +108,8 @@ public class NavActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
         if(savedInstanceState == null) {
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
@@ -117,13 +119,17 @@ public class NavActivity extends AppCompatActivity
             setTitle(savedInstanceState.getString("title"));
         }
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(0!=extras.getInt("GOTO"))
+                onNavigationItemSelected(navigationView.getMenu().getItem(extras.getInt("GOTO")));
 
+        }
 
 
         userNameTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.username);
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
-        Bundle extras = getIntent().getExtras();
         GlobalPojo globalPojo=(GlobalPojo)getApplicationContext();
         userNameTextView.setText(globalPojo.getUserName());
         userEmailTextView.setText(globalPojo.getEmail());

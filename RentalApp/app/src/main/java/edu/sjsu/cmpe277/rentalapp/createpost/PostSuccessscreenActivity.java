@@ -97,6 +97,7 @@ public class PostSuccessscreenActivity extends AppCompatActivity implements View
 
     private void goHome(){
         Intent intent=new Intent(getApplicationContext(), NavActivity.class);
+        intent.putExtra("GOTO",1);
         startActivity(intent);
     }
     @Override

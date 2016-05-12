@@ -226,7 +226,8 @@ public class LoginActivity extends AppCompatActivity implements
             globalPojo.setUserName(acct.getDisplayName());
             globalPojo.setEmail(acct.getEmail());
             if(null!=acct.getPhotoUrl())
-            globalPojo.setImageUrl(acct.getPhotoUrl().toString());
+                globalPojo.setImageUrl(acct.getPhotoUrl().toString());
+            else globalPojo.setImageUrl(null);
 
             startActivity(intent);
         } else {
