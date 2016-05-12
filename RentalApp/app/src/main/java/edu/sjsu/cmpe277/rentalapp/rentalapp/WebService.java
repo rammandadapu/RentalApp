@@ -24,7 +24,7 @@ public class WebService {
     OAuthService service;
     HttpURLConnection urlConnection;
 
-    private static final String SERVER_URL = "http://10.0.2.2:1337/";
+    private static final String SERVER_URL = "http://52.8.47.162:1337/";
     private static final String LOCAL_URL = "http://127.0.0.1:1337/";
 
     /**
