@@ -113,6 +113,7 @@ public class NavActivity extends AppCompatActivity
         }
         else {
             propertySearch = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+            setTitle(savedInstanceState.getString("title"));
         }
 
 
@@ -152,6 +153,7 @@ public class NavActivity extends AppCompatActivity
         if (propertySearch != null && propertySearch.isAdded()) {
             getSupportFragmentManager().putFragment(outState, "mContent", propertySearch);
         }
+        outState.putString("title",getTitle().toString());
     }
 
     @Override
