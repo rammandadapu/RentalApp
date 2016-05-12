@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -236,8 +237,8 @@ public class PropertyListFragment extends Fragment
                 isDialogOpen = false;
                 saveFilterValues();
                 locationFilter = location.getQuery().toString();
-                if(locationFilter == "") {
-                    Toast.makeText(getContext(),"Please enter a location",Toast.LENGTH_LONG);
+                if(TextUtils.isEmpty(locationFilter)) {
+                    Toast.makeText(getContext(),"Please enter a location",Toast.LENGTH_LONG).show();
                 }
                 else {
                     startSearch();
