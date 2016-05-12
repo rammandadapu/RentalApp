@@ -30,7 +30,7 @@
     <application
         android:name=".pojo.GlobalPojo"
         android:allowBackup="true"
-        android:icon="@drawable/seek_thumb_pressed"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
