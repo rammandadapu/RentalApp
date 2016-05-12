@@ -78,14 +78,7 @@ public class WebService {
     public String postProperty(Property property) {
         try {
             OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
-            ObjectMapper objectMapper = new ObjectMapper();
-            String requestBody = null;
-            try {
-                requestBody = objectMapper.writeValueAsString(property);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            request.addBodyParameter("post", requestBody);
+            request.addBodyParameter("post", prepareJson( property));
             Response response = request.send();
             System.out.println(response.getBody());
             return response.getBody();
@@ -98,6 +91,17 @@ public class WebService {
             Log.e("Server con Fail",ex.getMessage());
         }
         return null;
+    }
+
+    private String prepareJson(Property property){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = null;
+        try {
+            requestBody = objectMapper.writeValueAsString(property);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return requestBody;
     }
 
     public String getPropertyDetails(String _id) {
@@ -119,6 +123,13 @@ public class WebService {
         return response.getBody();
     }
 
+    public void updateProperty(Property property, Property propertyId) {
+        String requestStr = SERVER_URL+"property/" + propertyId+"/update/";
+        OAuthRequest request = new OAuthRequest(Verb.PUT, requestStr);
+        request.addBodyParameter("post", prepareJson( property));
+        request.send();
+        //return response.getBody();
+    }
     /*public String searchProperties2() {
         StringBuilder result = new StringBuilder();
 
@@ -150,5 +161,7 @@ public class WebService {
 
         System.out.println(response);
     }
+
+
 }
 

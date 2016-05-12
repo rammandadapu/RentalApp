@@ -6,7 +6,7 @@
     android:padding="5dp"
     android:scrollbars="vertical"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".createpost.CreateNewPropertyActivity">
+    tools:context=".createpost.CreateNewPropertyFragment">
 
 
     <LinearLayout

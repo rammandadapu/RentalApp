@@ -4,29 +4,31 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
-import org.scribe.model.Response;
-
-import java.util.concurrent.ExecutionException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import edu.sjsu.cmpe277.rentalapp.R;
-import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.WebService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,12 +41,12 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
 public class CreateNewPropertyFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String PROPERTY_ID = "param1";
+
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String propertyId;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +67,9 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private Button submitButton;
     private String uniqueUserID;
 
+
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
     public CreateNewPropertyFragment() {
         // Required empty public constructor
     }
@@ -75,15 +79,13 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CreateNewPropertyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateNewPropertyFragment newInstance(String param1, String param2) {
+    public static CreateNewPropertyFragment newInstance(String param1) {
         CreateNewPropertyFragment fragment = new CreateNewPropertyFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(PROPERTY_ID, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,8 +94,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            propertyId = getArguments().getString(PROPERTY_ID);
         }
     }
 
@@ -105,15 +106,62 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.fragment_create_new_property, container, false);
         getUIReferance(view);
         setUIValidation();
-        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-        uniqueUserID=((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).getText().toString();
+        uniqueUserID = ((GlobalPojo) getActivity().getApplicationContext()).getEmail();
         submitButton.setOnClickListener(this);
-
-
+        if (!TextUtils.isEmpty(propertyId))
+            setUIValues();
         return view;
     }
 
-    private void getUIReferance(View view){
+    private void setUIValues() {
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                return new WebService().getPropertyDetails(params[0]);
+            }
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                try {
+                    processJson(response);
+                } catch (JSONException ex) {
+                    Log.d("Create New Property", ex.getMessage());
+                    System.out.print(ex);
+                }
+
+
+            }
+        }.execute(propertyId);
+    }
+
+    public void processJson(String jsonStuff) throws JSONException {
+        JSONArray jsonArray = new JSONArray(jsonStuff);
+        JSONObject json = jsonArray.getJSONObject(0);
+
+        try {
+
+            titleEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_TITLE));
+            detailsEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_DESC));
+            areaSftEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_SIZE));
+            apartmentTypeSpinner.setSelection(((ArrayAdapter) apartmentTypeSpinner.getAdapter()).getPosition(json.getString(DBHandler.TABLE_PROPERTY_TYPE)));
+            noOfBedRoomsSpinner.setSelection(((ArrayAdapter) noOfBedRoomsSpinner.getAdapter()).getPosition(json.getString(DBHandler.TABLE_PROPERTY_BED)));
+            noOfBathRoomsSpinner.setSelection(((ArrayAdapter) noOfBathRoomsSpinner.getAdapter()).getPosition(json.getString(DBHandler.TABLE_PROPERTY_BATH)));
+            rentAmountEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_PRICE));
+            phoneNoEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_PHONE));
+            emailEditText.setText(json.getString(DBHandler.TABLE_PROPERTY_EMAIL));
+            addressLineEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSLINE1));
+            cityEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY));
+            stateEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE));
+            zipCodeEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void getUIReferance(View view) {
         //start: getting UI elements ref
         titleEditText = (EditText) view.findViewById(R.id.post_name);
         detailsEditText = (EditText) view.findViewById(R.id.post_description);
@@ -133,24 +181,24 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     }
 
 
-    private void setUIValidation(){
-         final String ERROR_NOTEMPTY ="Can't be blank";
-         final String ERROR_INVALIDPHONE ="INVALID CONTACT";
-         final String ERROR_INVALIDEMAIL="INVALID EMAIL";
+    private void setUIValidation() {
+        final String ERROR_NOTEMPTY = "Can't be blank";
+        final String ERROR_INVALIDPHONE = "INVALID CONTACT";
+        final String ERROR_INVALIDEMAIL = "INVALID EMAIL";
 
 
         mAwesomeValidation.addValidation(titleEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(detailsEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
         mAwesomeValidation.addValidation(areaSftEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(rentAmountEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(emailEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(emailEditText,android.util.Patterns.EMAIL_ADDRESS, ERROR_INVALIDEMAIL);
-        mAwesomeValidation.addValidation(phoneNoEditText,RegexTemplate.TELEPHONE, ERROR_INVALIDPHONE);
-        mAwesomeValidation.addValidation(addressLineEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(cityEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(stateEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
-        mAwesomeValidation.addValidation(zipCodeEditText,RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(rentAmountEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(phoneNoEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(emailEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(emailEditText, android.util.Patterns.EMAIL_ADDRESS, ERROR_INVALIDEMAIL);
+        mAwesomeValidation.addValidation(phoneNoEditText, RegexTemplate.TELEPHONE, ERROR_INVALIDPHONE);
+        mAwesomeValidation.addValidation(addressLineEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(cityEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(stateEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
+        mAwesomeValidation.addValidation(zipCodeEditText, RegexTemplate.NOT_EMPTY, ERROR_NOTEMPTY);
 
     }
 
@@ -191,16 +239,27 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
      * Send data to server
      */
     private void submitToServer() {
-        if(mAwesomeValidation.validate()) {
-            Property property = getProperty();
-            new CreatePostTask(getContext()).execute(property);
+        if (mAwesomeValidation.validate()) {
+            final Property property = getProperty();
+            if (null == propertyId) {
+                new CreatePostTask(getContext()).execute(property);
+            } else {
+                new AsyncTask<Property, String, String>() {
+                    @Override
+                    protected String doInBackground(Property... params) {
+                        new WebService().updateProperty(params[0], property);
+                        return null;
+                    }
+                }.execute(property);
+            }
             clearForm();
             Intent intent = new Intent(getContext(), PostSuccessscreenActivity.class);
             startActivity(intent);
+
         }
     }
 
-    private void clearForm(){
+    private void clearForm() {
         titleEditText.setText("");
         detailsEditText.setText("");
         areaSftEditText.setText("");
@@ -212,16 +271,17 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         emailEditText.setText("");
         addressLineEditText.setText("");
         cityEditText.setText("");
-        stateEditText .setText("");
+        stateEditText.setText("");
         zipCodeEditText.setText("");
 
     }
 
     /**
      * To populate property object
+     *
      * @return
      */
-    private Property getProperty(){
+    private Property getProperty() {
         Property property = new Property();
         property.setName(titleEditText.getText().toString());
         property.setDescription(detailsEditText.getText().toString());
@@ -245,7 +305,6 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
 
         return property;
     }
-
 
 
     /**

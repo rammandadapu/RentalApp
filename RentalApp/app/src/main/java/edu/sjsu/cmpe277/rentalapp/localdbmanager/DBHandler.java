@@ -25,6 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_ADDRESSCITY = "city";
     public static final String TABLE_PROPERTY_ADDRESSSTATE = "state";
     public static final String TABLE_PROPERTY_ADDRESSZIP = "zip";
+    public static final String TABLE_PROPERTY_TITLE="name";
     public static final String TABLE_PROPERTY_PRICE = "price";
     public static final String TABLE_PROPERTY_BEDBATH = "bed_bath";
     public static final String TABLE_PROPERTY_BED = "bedNo";

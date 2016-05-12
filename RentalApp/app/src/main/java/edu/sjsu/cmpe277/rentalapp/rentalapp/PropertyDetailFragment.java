@@ -252,6 +252,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
     private void showEditScreen(){
         Intent intent=new Intent(getContext(),CreateNewPropertyActivity.class);
+        intent.putExtra("_id",propertyIdentifier);
         startActivity(intent);
     }
     @Override
