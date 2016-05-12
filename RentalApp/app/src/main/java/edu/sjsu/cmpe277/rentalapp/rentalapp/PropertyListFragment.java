@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Range;
 import android.view.LayoutInflater;
@@ -64,7 +65,16 @@ public class PropertyListFragment extends Fragment
         setHasOptionsMenu(true);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
         emptyView = (TextView)view.findViewById(R.id.empty_view);
-
+        if (view.findViewById(R.id.property_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            NavActivity.mTwoPane = true;
+        }
+        else {
+            NavActivity.mTwoPane = false;
+        }
 
        /*if(filtersInitialized == false) {
             setDefaultFilterValues();
@@ -72,6 +82,8 @@ public class PropertyListFragment extends Fragment
 
         return view;
     }
+
+
 
     //Not required - will work even if this code is removed - START
     @Override
@@ -152,7 +164,7 @@ public class PropertyListFragment extends Fragment
     {
         //searchTerm = query;
         locationFilter = query;
-        new PropertySearchTask(getActivity(), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
+        new PropertySearchTask(((AppCompatActivity) getActivity()), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
@@ -251,7 +263,7 @@ public class PropertyListFragment extends Fragment
     }
 
     private void startSearch() {
-        new PropertySearchTask(getActivity(), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
+        new PropertySearchTask(((AppCompatActivity) getActivity()), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
                 String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
         System.out.println("keyword filter" + keywordFilter);
     }

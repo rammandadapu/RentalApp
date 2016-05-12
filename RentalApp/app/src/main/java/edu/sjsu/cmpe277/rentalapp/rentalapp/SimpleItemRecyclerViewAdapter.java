@@ -1,8 +1,10 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +27,11 @@ import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-    private Context context;
+    private AppCompatActivity activity;
     private final ArrayList mValues;
 
-    public SimpleItemRecyclerViewAdapter(Context context, ArrayList items) {
-        this.context = context;
+    public SimpleItemRecyclerViewAdapter(AppCompatActivity activity, ArrayList items) {
+        this.activity = activity;
         mValues = items;
     }
 
@@ -57,7 +59,7 @@ public class SimpleItemRecyclerViewAdapter
                     arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
                     PropertyDetailFragment fragment = new PropertyDetailFragment();
                     fragment.setArguments(arguments);
-                    ((NavActivity)context).getSupportFragmentManager().beginTransaction()
+                    (activity).getSupportFragmentManager().beginTransaction()
                             .replace(R.id.property_detail_container, fragment)
                             .commit();
                 } else {

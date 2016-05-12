@@ -4,15 +4,12 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
  * Created by divya.chittimalla on 3/20/16.
  */
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -22,12 +19,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.sjsu.cmpe277.rentalapp.R;
-
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 
 public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
-    private Context context;
+    private AppCompatActivity activity;
     RecyclerView recyclerView;
     TextView emptyView;
     ArrayList<HashMap<String, String>> oslist;
@@ -38,8 +33,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
     SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
 
-    public PropertySearchTask(Context context, RecyclerView recyclerView, TextView emptyView) {
-        this.context = context.getApplicationContext();
+    public PropertySearchTask(AppCompatActivity activity, RecyclerView recyclerView, TextView emptyView) {
+        this.activity = activity;
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
         oslist = new ArrayList<HashMap<String, String>>();
@@ -78,9 +73,9 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
         else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
-            mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(context, list);
+            mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(activity, list);
             recyclerView.setAdapter(mSimpleItemRecyclerViewAdapter);
-            recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+            recyclerView.addItemDecoration(new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL_LIST));
         }
     }
 

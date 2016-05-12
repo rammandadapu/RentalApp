@@ -118,13 +118,7 @@ public class NavActivity extends AppCompatActivity
         }
 
 
-        if (findViewById(R.id.property_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+
 
         userNameTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.username);
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
