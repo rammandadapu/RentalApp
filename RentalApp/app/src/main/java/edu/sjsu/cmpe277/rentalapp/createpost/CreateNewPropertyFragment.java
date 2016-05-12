@@ -66,7 +66,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
 
     private Button submitButton;
     private String uniqueUserID;
-
+    private int noOfViews=0;
 
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -154,6 +154,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             cityEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY));
             stateEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE));
             zipCodeEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP));
+            noOfViews=json.getInt(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -301,6 +303,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.getAddress().setState(stateEditText.getText().toString());
         property.getAddress().setZip(zipCodeEditText.getText().toString());
         property.setUniqueUserId(uniqueUserID);
+        property.setNoOfViwes(noOfViews);
         property.setStatus(PropertyDetailFragment.STATUS_AVAILABLE);
 
         return property;

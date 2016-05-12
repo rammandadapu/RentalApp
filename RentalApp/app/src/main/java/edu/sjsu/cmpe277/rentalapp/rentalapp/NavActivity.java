@@ -28,6 +28,7 @@ import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.createpost.UserPostHistoryFragment;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
+import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 
 import android.graphics.drawable.Drawable;
 
@@ -129,22 +130,14 @@ public class NavActivity extends AppCompatActivity
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
         Bundle extras = getIntent().getExtras();
-        if (null != extras) {
-            userName = extras.getString("username");
-            userMail=extras.getString("email");
-            if(null!=extras.get("imageuri")) {
-                String imageUri = extras.get("imageuri").toString();
-                download(imageUri, userImageView);
-            }
-            if(!TextUtils.isEmpty(userName))
-               userNameTextView.setText(userName);
-            if(!TextUtils.isEmpty(userMail))
-               userEmailTextView.setText(userMail);
-
-
-            //userImageView.setImageURI(imageUri);
-
+        GlobalPojo globalPojo=(GlobalPojo)getApplicationContext();
+        userNameTextView.setText(globalPojo.getUserName());
+        userEmailTextView.setText(globalPojo.getEmail());
+        if(null!=globalPojo.getImageUrl()) {
+                download(globalPojo.getImageUrl(), userImageView);
         }
+
+
     }
 
     @Override

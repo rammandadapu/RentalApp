@@ -225,9 +225,8 @@ public class LoginActivity extends AppCompatActivity implements
             GlobalPojo globalPojo= (GlobalPojo)getApplicationContext();
             globalPojo.setUserName(acct.getDisplayName());
             globalPojo.setEmail(acct.getEmail());
-            intent.putExtra("username",acct.getDisplayName());
-            intent.putExtra("email",acct.getEmail());
-            intent.putExtra("imageuri",acct.getPhotoUrl());
+            globalPojo.setImageUrl(acct.getPhotoUrl().toString());
+
             startActivity(intent);
         } else {
             //mStatusTextView.setText(R.string.signed_out);
