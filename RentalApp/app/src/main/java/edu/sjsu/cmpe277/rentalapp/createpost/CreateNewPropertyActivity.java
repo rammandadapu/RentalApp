@@ -19,13 +19,30 @@ public class CreateNewPropertyActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+        // savedInstanceState is non-null when there is fragment state
+        // saved from previous configurations of this activity
+        // (e.g. when rotating the screen from portrait to landscape).
+        // In this case, the fragment will automatically be re-added
+        // to its container so we don't need to manually add it.
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+
+            Bundle extras=getIntent().getExtras();
+            String propertyId=null;
+            if(null!=extras) {
+                 propertyId = extras.getString("_id");
+
             }
-        });
+
+
+            CreateNewPropertyFragment fragment =  CreateNewPropertyFragment.newInstance(propertyId);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.new_property_container, fragment)
+                    .commit();
+        }
     }
 
 }
