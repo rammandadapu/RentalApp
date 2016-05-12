@@ -61,7 +61,7 @@ exports.changePropertyStatus=function(req,res){
 			    		  res.send("OK");
 			    		  //Close connection
 					      db.close();
-			    	  },email,"Notification from Team7 App","Your post has been updated")
+			    	  },email,"Notification from Team7 App","Your post status has been updated..!")
 			    	  
 			      });
 			     
@@ -72,16 +72,51 @@ exports.changePropertyStatus=function(req,res){
 	});
 };
 
-/***
- * TODO: While writing update need to send email also
- * 
- * 
- * 
- * 
- * 
- */
 
-function updateViewCount(propertyId,callback){
+
+exports.updateProperty=function(req,res){
+	
+	MongoClient.connect(url, function (err, db) {
+		  if (err) {
+		    console.log('Unable to connect to the mongoDB server. Error:', err);
+		  } else {		 
+		    console.log('Connection established to', url);
+		    var collection = db.collection('property');		    		   
+
+		    var newPost  = JSON.parse(req.body.post);	
+		    var id  = req.param("pid");	
+		    //console.log(id);
+		    
+		    var query  = {};
+		    
+		    if(id !== undefined && id !== "") {	
+		    	//change to search all the text			   
+		    	query["_id"] = new ObjectId(id);	  
+		    }
+		    
+		    collection.update(query,newPost,function (err, result) {
+		      if (err) {
+		        console.log(err);
+		      } else{
+		    	  console.log(result);	
+		    	  getOwnerEmail(id,function(email){
+			    	  mailcomponent.sendMailHelper(function(response){
+			    		  res.send("OK");
+			    		  //Close connection
+					      db.close();
+			    	  },email,"Notification from Team7 App","Your post has been updated successfully ")
+			    	  
+			      });
+		    	  
+		    	 
+		      } 
+		      //Close connection
+		      db.close();
+		    });
+		  }
+		});
+	
+	
 	
 }
 exports.getProperty = function(req, res) {
