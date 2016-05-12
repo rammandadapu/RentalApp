@@ -108,6 +108,8 @@ public class NavActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
         if(savedInstanceState == null) {
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
@@ -117,13 +119,17 @@ public class NavActivity extends AppCompatActivity
             setTitle(savedInstanceState.getString("title"));
         }
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(0!=extras.getInt("GOTO"))
+                onNavigationItemSelected(navigationView.getMenu().getItem(extras.getInt("GOTO")));
 
+        }
 
 
         userNameTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.username);
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
-        Bundle extras = getIntent().getExtras();
         GlobalPojo globalPojo=(GlobalPojo)getApplicationContext();
         userNameTextView.setText(globalPojo.getUserName());
         userEmailTextView.setText(globalPojo.getEmail());
