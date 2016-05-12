@@ -230,6 +230,7 @@ public class LoginActivity extends AppCompatActivity implements
             else globalPojo.setImageUrl(null);
 
             startActivity(intent);
+            finish();
         } else {
             //mStatusTextView.setText(R.string.signed_out);
 
