@@ -25,7 +25,7 @@ public class CreateNewPropertyActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Edit Property");
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
 
         // savedInstanceState is non-null when there is fragment state
