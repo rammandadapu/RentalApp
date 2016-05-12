@@ -216,6 +216,8 @@ public class PropertyListFragment extends Fragment
 
         alertDialogBuilder.setNeutralButton("Reset filters", null);
 
+        alertDialogBuilder.setCancelable(false);
+
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
