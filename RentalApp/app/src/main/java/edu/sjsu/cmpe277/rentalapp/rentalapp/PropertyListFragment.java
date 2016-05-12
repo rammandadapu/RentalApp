@@ -112,6 +112,7 @@ public class PropertyListFragment extends Fragment
         if (isDialogOpen) {
             saveFilterValues();
         }
+        outState.putString("location", locationFilter);
         outState.putString("keyword", keywordFilter);
         outState.putBoolean("condo", condoFilter);
         outState.putBoolean("house", houseFilter);
@@ -129,6 +130,7 @@ public class PropertyListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if(savedInstanceState != null) {
+            locationFilter = savedInstanceState.getString("location");
             keywordFilter = savedInstanceState.getString("keyword");
             condoFilter = savedInstanceState.getBoolean("condo");
             houseFilter = savedInstanceState.getBoolean("house");
@@ -175,6 +177,7 @@ public class PropertyListFragment extends Fragment
     @Override
     public boolean onQueryTextChange(String newText)
     {
+        locationFilter = newText;
         if(newText.equals("")){
             //this.onQueryTextSubmit("");
             //setLocationFilterToCurrentCity();
@@ -189,7 +192,7 @@ public class PropertyListFragment extends Fragment
     public boolean onQueryTextSubmit(String query)
     {
         //searchTerm = query;
-        locationFilter = query;
+        //locationFilter = query;
         new PropertySearchTask(((AppCompatActivity) getActivity()), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -287,6 +290,7 @@ public class PropertyListFragment extends Fragment
     }
 
     private void saveFilterValues() {
+        locationFilter = location.getQuery().toString();
         keywordFilter = keyword.getText().toString();
         condoFilter = condo.isChecked();
         apartmentFilter = apartment.isChecked();
@@ -303,6 +307,9 @@ public class PropertyListFragment extends Fragment
     }
 
     private void setViewFromFilterValues() {
+        if(location != null) {
+            location.setQuery(locationFilter, false);
+        }
         keyword.setText(keywordFilter);
         condo.setChecked(condoFilter);
         apartment.setChecked(apartmentFilter);
