@@ -126,7 +126,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/phone_detail"
         android:visibility="gone"
-        android:text=" people."
+        android:text=" times."
         android:paddingTop="20dp" />
 
     <TextView
@@ -148,7 +148,7 @@
         android:layout_below="@id/phone_detail"
         android:layout_toLeftOf="@id/view_count_detail"
         android:visibility="gone"
-        android:text="Viewed by "
+        android:text="Viewed "
         android:paddingTop="20dp" />
 
     <LinearLayout
