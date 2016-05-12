@@ -123,7 +123,7 @@ public class WebService {
         return response.getBody();
     }
 
-    public void updateProperty(Property property, Property propertyId) {
+    public void updateProperty(Property property, String propertyId) {
         String requestStr = SERVER_URL+"property/" + propertyId+"/update/";
         OAuthRequest request = new OAuthRequest(Verb.PUT, requestStr);
         request.addBodyParameter("post", prepareJson( property));
