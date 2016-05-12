@@ -66,9 +66,9 @@ public class PropertyListFragment extends Fragment
         emptyView = (TextView)view.findViewById(R.id.empty_view);
 
 
-       if(filtersInitialized == false) {
+       /*if(filtersInitialized == false) {
             setDefaultFilterValues();
-       }
+       }*/
 
         return view;
     }
@@ -76,7 +76,13 @@ public class PropertyListFragment extends Fragment
     //Not required - will work even if this code is removed - START
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        //outState.putString("keyword",keywordFilter);
+        outState.putString("keyword",keywordFilter);
+        outState.putBoolean("condo", condoFilter);
+        outState.putBoolean("house",houseFilter);
+        outState.putBoolean("apartment",apartmentFilter);
+        outState.putBoolean("townhouse",townhouseFilter);
+        outState.putString("pricelow",priceLowFilter);
+        outState.putString("pricehigh",priceHighFilter);
         super.onSaveInstanceState(outState);
     }
 
@@ -84,7 +90,17 @@ public class PropertyListFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null) {
-            //keywordFilter = savedInstanceState.getString("keyword");
+            keywordFilter = savedInstanceState.getString("keyword");
+            condoFilter = savedInstanceState.getBoolean("condo");
+            houseFilter = savedInstanceState.getBoolean("house");
+            apartmentFilter = savedInstanceState.getBoolean("apartment");
+            townhouseFilter = savedInstanceState.getBoolean("townhouse");
+            priceLowFilter = savedInstanceState.getString("pricelow");
+            priceHighFilter = savedInstanceState.getString("pricehigh");
+        }
+        else {
+            if(!filtersInitialized)
+                setDefaultFilterValues();
         }
     }
     //Not required - will work even if this code is removed - END
@@ -166,7 +182,7 @@ public class PropertyListFragment extends Fragment
             alertDialogBuilder.setPositiveButton("View results", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
-                    getFilterValues();
+                    saveFilterValuesAndStartSearch();
                 }
             });
 
@@ -209,7 +225,7 @@ public class PropertyListFragment extends Fragment
         //setFilterValues();
     }
 
-    private void getFilterValues() {
+    private void saveFilterValuesAndStartSearch() {
         keywordFilter = keyword.getText().toString();
         condoFilter = condo.isChecked();
         apartmentFilter = apartment.isChecked();

@@ -47,6 +47,8 @@ public class NavActivity extends AppCompatActivity
 
     Fragment propertySearch;
 
+    Fragment mContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +107,14 @@ public class NavActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        if(savedInstanceState == null) {
+            navigationView.getMenu().getItem(0).setChecked(true);
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        }
+        else {
+            propertySearch = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+        }
+
 
         if (findViewById(R.id.property_detail_container) != null) {
             // The detail container view will be present only in the
@@ -136,6 +144,12 @@ public class NavActivity extends AppCompatActivity
             //userImageView.setImageURI(imageUri);
 
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, "mContent", propertySearch);
     }
 
     @Override
