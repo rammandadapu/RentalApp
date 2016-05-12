@@ -90,7 +90,7 @@
 
     <!--Apartment Type-->
     <string name="house">House</string>
-    <string name="townhouse">Town House</string>
+    <string name="townhouse">Townhsouse</string>
     <string name="apartment">Apartment</string>
     <string name="condo">Condo</string>
     <!--end apartment-->
