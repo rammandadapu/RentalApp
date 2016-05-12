@@ -53,6 +53,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     public  static final String STATUS_SOLD="SOLD";
     private String propertStatus=STATUS_AVAILABLE;
     private String propertyIdentifier;
+
+    CollapsingToolbarLayout appBarLayout;
     public PropertyDetailFragment() {
     }
 
@@ -61,10 +63,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            //appBarLayout.setTitle(mItem.content);
-        }
+        appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         globalPojo=(GlobalPojo)getActivity().getApplicationContext();
         System.out.print("*****"+globalPojo.getEmail());
     }
@@ -133,6 +132,10 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                             emailView.setText(map.get(DBHandler.TABLE_PROPERTY_EMAIL).toString());
                             phoneView.setText(map.get(DBHandler.TABLE_PROPERTY_PHONE).toString());
 
+                            if (appBarLayout != null) {
+                                appBarLayout.setTitle(map.get(DBHandler.TABLE_PROPERTY_NAME).toString());
+                            }
+
                             if(map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail()))
                             {
                                 viewCountView.setText(map.get(DBHandler.TABLE_PROPERTY_VIEWCOUNT).toString());
@@ -178,6 +181,10 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             String desc = json.getString(DBHandler.TABLE_PROPERTY_DESC);
             String viewCount = json.getString(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
             String status=json.getString(DBHandler.TABLE_PROPERTY_STATUS);
+            String name = "Details";
+            if(json.has(DBHandler.TABLE_PROPERTY_NAME)) {
+                name = json.getString(DBHandler.TABLE_PROPERTY_NAME);
+            }
             //String image_url = c.getString("image_url");
 
             // Adding value HashMap key => value
@@ -196,7 +203,9 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             map.put(DBHandler.TABLE_PROPERTY_DESC, desc);
             map.put(DBHandler.TABLE_PROPERTY_VIEWCOUNT, viewCount);
 
+
             map.put(DBHandler.TABLE_PROPERTY_STATUS, status);
+            map.put(DBHandler.TABLE_PROPERTY_NAME, name);
             //map.put("image_url", image_url);
 
             System.out.println("MAP: " + map.toString());

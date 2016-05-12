@@ -20,6 +20,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
     public static final String TABLE_PROPERTY_ID = "_id";
+    public static final String TABLE_PROPERTY_NAME = "name";
     public static final String TABLE_PROPERTY_ADDRESS = "address";
     public static final String TABLE_PROPERTY_ADDRESSLINE1 = "line1";
     public static final String TABLE_PROPERTY_ADDRESSCITY = "city";
