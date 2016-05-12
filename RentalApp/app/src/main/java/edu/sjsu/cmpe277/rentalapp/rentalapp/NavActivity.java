@@ -149,7 +149,9 @@ public class NavActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", propertySearch);
+        if (propertySearch != null && propertySearch.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, "mContent", propertySearch);
+        }
     }
 
     @Override
