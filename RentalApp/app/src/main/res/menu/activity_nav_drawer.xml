@@ -14,21 +14,21 @@
             android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Saved houses" />
-        <item
+        <!--<item
             android:id="@+id/nav_saved_searches"
             android:icon="@drawable/ic_find_in_page_24dp"
             android:title="Saved searches" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Manage your account" />
+            android:title="Manage your account" />-->
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_remove_black_24dp"
             android:title="Logout" />
     </group>
 
-    <item android:title="Communicate">
+    <!--<item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -39,6 +39,6 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>
-    </item>
+    </item>-->
 
 </menu>

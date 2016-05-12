@@ -11,6 +11,7 @@ import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.DividerItemDecoration;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
 
 /**
@@ -28,6 +29,16 @@ public class FavoritesListFragment extends Fragment {
         dbHandler = new DBHandler(getActivity(),null,null,0);
         View view = inflater.inflate(R.layout.property_list, container, false);
         mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
+        if (view.findViewById(R.id.property_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            NavActivity.mTwoPane = true;
+        }
+        else {
+            NavActivity.mTwoPane = false;
+        }
         /*mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapterFavorites(getActivity(), dbHandler.getAllProperties());
         mRecycleView.setAdapter(mSimpleItemRecyclerViewAdapter);
         mRecycleView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));

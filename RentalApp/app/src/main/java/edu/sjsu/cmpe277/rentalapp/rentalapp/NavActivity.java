@@ -197,12 +197,12 @@ public class NavActivity extends AppCompatActivity
             case R.id.nav_favorites:
                 fragment = new FavoritesListFragment();
                 break;
-            case R.id.nav_saved_searches:
+            /**case R.id.nav_saved_searches:
                 fragment = new PropertyListFragment();
                 break;
             case R.id.nav_manage:
                 fragment = new PropertyListFragment();
-                break;
+                break;*/
             case  R.id.nav_logout:
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.putExtra("logout",true);
