@@ -51,7 +51,7 @@ public class PropertyListFragment extends Fragment
     boolean townhouseFilter;
 
     boolean filtersInitialized;
-
+    boolean isDialogOpen;
 
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
@@ -76,13 +76,18 @@ public class PropertyListFragment extends Fragment
     //Not required - will work even if this code is removed - START
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        if(isDialogOpen) {
+            saveFilterValues();
+        }
         outState.putString("keyword",keywordFilter);
         outState.putBoolean("condo", condoFilter);
-        outState.putBoolean("house",houseFilter);
-        outState.putBoolean("apartment",apartmentFilter);
-        outState.putBoolean("townhouse",townhouseFilter);
-        outState.putString("pricelow",priceLowFilter);
+        outState.putBoolean("house", houseFilter);
+        outState.putBoolean("apartment", apartmentFilter);
+        outState.putBoolean("townhouse", townhouseFilter);
+        outState.putString("pricelow", priceLowFilter);
         outState.putString("pricehigh",priceHighFilter);
+        outState.putBoolean("dialog",isDialogOpen);
+        outState.putBoolean("filtersinitialized",filtersInitialized);
         super.onSaveInstanceState(outState);
     }
 
@@ -97,6 +102,10 @@ public class PropertyListFragment extends Fragment
             townhouseFilter = savedInstanceState.getBoolean("townhouse");
             priceLowFilter = savedInstanceState.getString("pricelow");
             priceHighFilter = savedInstanceState.getString("pricehigh");
+            filtersInitialized = savedInstanceState.getBoolean("filtersinitialized");
+            if(savedInstanceState.getBoolean("dialog")) {
+                showDialog();
+            }
         }
         else {
             if(!filtersInitialized)
@@ -160,56 +169,62 @@ public class PropertyListFragment extends Fragment
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.sort) {
-
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View searchFilterDialog = inflater.inflate(R.layout.search_filter_dialog, null, false);
-
-            keyword = (EditText) searchFilterDialog.findViewById(R.id.keyword_filter);
-            house = (CheckBox) searchFilterDialog.findViewById(R.id.house_checkbox);
-            townhouse = (CheckBox) searchFilterDialog.findViewById(R.id.townhouse_checkbox);
-            apartment = (CheckBox) searchFilterDialog.findViewById(R.id.apartment_checkbox);
-            condo = (CheckBox) searchFilterDialog.findViewById(R.id.condo_checkbox);
-            price = (RangeSeekBar) searchFilterDialog.findViewById(R.id.price_range_filter);
-
-            setFilterValues();
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-            alertDialogBuilder.setView(searchFilterDialog);
-
-            alertDialogBuilder.setCancelable(true);
-
-            alertDialogBuilder.setPositiveButton("View results", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    saveFilterValuesAndStartSearch();
-                }
-            });
-
-            alertDialogBuilder.setNeutralButton("Reset filters", null);
-
-            final AlertDialog alertDialog = alertDialogBuilder.create();
-
-            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                  @Override
-                  public void onShow(DialogInterface dialog) {
-
-                      Button b = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                      b.setOnClickListener(new View.OnClickListener() {
-
-                          @Override
-                          public void onClick(View view) {
-                              setDefaultFilterValues();
-                              setFilterValues();
-                          }
-                      });
-                  }
-              });
-
-            alertDialog.show();
+            showDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialog() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View searchFilterDialog = inflater.inflate(R.layout.search_filter_dialog, null, false);
+
+        keyword = (EditText) searchFilterDialog.findViewById(R.id.keyword_filter);
+        house = (CheckBox) searchFilterDialog.findViewById(R.id.house_checkbox);
+        townhouse = (CheckBox) searchFilterDialog.findViewById(R.id.townhouse_checkbox);
+        apartment = (CheckBox) searchFilterDialog.findViewById(R.id.apartment_checkbox);
+        condo = (CheckBox) searchFilterDialog.findViewById(R.id.condo_checkbox);
+        price = (RangeSeekBar) searchFilterDialog.findViewById(R.id.price_range_filter);
+
+        setViewFromFilterValues();
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+        alertDialogBuilder.setView(searchFilterDialog);
+
+        alertDialogBuilder.setCancelable(true);
+
+        alertDialogBuilder.setPositiveButton("View results", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                isDialogOpen = false;
+                saveFilterValues();
+                startSearch();
+            }
+        });
+
+        alertDialogBuilder.setNeutralButton("Reset filters", null);
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialog) {
+
+                Button b = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        setDefaultFilterValues();
+                        setViewFromFilterValues();
+                    }
+                });
+            }
+        });
+
+        alertDialog.show();
+        isDialogOpen = true;
     }
 
     private void setDefaultFilterValues() {
@@ -225,7 +240,7 @@ public class PropertyListFragment extends Fragment
         //setFilterValues();
     }
 
-    private void saveFilterValuesAndStartSearch() {
+    private void saveFilterValues() {
         keywordFilter = keyword.getText().toString();
         condoFilter = condo.isChecked();
         apartmentFilter = apartment.isChecked();
@@ -233,13 +248,15 @@ public class PropertyListFragment extends Fragment
         houseFilter = house.isChecked();
         priceLowFilter = price.getSelectedMinValue().toString();
         priceHighFilter = price.getSelectedMaxValue().toString();
+    }
 
+    private void startSearch() {
         new PropertySearchTask(getActivity(), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter,
                 String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
         System.out.println("keyword filter" + keywordFilter);
     }
 
-    private void setFilterValues() {
+    private void setViewFromFilterValues() {
         keyword.setText(keywordFilter);
         condo.setChecked(condoFilter);
         apartment.setChecked(apartmentFilter);
