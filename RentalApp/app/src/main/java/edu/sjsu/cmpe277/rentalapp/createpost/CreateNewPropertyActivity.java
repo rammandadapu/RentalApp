@@ -3,6 +3,7 @@ package edu.sjsu.cmpe277.rentalapp.createpost;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,6 +19,12 @@ public class CreateNewPropertyActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Edit Property");
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
 
@@ -44,5 +51,6 @@ public class CreateNewPropertyActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
 
 }
