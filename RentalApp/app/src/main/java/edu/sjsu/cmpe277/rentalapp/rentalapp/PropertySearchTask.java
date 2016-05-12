@@ -85,6 +85,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     }
 
     ArrayList processJson(String jsonStuff) throws JSONException {
+        if("no results".equalsIgnoreCase(jsonStuff))
+            return null;
         try {
                 JSONArray result = new JSONArray(jsonStuff);
                 for (int i = 0; i < result.length(); i++) {
