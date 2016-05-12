@@ -60,7 +60,7 @@ exports.search = function(req, res) {
 		    	query["desc"] = JSON.parse('{"$regex": ".*'+keyword+'.*", "$options": "i"}');		  
 		    }		  
 		    
-		    if(status !== undefined && status !== "" &&(createdBy !== undefined && createdBy !== "")) {
+		    if(status !== undefined && status !== "" &&(createdBy == undefined || createdBy == "")) {
 		    	query["status"] = status;
 		    }
 		    
