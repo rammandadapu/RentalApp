@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -55,6 +56,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     private String propertStatus=STATUS_AVAILABLE;
     private String propertyIdentifier;
 
+    private ProgressDialog mProgressDialog;
+
 
     DBHandler dbHandler;
     FloatingActionButton fab;
@@ -76,6 +79,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.property_detail, container, false);
         dbHandler=new DBHandler(getContext(),null,null,0);
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
@@ -129,14 +133,13 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
             //Toast.makeText(getContext(),"id:"+businessId,Toast.LENGTH_LONG).show();
             if (propertyId != null) {
+
                 new AsyncTask<String, String, HashMap>() {
 
                     @Override
                     protected void onPreExecute() {
                         super.onPreExecute();
-                        //progressDialog = new ProgressDialog(getActivity());
-                        //progressDialog.setMessage("Loading...");
-                        //progressDialog.show();
+                        showProgressDialog();
                     }
 
                     @Override
@@ -154,7 +157,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                     @Override
                     protected void onPostExecute(HashMap map) {
                         super.onPostExecute(map);
-                        //progressDialog.dismiss();
+                        hideProgressDialog();
                         try {
                             NumberFormat format = NumberFormat.getCurrencyInstance();
                             rentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE).toString())));
@@ -187,8 +190,10 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                         }
                     }
                 }.execute();
+
             }
         }
+
         return rootView;
     }
 
@@ -259,6 +264,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
 
     private void postChangeToDB(String propertStatus){
+        showProgressDialog();
         new AsyncTask<String,String,String>(){
             @Override
             protected String doInBackground(String... params) {
@@ -266,6 +272,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
             }
         }.execute(propertStatus);
+        hideProgressDialog();
     }
 
     private void setIcon(int icon){
@@ -316,6 +323,23 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                 showEditScreen();
                 break;
 
+        }
+    }
+
+    private void showProgressDialog() {
+        //Looper.prepare();
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage(getActivity().getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
         }
     }
 }
