@@ -4,11 +4,8 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
  * Created by divya.chittimalla on 3/20/16.
  */
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -44,9 +41,6 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
         oslist = new ArrayList<HashMap<String, String>>();
         busineesIdList=new ArrayList<>();
         businessNamesList=new ArrayList<>();
-    }
-
-    protected ArrayList doInBackground(String... params) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -55,6 +49,10 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
             }
         });
+    }
+
+    protected ArrayList doInBackground(String... params) {
+
 
         WebService ws = new WebService();
         String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7],params[8]);

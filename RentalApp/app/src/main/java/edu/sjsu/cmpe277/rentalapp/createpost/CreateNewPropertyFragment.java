@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -63,7 +64,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private EditText cityEditText;
     private EditText stateEditText;
     private EditText zipCodeEditText;
-
+    private ProgressDialog mProgressDialog;
     private Button submitButton;
     private String uniqueUserID;
     private int noOfViews=0;
@@ -248,14 +249,29 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             } else {
                 new AsyncTask<Property, String, String>() {
                     @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        showProgressDialog();
+
+                    }
+
+                    @Override
                     protected String doInBackground(Property... params) {
                         new WebService().updateProperty(params[0], propertyId);
                         return null;
                     }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                        hideProgressDialog();
+                    }
                 }.execute(property);
+
             }
-            clearForm();
+
             Intent intent = new Intent(getContext(), PostSuccessscreenActivity.class);
+            clearForm();
             startActivity(intent);
 
         }
@@ -293,7 +309,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.setType(apartmentTypeSpinner.getSelectedItem().toString());
         property.setNoOfBedRooms(noOfBedRoomsSpinner.getSelectedItemPosition() + 1);
         property.setNoOfBathRooms(noOfBathRoomsSpinner.getSelectedItemPosition() + 1);
-        String rentAmount = areaSftEditText.getText().toString();
+        String rentAmount = rentAmountEditText.getText().toString();
         if (!TextUtils.isEmpty(rentAmount))
             property.setPrice(Double.parseDouble(rentAmount));
         property.setPhone(phoneNoEditText.getText().toString());
@@ -323,6 +339,23 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void showProgressDialog() {
+        //Looper.prepare();
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage(getActivity().getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
 
