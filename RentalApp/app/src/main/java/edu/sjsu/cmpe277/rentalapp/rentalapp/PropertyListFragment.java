@@ -1,9 +1,12 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +24,26 @@ import android.widget.SearchView;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
+import android.location.LocationManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.Geocoder;
+
+import java.util.Locale;
+
+import android.location.Address;
+
+import java.util.List;
+import java.io.IOException;
+
+import android.widget.Toast;
+
 import org.apache.commons.codec.binary.StringUtils;
 import org.w3c.dom.Text;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -54,25 +72,28 @@ public class PropertyListFragment extends Fragment
     boolean filtersInitialized;
     boolean isDialogOpen;
 
+    LocationManager locationManager;
+
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
+
     public PropertyListFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.property_list, container, false);
         setHasOptionsMenu(true);
-        mRecycleView = (RecyclerView)view.findViewById(R.id.property_list);
-        emptyView = (TextView)view.findViewById(R.id.empty_view);
+        mRecycleView = (RecyclerView) view.findViewById(R.id.property_list);
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
         if (view.findViewById(R.id.property_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
             NavActivity.mTwoPane = true;
-        }
-        else {
+        } else {
             NavActivity.mTwoPane = false;
         }
 
@@ -84,28 +105,28 @@ public class PropertyListFragment extends Fragment
     }
 
 
-
     //Not required - will work even if this code is removed - START
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if(isDialogOpen) {
+        if (isDialogOpen) {
             saveFilterValues();
         }
-        outState.putString("keyword",keywordFilter);
+        outState.putString("keyword", keywordFilter);
         outState.putBoolean("condo", condoFilter);
         outState.putBoolean("house", houseFilter);
         outState.putBoolean("apartment", apartmentFilter);
         outState.putBoolean("townhouse", townhouseFilter);
         outState.putString("pricelow", priceLowFilter);
-        outState.putString("pricehigh",priceHighFilter);
-        outState.putBoolean("dialog",isDialogOpen);
-        outState.putBoolean("filtersinitialized",filtersInitialized);
+        outState.putString("pricehigh", priceHighFilter);
+        outState.putBoolean("dialog", isDialogOpen);
+        outState.putBoolean("filtersinitialized", filtersInitialized);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         if(savedInstanceState != null) {
             keywordFilter = savedInstanceState.getString("keyword");
             condoFilter = savedInstanceState.getBoolean("condo");
@@ -154,17 +175,21 @@ public class PropertyListFragment extends Fragment
     public boolean onQueryTextChange(String newText)
     {
         if(newText.equals("")){
-            this.onQueryTextSubmit("");
+            //this.onQueryTextSubmit("");
+            //setLocationFilterToCurrentCity();
+            //location.setQuery(locationFilter,false);
         }
         return true;
     }
+
+
 
     @Override
     public boolean onQueryTextSubmit(String query)
     {
         //searchTerm = query;
         locationFilter = query;
-        new PropertySearchTask(((AppCompatActivity) getActivity()), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter),"");
+        new PropertySearchTask(((AppCompatActivity) getActivity()), mRecycleView, emptyView).execute(keywordFilter, locationFilter, priceLowFilter, priceHighFilter, String.valueOf(condoFilter), String.valueOf(apartmentFilter), String.valueOf(houseFilter), String.valueOf(townhouseFilter), "");
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
@@ -242,7 +267,7 @@ public class PropertyListFragment extends Fragment
     }
 
     private void setDefaultFilterValues() {
-        locationFilter = "San Jose";
+        setLocationFilterToCurrentCity();
         keywordFilter = "";
         priceLowFilter = "20";
         priceHighFilter = "15000";
@@ -279,4 +304,77 @@ public class PropertyListFragment extends Fragment
         price.setSelectedMinValue(Integer.parseInt(priceLowFilter));
         price.setSelectedMaxValue(Integer.parseInt(priceHighFilter));
     }
+
+    private String getCityNameFromLocation(Location loc) {
+        String cityName = null;
+        Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = gcd.getFromLocation(loc.getLatitude(),
+                    loc.getLongitude(), 1);
+            if (addresses.size() > 0) {
+                System.out.println(addresses.get(0).getLocality());
+                cityName = addresses.get(0).getLocality();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return cityName;
+    }
+
+    private void setLocationFilterToCurrentCity() {
+        locationManager = (LocationManager)
+                getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        LocationListener locationListener = new MyLocationListener();
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        else {
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            System.out.println("LOCATIONNNNNNNN:" + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
+            locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        }
+    }
+
+    private class MyLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            System.out.println("Location changed: Lat: " + loc.getLatitude() + " Lng: " + loc.getLongitude());
+            String longitude = "Longitude: " + loc.getLongitude();
+            String latitude = "Latitude: " + loc.getLatitude();
+
+        /*------- To get city name from coordinates -------- */
+            String cityName = null;
+            Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+            List<Address> addresses;
+            try {
+                addresses = gcd.getFromLocation(loc.getLatitude(),
+                        loc.getLongitude(), 1);
+                if (addresses.size() > 0) {
+                    System.out.println(addresses.get(0).getLocality());
+                    cityName = addresses.get(0).getLocality();
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
+                    + cityName;
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+    }
 }
+
