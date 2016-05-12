@@ -247,7 +247,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
                 new AsyncTask<Property, String, String>() {
                     @Override
                     protected String doInBackground(Property... params) {
-                        new WebService().updateProperty(params[0], property);
+                        new WebService().updateProperty(params[0], propertyId);
                         return null;
                     }
                 }.execute(property);

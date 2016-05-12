@@ -26,6 +26,10 @@ app.post('/sendMail', mailcomponent.sendMail);
 app.post('/postproperty', upload.array('photos', 12), function (req, res, next) {
 	fileupload.upload(req,res);
 	});
+app.put('/property/:pid/update/', upload.array('photos', 12), function (req, res, next) {
+	console.log(req.param("pid"))
+	properties.updateProperty(req,res);
+	});
 app.post('/test',function(req,res){console.log(req.body);res.end();});
 app.post('/property/:pid/status/:status',properties.changePropertyStatus);
 
