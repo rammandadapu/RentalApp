@@ -8,11 +8,21 @@
     android:weightSum="1">
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="193dp"
         android:layout_height="40dp"
         android:id="@+id/filter_button"
-        android:text="test"
+        android:text="@string/action_filter"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:longClickable="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/save_search_button"
+        android:text="@string/action_save_search"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/filter_button"
         android:longClickable="false" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"

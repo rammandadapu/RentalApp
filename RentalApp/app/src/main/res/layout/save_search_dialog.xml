@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:text="Name"
+    android:id="@+id/name_label"
+    style="@style/TextAppearance.AppCompat.Title"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Name"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/search_name_dialog"
+        android:layout_below="@id/name_label" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line1"
+        android:background="#8d8d8d"
+        android:layout_below="@+id/search_name_dialog" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Filters"
+        android:id="@+id/filter_label"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_below="@id/line1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Filters"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/filter_dialog"
+        android:layout_below="@id/filter_label" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line2"
+        android:background="#8d8d8d"
+        android:layout_below="@+id/filter_dialog" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Allow notifications"
+        android:id="@+id/notification_label"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_below="@id/line2" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notification_checkbox"
+        android:layout_alignTop="@+id/line2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
