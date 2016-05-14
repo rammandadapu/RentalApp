@@ -6,6 +6,7 @@ var express = require('express')
 	, mailcomponent = require('./routes/mailcomponent')
 	, fileupload= require('./routes/fileupload')
 	, searchProperty = require('./routes/search')
+	, savedSearch = require('./routes/savedSearch')
 	, properties = require('./routes/properties')
 	, multer  =   require('multer')
 	, gcm = require('android-gcm')
@@ -38,8 +39,9 @@ app.post('/property/:pid/status/:status',properties.changePropertyStatus);
 //Chitti
 app.get('/searchtest', searchProperty.search);
 app.get('/property/:pid', properties.getProperty);
-app.post('/saveSearch', searchProperty.saveSearch);
-app.get('/getSavedSearches/:email', searchProperty.getSavedSearches);
+app.post('/saveSearch', savedSearch.saveSearch);
+app.get('/getSavedSearches/:email', savedSearch.getSavedSearches);
+app.get('/getSavedSearchResults/:sid', savedSearch.getSavedSearchResults);
 
 
 
