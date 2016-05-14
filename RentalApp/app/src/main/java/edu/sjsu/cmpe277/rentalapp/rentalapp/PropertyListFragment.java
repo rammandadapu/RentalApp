@@ -153,7 +153,7 @@ public class PropertyListFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.nav, menu);
+        inflater.inflate(R.menu.property_list_nav, menu);
 
         /** Get the action view of the menu item whose id is search */
         MenuItem searchViewItem = menu.findItem(R.id.search_view);

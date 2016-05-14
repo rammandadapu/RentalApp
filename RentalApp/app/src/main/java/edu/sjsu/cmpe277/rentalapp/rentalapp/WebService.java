@@ -28,6 +28,18 @@ public class WebService {
     private static final String LOCAL_URL = "http://127.0.0.1:1337/";
     private static final String MOBILE_URL = "http://10.0.2.2:1337/";
 
+    private static boolean localMode = true;
+    private static String baseURL;
+
+    public WebService() {
+        if(localMode) {
+            baseURL = MOBILE_URL;
+        }
+        else {
+            baseURL = SERVER_URL;
+        }
+    }
+
     /**
      *
      * @param keyword
@@ -44,7 +56,7 @@ public class WebService {
     public String searchProperties(String keyword, String location, String priceLow, String priceHigh,
                                    String condo, String apartment, String house, String townhouse,String createdBy) {
         try{
-        OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"searchtest");
+        OAuthRequest request = new OAuthRequest(Verb.GET, baseURL+"searchtest");
         request.addQuerystringParameter("keyword", keyword);
         request.addQuerystringParameter("pricelow", priceLow);
         request.addQuerystringParameter("pricehigh", priceHigh);
@@ -78,7 +90,7 @@ public class WebService {
      */
     public String postProperty(Property property) {
         try {
-            OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
+            OAuthRequest request = new OAuthRequest(Verb.POST, baseURL + "postproperty");
             request.addBodyParameter("post", prepareJson(property));
             Response response = request.send();
             System.out.println(response.getBody());
@@ -106,7 +118,7 @@ public class WebService {
     }
 
     public String getPropertyDetails(String _id) {
-        String requestStr = SERVER_URL+"property/" + _id;
+        String requestStr = baseURL+"property/" + _id;
         OAuthRequest request = new OAuthRequest(Verb.GET, requestStr);
         //Dummy code until real API is available - START
         //String response = "{\"_id\":\"572835524255d0944af1c63d\",\"address\":{\"line1\":\"1 S Market St Apt 502\",\"city\":\"San Jose\",\"state\":\"CA\",\"zip\":\"95113\"},\"type\":\"house\",\"roomsNo\":3,\"bathNo\":2,\"size\":1440,\"price\":5560,\"phone\":\"(238)-434-676\",\"email\":\"test@mail.com\",\"desc\":\"Large spacious apartment. Club house available for free all the time. Pet friendly. Smoke free including patio area.\"}";
@@ -118,14 +130,14 @@ public class WebService {
     }
 
     public String changePropetyStatus(String newStatus,String propertyId) {
-        String requestStr = SERVER_URL+"property/" + propertyId+"/status/"+newStatus;
+        String requestStr = baseURL+"property/" + propertyId+"/status/"+newStatus;
         OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
         Response response = request.send();
         return response.getBody();
     }
 
     public void updateProperty(Property property, String propertyId) {
-        String requestStr = SERVER_URL+"property/" + propertyId+"/update/";
+        String requestStr = baseURL+"property/" + propertyId+"/update/";
         OAuthRequest request = new OAuthRequest(Verb.PUT, requestStr);
         request.addBodyParameter("post", prepareJson( property));
         request.send();
@@ -135,7 +147,7 @@ public class WebService {
     public String addSavedSearch(String email, String keyword, String location, String priceLow, String priceHigh,
                                  String condo, String apartment, String house, String townhouse) {
         try{
-            OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"saveSearch");
+            OAuthRequest request = new OAuthRequest(Verb.GET, baseURL+"saveSearch");
             request.addQuerystringParameter("email", email);
             request.addQuerystringParameter("keyword", keyword);
             request.addQuerystringParameter("pricelow", priceLow);
@@ -160,14 +172,14 @@ public class WebService {
     }
 
     public String getSavedSearches(String email) {
-        String requestStr = SERVER_URL+"getSavedSearches/" + email;
+        String requestStr = baseURL+"getSavedSearches/" + email;
         OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
         Response response = request.send();
         return response.getBody();
     }
 
     public String getSavedSearchResults(String _id) {
-        String requestStr = SERVER_URL+"getSavedSearchResults/" + _id;
+        String requestStr = baseURL+"getSavedSearchResults/" + _id;
         OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
         Response response = request.send();
         return response.getBody();
