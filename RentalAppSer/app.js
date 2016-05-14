@@ -38,6 +38,7 @@ app.post('/property/:pid/status/:status',properties.changePropertyStatus);
 //Chitti
 app.get('/searchtest', searchProperty.search);
 app.get('/property/:pid', properties.getProperty);
+app.post('/saveSearch', searchProperty.saveSearch);
 
 
 
