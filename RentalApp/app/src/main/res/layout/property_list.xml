@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/filter_button"
+        android:text="test"
+        android:layout_alignParentBottom="true"
+        android:longClickable="false" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,10 +21,12 @@
         android:id="@+id/property_list"
         android:name="edu.sjsu.cmpe277.rentalapp.PropertyListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="464dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".rentalapp.PropertyListActivity"
-        tools:listitem="@layout/property_list_content" />
+        tools:listitem="@layout/property_list_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/filter_button" />
 
     <TextView
         android:id="@+id/empty_view"
@@ -25,6 +36,8 @@
         android:visibility="gone"
         android:text="@string/no_data_available" />
 
-</LinearLayout>
+
+
+</RelativeLayout>
 
 

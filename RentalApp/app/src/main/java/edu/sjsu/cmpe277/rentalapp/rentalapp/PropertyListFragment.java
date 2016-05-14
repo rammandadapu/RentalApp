@@ -75,6 +75,8 @@ public class PropertyListFragment extends Fragment
 
     LocationManager locationManager;
 
+    Button filterButton;
+
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
 
@@ -101,6 +103,15 @@ public class PropertyListFragment extends Fragment
        /*if(filtersInitialized == false) {
             setDefaultFilterValues();
        }*/
+
+        filterButton = (Button) view.findViewById(R.id.filter_button);
+        filterButton.setBackgroundResource(R.drawable.white_image);
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
 
         return view;
     }

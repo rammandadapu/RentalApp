@@ -38,7 +38,8 @@
             android:name=".rentalapp.PropertyListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_property_list"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".rentalapp.NavActivity" />
@@ -55,7 +56,8 @@
         <activity
             android:name=".rentalapp.NavActivity"
             android:label="@string/title_activity_nav"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".login.LoginActivity"
