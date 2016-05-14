@@ -79,7 +79,7 @@ public class WebService {
     public String postProperty(Property property) {
         try {
             OAuthRequest request = new OAuthRequest(Verb.POST, SERVER_URL + "postproperty");
-            request.addBodyParameter("post", prepareJson( property));
+            request.addBodyParameter("post", prepareJson(property));
             Response response = request.send();
             System.out.println(response.getBody());
             return response.getBody();
@@ -131,29 +131,47 @@ public class WebService {
         request.send();
         //return response.getBody();
     }
-    /*public String searchProperties2() {
-        StringBuilder result = new StringBuilder();
 
-        try {
-            URL url = new URL("http://10.0.2.2:1337/searchtest");
-            urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-
-        }catch( Exception e) {
-            e.printStackTrace();
+    public String addSavedSearch(String email, String keyword, String location, String priceLow, String priceHigh,
+                                 String condo, String apartment, String house, String townhouse) {
+        try{
+            OAuthRequest request = new OAuthRequest(Verb.GET, SERVER_URL+"saveSearch");
+            request.addQuerystringParameter("email", email);
+            request.addQuerystringParameter("keyword", keyword);
+            request.addQuerystringParameter("pricelow", priceLow);
+            request.addQuerystringParameter("pricehigh", priceHigh);
+            request.addQuerystringParameter("location", location);
+            request.addQuerystringParameter("condo", condo);
+            request.addQuerystringParameter("apartment", apartment);
+            request.addQuerystringParameter("house", house);
+            request.addQuerystringParameter("townhouse", townhouse);
+            Response response = request.send();
+            return response.getBody();
         }
-        finally {
-            urlConnection.disconnect();
+        catch (RuntimeException runTimeException){
+            Log.e("Server con Failed",runTimeException.getMessage());
+            return "connection failed";
         }
-        return result.toString();
-    }*/
+        catch (Exception ex){
+            //Failed to connect to server
+            Log.e("Server con Failed",ex.getMessage());
+            return "connection failed";
+        }
+    }
+
+    public String getSavedSearches(String email) {
+        String requestStr = SERVER_URL+"getSavedSearches/" + email;
+        OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
+        Response response = request.send();
+        return response.getBody();
+    }
+
+    public String getSavedSearchResults(String _id) {
+        String requestStr = SERVER_URL+"getSavedSearchResults/" + _id;
+        OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
+        Response response = request.send();
+        return response.getBody();
+    }
 
     public static void main(String[] args) {
         WebService ws = new WebService();
