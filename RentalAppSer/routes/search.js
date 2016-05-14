@@ -184,3 +184,39 @@ exports.saveSearch = function(req, res) {
 		  }
 	});
 }
+
+exports.getSavedSearches = function(req, res) {
+	MongoClient.connect(url, function (err, db) {
+		  if (err) {
+		    console.log('Unable to connect to the mongoDB server. Error:', err);
+		  } else {		 
+		    console.log('Connection established to', url);
+		 
+		    var collection = db.collection('savedSearches');		    		   
+
+		    var query = {};
+		    var email = req.param("email");
+		    
+		    if(email !== undefined && email !== "") {
+		    	query["email"] = email;
+		    	collection.find(query).toArray(function (err, result) {
+			      if (err) {
+			        console.log(err);
+			        res.end("no results");
+			      } else if (result.length) {
+			          console.log('Found:', result);
+			          res.send(result);
+			      } else {
+			        console.log('No document(s) found with defined "find" criteria!');
+			        res.end("no results");
+			      }
+			      //Close connection
+			      db.close();
+			    });
+		    }
+		    else {
+		    	res.send("email mandatory");
+		    }
+		  }
+	});
+}

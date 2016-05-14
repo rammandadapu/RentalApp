@@ -39,6 +39,7 @@ app.post('/property/:pid/status/:status',properties.changePropertyStatus);
 app.get('/searchtest', searchProperty.search);
 app.get('/property/:pid', properties.getProperty);
 app.post('/saveSearch', searchProperty.saveSearch);
+app.get('/getSavedSearches/:email', searchProperty.getSavedSearches);
 
 
 
