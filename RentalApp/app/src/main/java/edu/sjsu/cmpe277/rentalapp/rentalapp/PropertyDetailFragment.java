@@ -180,7 +180,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
                             if (appBarLayout != null) {
                                 appBarLayout.setTitle(map.get(DBHandler.TABLE_PROPERTY_NAME).toString());
-                                drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
+                                if(null!=map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
+                                    drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
 
                             }
 

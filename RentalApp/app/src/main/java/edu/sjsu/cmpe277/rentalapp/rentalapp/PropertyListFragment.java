@@ -488,7 +488,7 @@ public class PropertyListFragment extends Fragment
 
         /*------- To get city name from coordinates -------- */
             String cityName = null;
-            Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+            Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
             List<Address> addresses;
             try {
                 addresses = gcd.getFromLocation(loc.getLatitude(),

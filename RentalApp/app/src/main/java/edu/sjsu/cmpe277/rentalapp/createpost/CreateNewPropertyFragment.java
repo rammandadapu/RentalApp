@@ -56,6 +56,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PROPERTY_ID = "param1";
     private static final int RESULT_IMAGE=007;
+    private static final int MY_PERMISSIONS_REQUEST_READ_FILES=33;
 
     // TODO: Rename and change types of parameters
     private String propertyId;
@@ -263,12 +264,37 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
         if(permissionCheck!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 99);
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_FILES);
         }
         else {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(intent, RESULT_IMAGE);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        System.out.print(requestCode);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_FILES:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    attachImage();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                attachImage();
+                } else {
+                    Toast.makeText(getContext(), "You may need to accept the permission to upload a picture", Toast.LENGTH_LONG).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+            break;
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
     }
 
     @Override
