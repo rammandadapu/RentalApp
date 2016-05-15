@@ -30,7 +30,7 @@ public class Property implements Serializable {
     private String phone;
     @JsonProperty("email")
     private String userEmail;
-    private String[] imageUrl;
+    private String imageUrl;
     @JsonProperty("createdBy")
     private String uniqueUserId;
 
@@ -116,11 +116,11 @@ public class Property implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public String[] getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String[] imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

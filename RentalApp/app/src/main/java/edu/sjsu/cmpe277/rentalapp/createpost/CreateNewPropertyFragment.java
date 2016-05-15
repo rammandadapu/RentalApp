@@ -1,11 +1,17 @@
 package edu.sjsu.cmpe277.rentalapp.createpost;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -24,7 +32,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import edu.sjsu.cmpe277.rentalapp.Manifest;
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.imageutility.ImageUtility;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
@@ -43,7 +55,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PROPERTY_ID = "param1";
-
+    private static final int RESULT_IMAGE=007;
 
     // TODO: Rename and change types of parameters
     private String propertyId;
@@ -66,8 +78,11 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private EditText zipCodeEditText;
     private ProgressDialog mProgressDialog;
     private Button submitButton;
+    private Button attachImageButton;
+    private ImageView imageView;
     private String uniqueUserID;
     private int noOfViews=0;
+    private String imageUrl;
 
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -109,6 +124,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         setUIValidation();
         uniqueUserID = ((GlobalPojo) getActivity().getApplicationContext()).getEmail();
         submitButton.setOnClickListener(this);
+        attachImageButton.setOnClickListener(this);
         if (!TextUtils.isEmpty(propertyId))
             setUIValues();
         return view;
@@ -179,6 +195,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         cityEditText = (EditText) view.findViewById(R.id.post_city);
         stateEditText = (EditText) view.findViewById(R.id.post_state);
         zipCodeEditText = (EditText) view.findViewById(R.id.post_zip);
+        attachImageButton=(Button)view.findViewById(R.id.attach_image_button);
+        imageView=(ImageView)view.findViewById(R.id.propertyImage);
         submitButton = (Button) view.findViewById(R.id.post_submit);
         //end UI ref
     }
@@ -235,17 +253,54 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             case R.id.post_submit:
                 submitToServer();
                 break;
+            case R.id.attach_image_button:
+                attachImage();
+                break;
         }
     }
+
+    private void attachImage(){
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        if(permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 99);
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            startActivityForResult(intent, RESULT_IMAGE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(RESULT_IMAGE==requestCode && Activity.RESULT_OK==resultCode && null!=data){
+
+            try {
+                ImageUtility imageUtility=new ImageUtility(getActivity());
+                imageUrl= imageUtility.getPath(data.getData());
+                Bitmap bitmap = imageUtility.getBitmap(imageUrl, 256, 256);
+                imageView.setImageBitmap(bitmap);
+            }
+            catch (IOException ex){
+                Toast.makeText(getContext(),"Can not read file location",Toast.LENGTH_LONG);
+                System.out.print(ex);
+            }
+
+        }
+    }
+
+
 
     /**
      * Send data to server
      */
     private void submitToServer() {
-        if (mAwesomeValidation.validate()) {
+       // if (mAwesomeValidation.validate()) {
             final Property property = getProperty();
             if (null == propertyId) {
-                new CreatePostTask(getContext()).execute(property);
+                new WebService().postProperty(getContext(),property);
+                //new CreatePostTask(getContext()).execute(property);
             } else {
                 new AsyncTask<Property, String, String>() {
                     @Override
@@ -274,7 +329,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             clearForm();
             startActivity(intent);
 
-        }
+        //}
     }
 
     private void clearForm() {
@@ -321,7 +376,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         property.setUniqueUserId(uniqueUserID);
         property.setNoOfViwes(noOfViews);
         property.setStatus(PropertyDetailFragment.STATUS_AVAILABLE);
-
+        property.setImageUrl(imageUrl);
         return property;
     }
 

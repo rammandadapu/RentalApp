@@ -33,4 +33,5 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
     compile 'com.basgeekball:awesome-validation:1.2'
     apply plugin: 'com.google.gms.google-services'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

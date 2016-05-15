@@ -38,6 +38,19 @@
 
     <include layout="@layout/content_areainfo_layout"/>
     <include layout="@layout/address_layout"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/propertyImage"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attach Image"
+            android:id="@+id/attach_image_button"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
+            android:drawableRight="@drawable/ic_attachment_white_24dp"
+            />
 
         <Button
             android:id="@+id/post_submit"
