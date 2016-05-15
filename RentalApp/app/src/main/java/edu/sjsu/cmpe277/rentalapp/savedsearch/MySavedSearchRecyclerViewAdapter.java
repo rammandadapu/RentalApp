@@ -17,7 +17,6 @@ import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.dummy.DummyContent.DummyItem;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
