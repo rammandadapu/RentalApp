@@ -1,72 +1,20 @@
 {
   "project_info": {
-    "project_number": "156242089062",
-    "project_id": "rental-app-1299"
+    "project_number": "386819978736",
+    "project_id": "rental-app-97b28"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:156242089062:android:8a406962f90dfa6c",
-        "android_client_info": {
-          "package_name": "edu.sjsu.cmpe277.rentalapp.rentalapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "156242089062-oj79akg6q4attu669v4pa29ce7aopjrd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.sjsu.cmpe277.rentalapp.rentalapp",
-            "certificate_hash": "425D7F3C4D4B6AB39FED85A02C6B2C247A9536CC"
-          }
-        },
-        {
-          "client_id": "156242089062-1ru7l88tmhrpm2kqsiupk0vu1j0otv3e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDNwU4MeHYzLfudMrXaT-KLTNpnwT0mAz0"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:156242089062:android:8057d86cb176e213",
+        "mobilesdk_app_id": "1:386819978736:android:8057d86cb176e213",
         "android_client_info": {
           "package_name": "edu.sjsu.cmpe277.rentalapp"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "156242089062-6t6a73ctcmtohppmepqhp87lt5m5eq9e.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.sjsu.cmpe277.rentalapp",
-            "certificate_hash": "425D7F3C4D4B6AB39FED85A02C6B2C247A9536CC"
-          }
-        },
-        {
-          "client_id": "156242089062-1ru7l88tmhrpm2kqsiupk0vu1j0otv3e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDNwU4MeHYzLfudMrXaT-KLTNpnwT0mAz0"
+          "current_key": "AIzaSyDu-MOSec5AhHO-eqQY3bUY9dJ9hCB7Fhc"
         }
       ],
       "services": {

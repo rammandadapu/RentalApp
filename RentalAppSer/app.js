@@ -8,6 +8,7 @@ var express = require('express')
 	, searchProperty = require('./routes/search')
 	, savedSearch = require('./routes/savedSearch')
 	, properties = require('./routes/properties')
+	, notifications = require('./routes/notifications')
 	, multer  =   require('multer')
 	, gcm = require('android-gcm')
 	, mongodb = require('mongodb');
@@ -42,6 +43,8 @@ app.get('/property/:pid', properties.getProperty);
 app.post('/saveSearch', savedSearch.saveSearch);
 app.get('/getSavedSearches/:email', savedSearch.getSavedSearches);
 app.get('/getSavedSearchResults/:sid', savedSearch.getSavedSearchResults);
+
+app.get('/send', notifications.sendNotification);
 
 
 

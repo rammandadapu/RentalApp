@@ -25,6 +25,8 @@ exports.saveSearch = function(req, res) {
 		    var townhouse = req.query.townhouse;
 		    var pricelow = req.query.pricelow;
 		    var pricehigh = req.query.pricehigh;
+		    var notify = req.query.notify;
+		    var regId = req.query.regId;
 		    
 		    var query = {};
 		    
@@ -69,6 +71,14 @@ exports.saveSearch = function(req, res) {
 		    
 		    if(keyword !== undefined && keyword !== "") {
 		    	query["keyword"] = keyword;
+		    }
+		    
+		    if(notify !== undefined && notify !== "") {
+		    	query["notify"] = notify;
+		    }
+		    
+		    if(regId !== undefined && regId !== "") {
+		    	query["regId"] = regId;
 		    }
 		    
 		    collection.insert(query, {w:1}, function(err, result) {
