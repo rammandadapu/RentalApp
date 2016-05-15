@@ -76,6 +76,11 @@ public class PropertyListFragment extends Fragment
     LocationManager locationManager;
 
     Button filterButton;
+    Button saveSearchButton;
+
+    TextView savedSearchName;
+    TextView savedSearchFilter;
+    CheckBox notificationsCheckbox;
 
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
@@ -113,9 +118,17 @@ public class PropertyListFragment extends Fragment
             }
         });
 
+        saveSearchButton = (Button) view.findViewById(R.id.save_search_button);
+        saveSearchButton.setBackgroundResource(R.drawable.white_image);
+
+        saveSearchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showSaveSearchDialog();
+            }
+        });
+
         return view;
     }
-
 
     //Not required - will work even if this code is removed - START
     @Override
@@ -364,6 +377,74 @@ public class PropertyListFragment extends Fragment
             locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }
     }
+
+    private void showSaveSearchDialog() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View saveSearchDialog = inflater.inflate(R.layout.save_search_dialog, null, false);
+
+        savedSearchName = (TextView) saveSearchDialog.findViewById(R.id.search_name_dialog);
+        savedSearchFilter = (TextView) saveSearchDialog.findViewById(R.id.filter_dialog);
+        notificationsCheckbox = (CheckBox) saveSearchDialog.findViewById(R.id.notification_checkbox);
+
+        savedSearchName.setText(locationFilter);
+        String keywordText = (TextUtils.isEmpty(keywordFilter)?"":keywordFilter);
+        String priceRangeText = "Price range: $"+priceLowFilter+"-"+priceHighFilter;
+        String houseText = (houseFilter?"House":"");
+        String apartmentText = (apartmentFilter?"Apartment":"");
+        String condoText = (condoFilter?"Condo":"");
+        String townhouseText = (townhouseFilter?"Townhouse":"");
+
+        if(!TextUtils.isEmpty(keywordText)) {
+            keywordText += ", ";
+        }
+
+        if(!TextUtils.isEmpty(houseText)) {
+            priceRangeText += ", ";
+        }
+
+        if(!TextUtils.isEmpty(apartmentText)) {
+            houseText += ", ";
+        }
+
+        if(!TextUtils.isEmpty(condoText)) {
+            apartmentText += ", ";
+        }
+
+        if(!TextUtils.isEmpty(townhouseText)) {
+            condoText += ", ";
+        }
+
+        String filterText = keywordText + priceRangeText + houseText + apartmentText + condoText + townhouseText;
+
+        savedSearchFilter.setText(filterText);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+        alertDialogBuilder.setView(saveSearchDialog);
+
+        alertDialogBuilder.setCancelable(true);
+
+        alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                //saveSearch();
+                Toast.makeText(getContext(), "Search saved", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false);
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+    }
+
 
     private class MyLocationListener implements LocationListener {
 
