@@ -315,7 +315,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
      * Send data to server
      */
     private void submitToServer() {
-       // if (mAwesomeValidation.validate()) {
+        if (mAwesomeValidation.validate()) {
             final Property property = getProperty();
             if (null == propertyId) {
                 new WebService().postProperty(getContext(),property);
@@ -348,7 +348,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             clearForm();
             startActivity(intent);
 
-        //}
+        }
     }
 
     private void clearForm() {
