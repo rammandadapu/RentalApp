@@ -30,7 +30,7 @@ exports.upload=function(req,res){
 		    console.log('Connection established to', mongoUrl);
 		    var collection = db.collection('property');		    		   
 
-		    var newPost  = JSON.parse(req.body.post);
+		    var newPost  = JSON.parse(req.body.property);
 		    newPost["imageUrl"]=req.files[0].filename;
 		    //console.log(newPost);
 		    //console.log(newPost.post);
