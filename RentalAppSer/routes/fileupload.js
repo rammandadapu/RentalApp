@@ -31,7 +31,8 @@ exports.upload=function(req,res){
 		    var collection = db.collection('property');		    		   
 
 		    var newPost  = JSON.parse(req.body.property);
-		    newPost["imageUrl"]=req.files[0].filename;
+		    if(req.files)
+		    	newPost["imageUrl"]=req.files[0].filename;
 		    //console.log(newPost);
 		    //console.log(newPost.post);
 		   // res.send();
