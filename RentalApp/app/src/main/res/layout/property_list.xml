@@ -33,7 +33,7 @@
         android:id="@+id/property_list"
         android:name="edu.sjsu.cmpe277.rentalapp.PropertyListFragment"
         android:layout_width="match_parent"
-        android:layout_height="464dp"
+        android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
         tools:context=".rentalapp.PropertyListActivity"
         tools:listitem="@layout/property_list_content"
