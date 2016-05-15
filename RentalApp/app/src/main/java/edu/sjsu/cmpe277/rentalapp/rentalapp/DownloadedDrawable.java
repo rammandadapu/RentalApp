@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by divya.chittimalla on 3/24/16.
  */
-class DownloadedDrawable extends ColorDrawable {
+public class DownloadedDrawable extends ColorDrawable {
     private final WeakReference<ImageDownloaderTask> bitmapDownloaderTaskReference;
 
     public DownloadedDrawable(ImageDownloaderTask bitmapDownloaderTask) {

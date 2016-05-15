@@ -46,8 +46,7 @@ import edu.sjsu.cmpe277.rentalapp.rentalapp.WebService;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CreateNewPropertyFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ *
  * Use the {@link CreateNewPropertyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -62,7 +61,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private String propertyId;
 
 
-    private OnFragmentInteractionListener mListener;
+
 
     private EditText titleEditText;
     private EditText detailsEditText;
@@ -84,6 +83,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     private String uniqueUserID;
     private int noOfViews=0;
     private String imageUrl;
+    private Bitmap bitmap;
 
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
@@ -98,7 +98,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
      * @param param1 Parameter 1.
      * @return A new instance of fragment CreateNewPropertyFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static CreateNewPropertyFragment newInstance(String param1) {
         CreateNewPropertyFragment fragment = new CreateNewPropertyFragment();
         Bundle args = new Bundle();
@@ -115,6 +115,20 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("bitmap", bitmap);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(null!=savedInstanceState) {
+            bitmap=savedInstanceState.getParcelable("bitmap");
+            imageView.setImageBitmap(bitmap);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,29 +238,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }*/
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onClick(View v) {
@@ -305,7 +298,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             try {
                 ImageUtility imageUtility=new ImageUtility(getActivity());
                 imageUrl= imageUtility.getPath(data.getData());
-                Bitmap bitmap = imageUtility.getBitmap(imageUrl, 256, 256);
+                bitmap = imageUtility.getBitmap(imageUrl, 256, 256);
                 imageView.setImageBitmap(bitmap);
             }
             catch (IOException ex){
@@ -407,20 +400,6 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     }
 
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     private void showProgressDialog() {
         //Looper.prepare();

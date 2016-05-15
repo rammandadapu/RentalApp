@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -16,9 +17,12 @@ import java.util.HashMap;
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.DownloadedDrawable;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.ImageDownloaderTask;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.WebService;
 
 /**
  * Created by divya.chittimalla on 4/27/16.
@@ -48,6 +52,8 @@ public class SimpleItemRecyclerViewAdapterFavorites
         holder.mRentView.setText(map.get(DBHandler.TABLE_PROPERTY_PRICE));
         holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
         holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BEDBATH));
+        if (null != map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
+            download(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL), holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +76,12 @@ public class SimpleItemRecyclerViewAdapterFavorites
             }
         });
     }
+    private void download(String url, ImageView imageView) {
+        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
+        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+        imageView.setImageDrawable(downloadedDrawable);
+        task.execute(url);
+    }
 
     @Override
     public int getItemCount() {
@@ -82,6 +94,7 @@ public class SimpleItemRecyclerViewAdapterFavorites
         public final TextView mBedBathView;
         public final TextView mAddressView;
         public DummyContent.DummyItem mItem;
+        public final ImageView mImageView;
 
         public ViewHolder(View view) {
             super(view);
@@ -89,6 +102,8 @@ public class SimpleItemRecyclerViewAdapterFavorites
             mRentView = (TextView) view.findViewById(R.id.rent_list);
             mBedBathView = (TextView) view.findViewById(R.id.bed_bath_list);
             mAddressView = (TextView) view.findViewById(R.id.address_list);
+            mImageView = (ImageView) view.findViewById(R.id.property_image_list);
         }
+
     }
 }

@@ -62,7 +62,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     public static final String STATUS_SOLD = "SOLD";
     private String propertStatus = STATUS_AVAILABLE;
     private String propertyIdentifier;
-
+    private String imageUrl ;
     private ProgressDialog mProgressDialog;
 
 
@@ -128,6 +128,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                         rentalProperty.setPrice(((TextView) view.findViewById(R.id.rent_detail)).getText().toString());
                         rentalProperty.setBedBath(((TextView) view.findViewById(R.id.bed_bath_detail)).getText().toString());
                         rentalProperty.setAddress(((TextView) view.findViewById(R.id.address_detail)).getText().toString());
+                        if (!"null".equalsIgnoreCase(imageUrl))
+                        rentalProperty.setImage_url(imageUrl);
                         dbHandler.addProperty(rentalProperty);
                         toggleFavouriteImage(true);
                         Toast.makeText(getActivity().getApplicationContext(), "Added to saved houses", Toast.LENGTH_SHORT).show();
@@ -265,7 +267,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             String desc = json.getString(DBHandler.TABLE_PROPERTY_DESC);
             String viewCount = json.getString(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
             String status = json.getString(DBHandler.TABLE_PROPERTY_STATUS);
-            String imageUrl = json.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
+            imageUrl = json.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
             String name = "Details";
             if (json.has(DBHandler.TABLE_PROPERTY_NAME)) {
                 name = json.getString(DBHandler.TABLE_PROPERTY_NAME);

@@ -16,7 +16,7 @@ import java.net.URL;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 
-class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     public String url;
     private final WeakReference<ImageView> imageViewReference;
 
