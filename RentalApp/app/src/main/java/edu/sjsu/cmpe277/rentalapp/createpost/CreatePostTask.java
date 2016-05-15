@@ -30,7 +30,7 @@ public class CreatePostTask extends AsyncTask<Property,String,String> {
     @Override
     protected String doInBackground(Property... propertyList) {
         WebService webService=new WebService();
-        return webService.postProperty(propertyList[0]);
+        return webService.postProperty(context,propertyList[0]);
 
     }
 
