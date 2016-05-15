@@ -5,33 +5,38 @@ var mongoUrl=constants.MongoURL;
 var MongoClient = mongodb.MongoClient;
 
 function sendNotification(result) {
-	var regIds = [];
+	var gcmObject = new gcm.AndroidGcm('AIzaSyAXZ74tqeNIwD_0ueUiJJZO61cZlAfKuew');
 	for(var i = 0; i < result.length; i++) {
 	    var obj = result[i];
 	    if(obj.regId !== undefined && obj.regId !== "") {
+	    	var regIds = [];
 	    	regIds.push(obj.regId);
+	    	
+	    	//create new message 
+	    	var message = new gcm.Message({
+	    		registration_ids: regIds,
+	    	 data: {
+	    	     name: obj.name,
+	    	     keyword: obj.keyword,
+	    	     location: obj.location,
+	    	     pricelow: obj.pricelow,
+	    	     pricehigh: obj.pricehigh,
+	    	     condo: obj.condo,
+	    	     apartment: obj.apartment,
+	    	     house: obj.house,
+	    	     townhouse: obj.townhouse,
+	    	 }
+	    	});
+	    	
+	    	//send the message 
+	    	gcmObject.send(message, function(err, response) {
+	    		
+	    	});
 	    }
 	}
 	
-	console.log("regIDs:::::::::::::"+JSON.stringify(regIds));
-	var gcmObject = new gcm.AndroidGcm('AIzaSyAXZ74tqeNIwD_0ueUiJJZO61cZlAfKuew');
-	
-	//create new message 
-	var message = new gcm.Message({
-		registration_ids: regIds,
-	 data: {
-	     key1: 'key 1',
-	     key2: 'key 2'
-	 }
-	});
-	
-	//send the message 
-	gcmObject.send(message, function(err, response) {
-		if(err) {
-			return err;
-		}
-		return response;
-	});
+	//console.log("regIDs:::::::::::::"+JSON.stringify(regIds));
+	return "done";
 };
 
 exports.notifySavedSearches = function(newPost, callback) {

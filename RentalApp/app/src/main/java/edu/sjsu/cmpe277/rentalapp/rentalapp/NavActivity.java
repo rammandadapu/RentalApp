@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -31,6 +32,7 @@ import edu.sjsu.cmpe277.rentalapp.gcm.QuickstartPreferences;
 import edu.sjsu.cmpe277.rentalapp.gcm.RegistrationIntentService;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
+import edu.sjsu.cmpe277.rentalapp.savedsearch.SavedSearchActivity;
 import edu.sjsu.cmpe277.rentalapp.savedsearch.SavedSearchFragment;
 
 import android.content.BroadcastReceiver;
@@ -77,13 +79,11 @@ public class NavActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
 
 
                     //code for notification START
@@ -93,7 +93,7 @@ public class NavActivity extends AppCompatActivity
                                     .setContentTitle("My notification")
                                     .setContentText("Hello World!");
     // Creates an explicit intent for an Activity in your app
-                    Intent resultIntent = new Intent(getApplicationContext(), NavActivity.class);
+                    Intent resultIntent = new Intent(getApplicationContext(), SavedSearchActivity.class);
 
     // The stack builder object will contain an artificial back stack for the
     // started Activity.
@@ -117,7 +117,7 @@ public class NavActivity extends AppCompatActivity
                     //code for notification END
                 }
             });
-        }**/
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
