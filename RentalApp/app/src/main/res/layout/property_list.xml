@@ -9,7 +9,7 @@
 
     <Button
         android:layout_width="193dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/filter_button"
         android:text="@string/action_filter"
         android:layout_alignParentBottom="true"
@@ -19,7 +19,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/save_search_button"
         android:text="@string/action_save_search"
         android:layout_alignParentBottom="true"

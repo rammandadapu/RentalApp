@@ -10,19 +10,9 @@
         app:actionViewClass="android.widget.SearchView"
         />
 
-    <item
+    <!--item
         android:id="@+id/sort"
         android:icon="@drawable/ic_sort_white_24dp"
         android:title="@string/action_filter"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/filter"
-        android:title="@string/action_filter"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/save_search"
-        android:title="@string/action_save_search"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" /-->
 </menu>

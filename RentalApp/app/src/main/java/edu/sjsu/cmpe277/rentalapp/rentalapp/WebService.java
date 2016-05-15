@@ -185,7 +185,7 @@ public class WebService {
     }
 
     public String addSavedSearch(String email, String name, String keyword, String location, String priceLow, String priceHigh,
-                                 String condo, String apartment, String house, String townhouse) {
+                                 String condo, String apartment, String house, String townhouse, String notify) {
         try{
             OAuthRequest request = new OAuthRequest(Verb.POST, baseURL+"saveSearch");
             request.addQuerystringParameter("email", email);
@@ -199,7 +199,7 @@ public class WebService {
             request.addQuerystringParameter("house", house);
             request.addQuerystringParameter("townhouse", townhouse);
             request.addQuerystringParameter("regId", RegistrationIntentService.registrationId);
-            request.addQuerystringParameter("notify", "true");
+            request.addQuerystringParameter("notify", notify);
             Response response = request.send();
             return response.getBody();
         }

@@ -3,6 +3,7 @@ var constants = require('./constants');
 var mongodb = require('mongodb');
 var mongoUrl=constants.MongoURL;
 var MongoClient = mongodb.MongoClient;
+var gcmObject;
 
 function sendNotification(result) {
 	var gcmObject = new gcm.AndroidGcm('AIzaSyAXZ74tqeNIwD_0ueUiJJZO61cZlAfKuew');
@@ -24,13 +25,13 @@ function sendNotification(result) {
 	    	     condo: obj.condo,
 	    	     apartment: obj.apartment,
 	    	     house: obj.house,
-	    	     townhouse: obj.townhouse,
+	    	     townhouse: obj.townhouse
 	    	 }
 	    	});
 	    	
 	    	//send the message 
 	    	gcmObject.send(message, function(err, response) {
-	    		
+	    		console.log(response);
 	    	});
 	    }
 	}
@@ -96,6 +97,11 @@ exports.notifySavedSearches = function(newPost, callback) {
     		locQuery["$or"] = locArray;//JSON.parse('[{"address.city": "{ "$regex": ".*'+location+'.*", "$options": "i"}}, {"address.zip": { "$regex": ".*'+location+'.*", "$options": "i"}}]');		    	    		   
 		    
     		andPart.push(locQuery);
+    		
+    		var notifyQuery = {};
+    		notifyQuery["notify"] = "true";
+    		
+    		andPart.push(notifyQuery);
     		
     		var query = {};
     		query["$and"] = andPart;

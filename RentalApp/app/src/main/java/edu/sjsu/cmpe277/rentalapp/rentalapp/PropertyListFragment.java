@@ -206,6 +206,16 @@ public class PropertyListFragment extends Fragment
 
             location.setMaxWidth(Integer.MAX_VALUE);
             location.setQuery(locationFilter, true);
+
+            location.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean queryTextFocused) {
+                    if(!queryTextFocused) {
+                        setLocationFilterToCurrentCity();
+                        location.setQuery(locationFilter, false);
+                    }
+                }
+            });
         }
     }
 
@@ -382,10 +392,14 @@ public class PropertyListFragment extends Fragment
             return;
         }
         else {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-            System.out.println("LOCATIONNNNNNNN:" + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
-            locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+            if(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
+                locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+                System.out.println("LOCATIONNNNNNNN:" + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
+            }
+            else {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            }
         }
     }
 
@@ -429,7 +443,7 @@ public class PropertyListFragment extends Fragment
 
         savedSearchFilter.setText(filterText);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         alertDialogBuilder.setView(saveSearchDialog);
 
@@ -438,7 +452,7 @@ public class PropertyListFragment extends Fragment
         alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                saveSearch();
+                saveSearch(notificationsCheckbox.isChecked());
             }
         });
 
@@ -455,13 +469,13 @@ public class PropertyListFragment extends Fragment
         alertDialog.show();
     }
 
-    public void saveSearch() {
+    public void saveSearch(boolean notify) {
         new AsyncTask<String, String, String>() {
 
             @Override
             protected String doInBackground(String... params) {
                 WebService ws = new WebService();
-                String result = ws.addSavedSearch(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8],params[9]);
+                String result = ws.addSavedSearch(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8],params[9],params[10]);
                 return result;
             }
 
@@ -475,7 +489,7 @@ public class PropertyListFragment extends Fragment
                     Toast.makeText(getContext(), "Error saving search", Toast.LENGTH_LONG).show();
                 }
             }
-        }.execute(globalPojo.getEmail(),locationFilter,keywordFilter,locationFilter,priceLowFilter,priceHighFilter,String.valueOf(condoFilter),String.valueOf(apartmentFilter),String.valueOf(houseFilter),String.valueOf(townhouseFilter));
+        }.execute(globalPojo.getEmail(),locationFilter,keywordFilter,locationFilter,priceLowFilter,priceHighFilter,String.valueOf(condoFilter),String.valueOf(apartmentFilter),String.valueOf(houseFilter),String.valueOf(townhouseFilter),String.valueOf(notify));
     }
 
     private class MyLocationListener implements LocationListener {
@@ -485,6 +499,11 @@ public class PropertyListFragment extends Fragment
             System.out.println("Location changed: Lat: " + loc.getLatitude() + " Lng: " + loc.getLongitude());
             String longitude = "Longitude: " + loc.getLongitude();
             String latitude = "Latitude: " + loc.getLatitude();
+
+            System.out.println("LOCATIONNNNNNNN:" + loc.toString());
+            locationFilter = getCityNameFromLocation(loc);
+            if(location != null)
+                location.setQuery(locationFilter,false);
 
         /*------- To get city name from coordinates -------- */
             String cityName = null;
