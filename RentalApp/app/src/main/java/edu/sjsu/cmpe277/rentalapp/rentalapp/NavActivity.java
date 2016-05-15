@@ -152,10 +152,7 @@ public class NavActivity extends AppCompatActivity
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
         GlobalPojo globalPojo=(GlobalPojo)getApplicationContext();
 
-        //TODO remove this - start
-        globalPojo.setUserName("divya");
-        globalPojo.setEmail("divya@mail.com");
-        //end
+
 
         userNameTextView.setText(globalPojo.getUserName());
         userEmailTextView.setText(globalPojo.getEmail());
