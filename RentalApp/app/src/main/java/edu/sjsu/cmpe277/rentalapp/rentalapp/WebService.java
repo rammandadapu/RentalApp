@@ -174,14 +174,14 @@ public class WebService {
 
     public String getSavedSearches(String email) {
         String requestStr = baseURL+"getSavedSearches/" + email;
-        OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
+        OAuthRequest request = new OAuthRequest(Verb.GET, requestStr);
         Response response = request.send();
         return response.getBody();
     }
 
     public String getSavedSearchResults(String _id) {
         String requestStr = baseURL+"getSavedSearchResults/" + _id;
-        OAuthRequest request = new OAuthRequest(Verb.POST, requestStr);
+        OAuthRequest request = new OAuthRequest(Verb.GET, requestStr);
         Response response = request.send();
         return response.getBody();
     }

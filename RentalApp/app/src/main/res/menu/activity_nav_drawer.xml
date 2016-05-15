@@ -14,11 +14,11 @@
             android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Saved houses" />
-        <!--<item
+        <item
             android:id="@+id/nav_saved_searches"
             android:icon="@drawable/ic_find_in_page_24dp"
             android:title="Saved searches" />
-        <item
+        <!--<item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Manage your account" />-->

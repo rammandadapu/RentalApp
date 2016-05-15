@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe277.rentalapp.rentalapp;
+package edu.sjsu.cmpe277.rentalapp.savedsearch;
 
 /**
  * Created by divya.chittimalla on 3/20/16.
@@ -20,8 +20,11 @@ import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.DividerItemDecoration;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.SimpleItemRecyclerViewAdapter;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.WebService;
 
-public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
+public class SavedSearchListTask extends  AsyncTask<String, String, ArrayList> {
     private AppCompatActivity activity;
     RecyclerView recyclerView;
     TextView emptyView;
@@ -32,9 +35,9 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
     boolean connectionFailed;
     private ProgressDialog mProgressDialog;
 
-    SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
+    MySavedSearchRecyclerViewAdapter mySavedSearchRecyclerViewAdapter;
 
-    public PropertySearchTask(AppCompatActivity activity, RecyclerView recyclerView, TextView emptyView) {
+    public SavedSearchListTask(AppCompatActivity activity, RecyclerView recyclerView, TextView emptyView) {
         this.activity = activity;
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
@@ -53,7 +56,7 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
 
         WebService ws = new WebService();
-        String properties = ws.searchProperties(params[0],params[1],params[2],params[3],params[4], params[5], params[6], params[7],params[8]);
+        String properties = ws.getSavedSearches(params[0]);
         System.out.println("lallalalalaaa "+properties);
         if(properties != "connection failed") {
             try {
@@ -82,8 +85,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
         else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
-            mSimpleItemRecyclerViewAdapter = new SimpleItemRecyclerViewAdapter(activity, list);
-            recyclerView.setAdapter(mSimpleItemRecyclerViewAdapter);
+            mySavedSearchRecyclerViewAdapter = new MySavedSearchRecyclerViewAdapter(activity, list);
+            recyclerView.setAdapter(mySavedSearchRecyclerViewAdapter);
             recyclerView.addItemDecoration(new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL_LIST));
         }
         activity.runOnUiThread(new Runnable() {
@@ -107,25 +110,36 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
 
                     // Storing  JSON item in a Variable
                     String _id = c.getString(DBHandler.TABLE_PROPERTY_ID);
-                    String rent = c.getString(DBHandler.TABLE_PROPERTY_PRICE);
-                    String bath = c.getString(DBHandler.TABLE_PROPERTY_BATH);
-                    String bed = c.getString(DBHandler.TABLE_PROPERTY_BED);
-                    String address = c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSLINE1);
-                    address += ", "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
-                    address += ", "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
-                    address += " "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
-                    String createdBy=c.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
+                    String name = c.getString("name");
+                    String keyword;
+                    if(c.has("keyword")) {
+                        keyword = c.getString("keyword");
+                    }
+                    else {
+                        keyword = "";
+                    }
+                    String location = c.getString("location");
+                    String pricelow = c.getString("pricelow");
+                    String pricehigh = c.getString("pricehigh");
+                    String condo = c.getString("condo");
+                    String apartment = c.getString("apartment");
+                    String house = c.getString("house");
+                    String townhouse = c.getString("townhouse");
 
                     // Adding value HashMap key => value
 
                     HashMap<String, String> map = new HashMap<String, String>();
 
                     map.put(DBHandler.TABLE_PROPERTY_ID, _id);
-                    map.put(DBHandler.TABLE_PROPERTY_PRICE, rent);
-                    map.put(DBHandler.TABLE_PROPERTY_BATH, bath);
-                    map.put(DBHandler.TABLE_PROPERTY_BED, bed);
-                    map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
-                    map.put(DBHandler.TABLE_PROPERTY_CREATEDBY, createdBy);
+                    map.put("name",name);
+                    map.put("location",location);
+                    map.put("keyword",keyword);
+                    map.put("pricelow",pricelow);
+                    map.put("pricehigh",pricehigh);
+                    map.put("condo",condo);
+                    map.put("apartment",apartment);
+                    map.put("house",house);
+                    map.put("townhouse",townhouse);
 
                     System.out.println("MAP: " + map.toString());
                     oslist.add(map);

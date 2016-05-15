@@ -29,6 +29,7 @@ import edu.sjsu.cmpe277.rentalapp.createpost.UserPostHistoryFragment;
 import edu.sjsu.cmpe277.rentalapp.favorites.FavoritesListFragment;
 import edu.sjsu.cmpe277.rentalapp.login.LoginActivity;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
+import edu.sjsu.cmpe277.rentalapp.savedsearch.SavedSearchFragment;
 
 import android.graphics.drawable.Drawable;
 
@@ -131,13 +132,17 @@ public class NavActivity extends AppCompatActivity
         userEmailTextView=(TextView)  navigationView.getHeaderView(0).findViewById(R.id.email);
         userImageView=(ImageView)navigationView.getHeaderView(0).findViewById(R.id.imageView);
         GlobalPojo globalPojo=(GlobalPojo)getApplicationContext();
+
+        //TODO remove this - start
+        /**globalPojo.setUserName("divya");
+        globalPojo.setEmail("divya@mail.com");*/
+        //end
+
         userNameTextView.setText(globalPojo.getUserName());
         userEmailTextView.setText(globalPojo.getEmail());
         if(null!=globalPojo.getImageUrl()) {
                 download(globalPojo.getImageUrl(), userImageView);
         }
-
-
     }
 
     @Override
@@ -203,10 +208,10 @@ public class NavActivity extends AppCompatActivity
             case R.id.nav_favorites:
                 fragment = new FavoritesListFragment();
                 break;
-            /**case R.id.nav_saved_searches:
-                fragment = new PropertyListFragment();
+            case R.id.nav_saved_searches:
+                fragment = new SavedSearchFragment();
                 break;
-            case R.id.nav_manage:
+            /**case R.id.nav_manage:
                 fragment = new PropertyListFragment();
                 break;*/
             case  R.id.nav_logout:
