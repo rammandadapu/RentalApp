@@ -42,7 +42,10 @@ exports.upload=function(req,res){
 		      if (err) {
 		        console.log(err);
 		      } else{
-		    	  console.log(result.ops[0]._id);		    	  
+		    	  console.log(result.ops[0]._id);	
+		    	  notifications.notifySavedSearches(newPost, function(err,res){
+		    		  
+		    	  });
 		    	  mailcomponent.sendMailHelper(function(response){
 		    		  res.status(201);
 		    		  res.send(result.ops[0]._id);

@@ -13,8 +13,8 @@ exports.saveSearch = function(req, res) {
 		  } else {		 
 		    console.log('Connection established to', url);
 		 
-		    var collection = db.collection('savedSearches');		    		   
-
+		    var collection = db.collection('savedSearches');	
+		    		  
 		    var email = req.query.email;
 		    var name = req.query.name;
 		    var keyword = req.query.keyword;
@@ -58,11 +58,11 @@ exports.saveSearch = function(req, res) {
 		    }
 		    
 		    if(pricelow !== undefined && pricelow !== "") {
-		    	query["pricelow"] = pricelow;
+		    	query["pricelow"] = parseFloat(pricelow);
 		    }
 		    
 		    if(pricehigh !== undefined && pricehigh !== "") {
-		    	query["pricehigh"] = pricehigh;
+		    	query["pricehigh"] = parseFloat(pricehigh);
 		    }
 		    
 		    if(location !== undefined && location !== "") {

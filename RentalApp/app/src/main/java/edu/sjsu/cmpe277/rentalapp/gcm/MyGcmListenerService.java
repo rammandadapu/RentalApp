@@ -12,8 +12,13 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import java.util.HashMap;
+
 import edu.sjsu.cmpe277.rentalapp.R;
+import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
+import edu.sjsu.cmpe277.rentalapp.savedsearch.SavedSearchResultActivity;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -51,7 +56,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        sendNotification(data);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -61,20 +66,31 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message) {
-        Intent intent = new Intent(this, NavActivity.class);
+    private void sendNotification(Bundle data) {
+        Intent intent = new Intent(this, SavedSearchResultActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, "27532");
+        intent.putExtra("name",data.getString("name"));
+        intent.putExtra("keyword",data.getString("keyword"));
+        intent.putExtra("location",data.getString("location"));
+        intent.putExtra("pricelow",data.getString("pricelow"));
+        intent.putExtra("pricehigh",data.getString("pricehigh"));
+        intent.putExtra("condo",data.getString("condo"));
+        intent.putExtra("house",data.getString("house"));
+        intent.putExtra("apartment",data.getString("apartment"));
+        intent.putExtra("townhouse", data.getString("townhouse"));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("GCM Message")
-                .setContentText(message)
+                .setContentTitle("Rental App")
+                .setContentText("New results found for your search")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
