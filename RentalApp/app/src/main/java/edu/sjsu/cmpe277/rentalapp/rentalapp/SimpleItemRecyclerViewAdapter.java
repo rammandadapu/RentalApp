@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.text.NumberFormat;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
-
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 
 /**
@@ -29,6 +27,7 @@ public class SimpleItemRecyclerViewAdapter
 
     private AppCompatActivity activity;
     private final ArrayList mValues;
+
 
     public SimpleItemRecyclerViewAdapter(AppCompatActivity activity, ArrayList items) {
         this.activity = activity;
@@ -49,7 +48,9 @@ public class SimpleItemRecyclerViewAdapter
         NumberFormat format = NumberFormat.getCurrencyInstance();
         holder.mRentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE))));
         holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
-        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED)+"bd   "+map.get(DBHandler.TABLE_PROPERTY_BATH)+"ba");
+        holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED) + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH) + "ba");
+        if (null != map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
+            download(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL), holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +74,13 @@ public class SimpleItemRecyclerViewAdapter
         });
     }
 
+    private void download(String url, ImageView imageView) {
+        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
+        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+        imageView.setImageDrawable(downloadedDrawable);
+        task.execute(url);
+    }
+
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -83,6 +91,7 @@ public class SimpleItemRecyclerViewAdapter
         public final TextView mRentView;
         public final TextView mBedBathView;
         public final TextView mAddressView;
+        private final ImageView mImageView;
         public DummyContent.DummyItem mItem;
 
         public ViewHolder(View view) {
@@ -91,6 +100,7 @@ public class SimpleItemRecyclerViewAdapter
             mRentView = (TextView) view.findViewById(R.id.rent_list);
             mBedBathView = (TextView) view.findViewById(R.id.bed_bath_list);
             mAddressView = (TextView) view.findViewById(R.id.address_list);
+            mImageView = (ImageView) view.findViewById(R.id.property_image_list);
         }
     }
 }

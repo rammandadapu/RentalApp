@@ -115,7 +115,7 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
                     address += ", "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
                     address += " "+ c.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
                     String createdBy=c.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
-
+                    String imageUrl=c.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
                     // Adding value HashMap key => value
 
                     HashMap<String, String> map = new HashMap<String, String>();
@@ -126,6 +126,8 @@ public class PropertySearchTask extends  AsyncTask<String, String, ArrayList> {
                     map.put(DBHandler.TABLE_PROPERTY_BED, bed);
                     map.put(DBHandler.TABLE_PROPERTY_ADDRESS, address);
                     map.put(DBHandler.TABLE_PROPERTY_CREATEDBY, createdBy);
+                    if(!"null".equalsIgnoreCase(imageUrl))
+                        map.put(DBHandler.TABLE_PROPERTY_IMAGE_URL,imageUrl);
 
                     System.out.println("MAP: " + map.toString());
                     oslist.add(map);

@@ -3,6 +3,10 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyActivity;
-import edu.sjsu.cmpe277.rentalapp.createpost.CreateNewPropertyFragment;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.RentalProperty;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
@@ -48,12 +54,13 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     TextView viewCountPrefixView;
     TextView viewCountPostfixView;
 
+
     Button editButton;
     Button soldOutButton;
     private GlobalPojo globalPojo;
-    public  static final String STATUS_AVAILABLE="Available";
-    public  static final String STATUS_SOLD="SOLD";
-    private String propertStatus=STATUS_AVAILABLE;
+    public static final String STATUS_AVAILABLE = "Available";
+    public static final String STATUS_SOLD = "SOLD";
+    private String propertStatus = STATUS_AVAILABLE;
     private String propertyIdentifier;
 
     private ProgressDialog mProgressDialog;
@@ -63,6 +70,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     FloatingActionButton fab;
 
     CollapsingToolbarLayout appBarLayout;
+
     public PropertyDetailFragment() {
     }
 
@@ -72,8 +80,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
         Activity activity = this.getActivity();
         appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        globalPojo=(GlobalPojo)getActivity().getApplicationContext();
-        System.out.print("*****"+globalPojo.getEmail());
+        globalPojo = (GlobalPojo) getActivity().getApplicationContext();
+        System.out.print("*****" + globalPojo.getEmail());
     }
 
     @Override
@@ -81,7 +89,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.property_detail, container, false);
-        dbHandler=new DBHandler(getContext(),null,null,0);
+        dbHandler = new DBHandler(getContext(), null, null, 0);
         rentView = (TextView) rootView.findViewById(R.id.rent_detail);
         bedBathView = (TextView) rootView.findViewById(R.id.bed_bath_detail);
         addressView = (TextView) rootView.findViewById(R.id.address_detail);
@@ -91,23 +99,24 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         emailView = (TextView) rootView.findViewById(R.id.email_detail);
         phoneView = (TextView) rootView.findViewById(R.id.phone_detail);
         viewCountView = (TextView) rootView.findViewById(R.id.view_count_detail);
-        viewCountPrefixView=(TextView)rootView.findViewById(R.id.view_count_label1);
-        viewCountPostfixView=(TextView)rootView.findViewById(R.id.view_count_label2);
+        viewCountPrefixView = (TextView) rootView.findViewById(R.id.view_count_label1);
+        viewCountPostfixView = (TextView) rootView.findViewById(R.id.view_count_label2);
+
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
-        editButton=(Button)rootView.findViewById(R.id.button_post_edit);
-        soldOutButton=(Button)rootView.findViewById(R.id.button_post_cancelled);
+        editButton = (Button) rootView.findViewById(R.id.button_post_edit);
+        soldOutButton = (Button) rootView.findViewById(R.id.button_post_cancelled);
         soldOutButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             //fetching code - START
             final String propertyId = getArguments().getString(ARG_ITEM_ID);
-            propertyIdentifier=propertyId;
-            if(dbHandler.isFavourite(propertyId)) {
+            propertyIdentifier = propertyId;
+            if (dbHandler.isFavourite(propertyId)) {
                 toggleFavouriteImage(true);
             }
-            final View view=rootView;
+            final View view = rootView;
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -171,10 +180,11 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
                             if (appBarLayout != null) {
                                 appBarLayout.setTitle(map.get(DBHandler.TABLE_PROPERTY_NAME).toString());
+                                drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
+
                             }
 
-                            if(map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail()))
-                            {
+                            if (map.get(DBHandler.TABLE_PROPERTY_CREATEDBY).toString().equalsIgnoreCase(globalPojo.getEmail())) {
                                 viewCountView.setText(map.get(DBHandler.TABLE_PROPERTY_VIEWCOUNT).toString());
                                 viewCountView.setVisibility(View.VISIBLE);
                                 viewCountPrefixView.setVisibility(View.VISIBLE);
@@ -182,7 +192,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                                 editButton.setVisibility(View.VISIBLE);
                                 soldOutButton.setVisibility(View.VISIBLE);
                                 //Always next two line one after another
-                                propertStatus=map.get(DBHandler.TABLE_PROPERTY_STATUS).toString();
+                                propertStatus = map.get(DBHandler.TABLE_PROPERTY_STATUS).toString();
                                 handleSoldAvailableButton();
                             }
                         } catch (NullPointerException e) {
@@ -197,12 +207,40 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
-    private void toggleFavouriteImage(boolean flag){
-        if(flag)
+    private void drawableFromUrl(final String url) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                InputStream input = null;
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                    connection.connect();
+                    input = connection.getInputStream();
+                } catch (Exception ex) {
+                    System.out.print(ex);
+
+                }
+                final Bitmap bitmap = BitmapFactory.decodeStream(input);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appBarLayout.setBackground(new BitmapDrawable(getResources(), bitmap));
+                    }
+                });
+                return null;
+            };
+
+        }.execute();
+    }
+
+    private void toggleFavouriteImage(boolean flag) {
+        if (flag)
             fab.setImageResource(R.mipmap.gold_star);
         else
             fab.setImageResource(R.mipmap.white_star);
     }
+
     public HashMap processJson(String jsonStuff) throws JSONException {
         JSONArray jsonArray = new JSONArray(jsonStuff);
         JSONObject json = jsonArray.getJSONObject(0);
@@ -215,19 +253,20 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             String bed = json.getString(DBHandler.TABLE_PROPERTY_BED);
             String bath = json.getString(DBHandler.TABLE_PROPERTY_BATH);
             String address = json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSLINE1);
-            address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
-            address += ", "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
-            address += " "+ json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
-            String createdBy=json.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
+            address += ", " + json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSCITY);
+            address += ", " + json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE);
+            address += " " + json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP);
+            String createdBy = json.getString(DBHandler.TABLE_PROPERTY_CREATEDBY);
             String size = json.getString(DBHandler.TABLE_PROPERTY_SIZE);
             String type = json.getString(DBHandler.TABLE_PROPERTY_TYPE);
             String email = json.getString(DBHandler.TABLE_PROPERTY_EMAIL);
             String phone = json.getString(DBHandler.TABLE_PROPERTY_PHONE);
             String desc = json.getString(DBHandler.TABLE_PROPERTY_DESC);
             String viewCount = json.getString(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
-            String status=json.getString(DBHandler.TABLE_PROPERTY_STATUS);
+            String status = json.getString(DBHandler.TABLE_PROPERTY_STATUS);
+            String imageUrl = json.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
             String name = "Details";
-            if(json.has(DBHandler.TABLE_PROPERTY_NAME)) {
+            if (json.has(DBHandler.TABLE_PROPERTY_NAME)) {
                 name = json.getString(DBHandler.TABLE_PROPERTY_NAME);
             }
             //String image_url = c.getString("image_url");
@@ -247,7 +286,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
             map.put(DBHandler.TABLE_PROPERTY_PHONE, phone);
             map.put(DBHandler.TABLE_PROPERTY_DESC, desc);
             map.put(DBHandler.TABLE_PROPERTY_VIEWCOUNT, viewCount);
-
+            if (!"null".equalsIgnoreCase(imageUrl))
+                map.put(DBHandler.TABLE_PROPERTY_IMAGE_URL, imageUrl);
 
             map.put(DBHandler.TABLE_PROPERTY_STATUS, status);
             map.put(DBHandler.TABLE_PROPERTY_NAME, name);
@@ -262,62 +302,61 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     }
 
 
-
-    private void postChangeToDB(String propertStatus){
+    private void postChangeToDB(String propertStatus) {
         showProgressDialog();
-        new AsyncTask<String,String,String>(){
+        new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... params) {
-                return new WebService().changePropetyStatus(params[0],propertyIdentifier);
+                return new WebService().changePropetyStatus(params[0], propertyIdentifier);
 
             }
         }.execute(propertStatus);
         hideProgressDialog();
     }
 
-    private void setIcon(int icon){
+    private void setIcon(int icon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             soldOutButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0);
-        }
-        else{
-            soldOutButton.setCompoundDrawables(null,null,null,null);
+        } else {
+            soldOutButton.setCompoundDrawables(null, null, null, null);
 
         }
     }
-    private void handleSoldAvailableButton(){
-        if(STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)){
+
+    private void handleSoldAvailableButton() {
+        if (STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)) {
             soldOutButton.setText(R.string.post_cancelled);
             setIcon(R.drawable.ic_lock_white_24dp);
-        }
-        else {
+        } else {
             soldOutButton.setText(R.string.post_available);
             setIcon(R.drawable.ic_lock_open_white_24dp);
         }
 
     }
-    private void togglePropertyStatus(){
-        if(STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)){
-            propertStatus=STATUS_SOLD;
-        }
-        else{
-            propertStatus=STATUS_AVAILABLE;
+
+    private void togglePropertyStatus() {
+        if (STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)) {
+            propertStatus = STATUS_SOLD;
+        } else {
+            propertStatus = STATUS_AVAILABLE;
         }
         handleSoldAvailableButton();
         postChangeToDB(propertStatus);
     }
 
-    private void showEditScreen(){
-        Intent intent=new Intent(getContext(),CreateNewPropertyActivity.class);
-        intent.putExtra("_id",propertyIdentifier);
+    private void showEditScreen() {
+        Intent intent = new Intent(getContext(), CreateNewPropertyActivity.class);
+        intent.putExtra("_id", propertyIdentifier);
         startActivity(intent);
     }
+
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.button_post_cancelled:
                 togglePropertyStatus();
-                Toast.makeText(getContext(),"Request Submitted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Request Submitted", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_post_edit:
                 showEditScreen();
