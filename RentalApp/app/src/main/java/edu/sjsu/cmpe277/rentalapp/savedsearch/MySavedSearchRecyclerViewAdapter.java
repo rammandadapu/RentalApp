@@ -82,21 +82,20 @@ public class MySavedSearchRecyclerViewAdapter extends RecyclerView.Adapter<MySav
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NavActivity.mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
-                    PropertyDetailFragment fragment = new PropertyDetailFragment();
-                    fragment.setArguments(arguments);
-                    (activity).getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.property_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, PropertyDetailActivity.class);
-                    intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
+                Context context = v.getContext();
+                Intent intent = new Intent(context, SavedSearchResultActivity.class);
+                intent.putExtra(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
+                intent.putExtra("name",((HashMap<String, String>) mValues.get(position)).get("name"));
+                intent.putExtra("keyword",((HashMap<String, String>) mValues.get(position)).get("keyword"));
+                intent.putExtra("location",((HashMap<String, String>) mValues.get(position)).get("location"));
+                intent.putExtra("pricelow",((HashMap<String, String>) mValues.get(position)).get("pricelow"));
+                intent.putExtra("pricehigh",((HashMap<String, String>) mValues.get(position)).get("pricehigh"));
+                intent.putExtra("condo",((HashMap<String, String>) mValues.get(position)).get("condo"));
+                intent.putExtra("house",((HashMap<String, String>) mValues.get(position)).get("house"));
+                intent.putExtra("apartment",((HashMap<String, String>) mValues.get(position)).get("apartment"));
+                intent.putExtra("townhouse",((HashMap<String, String>) mValues.get(position)).get("townhouse"));
 
-                    context.startActivity(intent);
-                }
+                context.startActivity(intent);
             }
         });
     }

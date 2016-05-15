@@ -14,16 +14,7 @@ import android.widget.TextView;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertySearchTask;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.dummy.DummyContent;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.dummy.DummyContent.DummyItem;
 
-/**
- * A fragment representing a list of Items.
- * <p>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class SavedSearchFragment extends Fragment {
 
     private RecyclerView mRecycleView;

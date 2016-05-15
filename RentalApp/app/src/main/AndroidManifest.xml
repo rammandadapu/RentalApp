@@ -79,6 +79,23 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_post_successscreen"
             android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".savedsearch.SavedSearchResultActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_property_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".savedsearch.SavedSearchActivity" />
+        </activity>
+        <activity
+            android:name=".savedsearch.SavedSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_property_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".rentalapp.NavActivity" />
     </application>
 
 </manifest>
