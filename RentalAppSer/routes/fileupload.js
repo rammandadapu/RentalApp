@@ -4,8 +4,23 @@
 var constants = require('./constants');
 var mailcomponent = require('./mailcomponent');
 var mongodb = require('mongodb');
+var path = require('path');
 var mongoUrl=constants.MongoURL;
 var MongoClient = mongodb.MongoClient;
+
+/*exports.uploadtest=function(req,res){
+	var newPost  = JSON.parse(req.body.property);	
+    //console.log(newPost);
+    //console.log(newPost.post);
+   // res.send();
+    //console.log(newPost)	
+    newPost["imageUrl"]=req.files[0].filename;
+	console.log("body..");
+	console.log(newPost);
+	console.log("files..")
+	console.log(req.files);
+	res.send();
+}*/
 
 exports.upload=function(req,res){
 	MongoClient.connect(mongoUrl, function (err, db) {
@@ -15,11 +30,13 @@ exports.upload=function(req,res){
 		    console.log('Connection established to', mongoUrl);
 		    var collection = db.collection('property');		    		   
 
-		    var newPost  = JSON.parse(req.body.post);	
+		    var newPost  = JSON.parse(req.body.post);
+		    newPost["imageUrl"]=req.files[0].filename;
 		    //console.log(newPost);
 		    //console.log(newPost.post);
 		   // res.send();
-		    //console.log(newPost)	 
+		    //console.log(newPost)	
+		    
 		    collection.insert(newPost,function (err, result) {
 		      if (err) {
 		        console.log(err);
@@ -37,4 +54,16 @@ exports.upload=function(req,res){
 		  }
 		});
 	
+};
+
+exports.download=function(req,res){
+	
+	    console.log(req.body);
+	     var id=req.param("id");;
+	     console.log(id);
+	     id ="/uploads/"+id;
+	     console.log(id);
+		  res.sendFile(appRoot+id);
+		
+
 };
