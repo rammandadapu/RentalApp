@@ -144,11 +144,12 @@ public class WebService {
         //return response.getBody();
     }
 
-    public String addSavedSearch(String email, String keyword, String location, String priceLow, String priceHigh,
+    public String addSavedSearch(String email, String name, String keyword, String location, String priceLow, String priceHigh,
                                  String condo, String apartment, String house, String townhouse) {
         try{
-            OAuthRequest request = new OAuthRequest(Verb.GET, baseURL+"saveSearch");
+            OAuthRequest request = new OAuthRequest(Verb.POST, baseURL+"saveSearch");
             request.addQuerystringParameter("email", email);
+            request.addQuerystringParameter("name", name);
             request.addQuerystringParameter("keyword", keyword);
             request.addQuerystringParameter("pricelow", priceLow);
             request.addQuerystringParameter("pricehigh", priceHigh);

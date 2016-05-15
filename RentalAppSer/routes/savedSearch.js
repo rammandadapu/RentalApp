@@ -16,6 +16,7 @@ exports.saveSearch = function(req, res) {
 		    var collection = db.collection('savedSearches');		    		   
 
 		    var email = req.query.email;
+		    var name = req.query.name;
 		    var keyword = req.query.keyword;
 		    var location = req.query.location;
 		    var condo = req.query.condo;
@@ -32,6 +33,10 @@ exports.saveSearch = function(req, res) {
 		    }
 		    else {
 		    	res.send("email missing");
+		    }
+		    
+		    if(name !== undefined && name !== "") {
+		    	query["name"] = name;
 		    }
 		 
 		    if(condo !== undefined && condo !== "") {
@@ -72,7 +77,7 @@ exports.saveSearch = function(req, res) {
 			        res.end("error");
 			      } else {
 			          console.log('Inserted:', result);
-			          res.send(result);			   
+			          res.end("successful");			   
 			      }
 		    	db.close();
 		    });

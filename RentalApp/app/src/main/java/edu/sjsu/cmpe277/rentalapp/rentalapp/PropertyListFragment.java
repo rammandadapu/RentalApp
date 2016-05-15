@@ -2,9 +2,11 @@ package edu.sjsu.cmpe277.rentalapp.rentalapp;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.Geocoder;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.location.Address;
@@ -40,10 +43,12 @@ import java.io.IOException;
 import android.widget.Toast;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
+import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,6 +86,8 @@ public class PropertyListFragment extends Fragment
     TextView savedSearchName;
     TextView savedSearchFilter;
     CheckBox notificationsCheckbox;
+
+    GlobalPojo globalPojo;
 
 
     private SimpleItemRecyclerViewAdapter mSimpleItemRecyclerViewAdapter;
@@ -126,6 +133,8 @@ public class PropertyListFragment extends Fragment
                 showSaveSearchDialog();
             }
         });
+
+        globalPojo=(GlobalPojo)getActivity().getApplicationContext();
 
         return view;
     }
@@ -387,7 +396,7 @@ public class PropertyListFragment extends Fragment
         notificationsCheckbox = (CheckBox) saveSearchDialog.findViewById(R.id.notification_checkbox);
 
         savedSearchName.setText(locationFilter);
-        String keywordText = (TextUtils.isEmpty(keywordFilter)?"":keywordFilter);
+        String keywordText = (TextUtils.isEmpty(keywordFilter)?"":"Keyword: "+keywordFilter);
         String priceRangeText = "Price range: $"+priceLowFilter+"-"+priceHighFilter;
         String houseText = (houseFilter?"House":"");
         String apartmentText = (apartmentFilter?"Apartment":"");
@@ -427,8 +436,7 @@ public class PropertyListFragment extends Fragment
         alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                //saveSearch();
-                Toast.makeText(getContext(), "Search saved", Toast.LENGTH_LONG).show();
+                saveSearch();
             }
         });
 
@@ -445,6 +453,28 @@ public class PropertyListFragment extends Fragment
         alertDialog.show();
     }
 
+    public void saveSearch() {
+        new AsyncTask<String, String, String>() {
+
+            @Override
+            protected String doInBackground(String... params) {
+                WebService ws = new WebService();
+                String result = ws.addSavedSearch(params[0],params[1],params[2],params[3],params[4],params[5],params[6],params[7],params[8],params[9]);
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if(TextUtils.equals(result,"successful")) {
+                    Toast.makeText(getContext(), "Search saved", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Error saving search", Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute(globalPojo.getEmail(),locationFilter,keywordFilter,locationFilter,priceLowFilter,priceHighFilter,String.valueOf(condoFilter),String.valueOf(apartmentFilter),String.valueOf(houseFilter),String.valueOf(townhouseFilter));
+    }
 
     private class MyLocationListener implements LocationListener {
 
