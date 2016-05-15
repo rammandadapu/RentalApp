@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 9;
     private static final String DB = "rentalapp.db";
     private static final String TABLE = "favorites";
     public static final String TABLE_PROPERTY_ID = "_id";
@@ -31,7 +31,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String TABLE_PROPERTY_BEDBATH = "bed_bath";
     public static final String TABLE_PROPERTY_BED = "bedNo";
     public static final String TABLE_PROPERTY_BATH = "bathNo";
-    public static final String TABLE_PROPERTY_IMAGE_URL = "image_url";
+    public static final String TABLE_PROPERTY_IMAGE_URL = "imageUrl";
     public static final String TABLE_PROPERTY_CREATEDBY = "createdBy";
     public static final String TABLE_PROPERTY_STATUS="status";
 
