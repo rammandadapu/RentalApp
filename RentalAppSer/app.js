@@ -44,7 +44,6 @@ app.post('/saveSearch', savedSearch.saveSearch);
 app.get('/getSavedSearches/:email', savedSearch.getSavedSearches);
 app.get('/getSavedSearchResults/:sid', savedSearch.getSavedSearchResults);
 
-app.get('/send', notifications.sendNotification);
 
 
 

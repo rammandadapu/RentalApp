@@ -36,6 +36,8 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
 
+    public static String registrationId;
+
     public RegistrationIntentService() {
         super(TAG);
     }
@@ -54,6 +56,7 @@ public class RegistrationIntentService extends IntentService {
             InstanceID instanceID = InstanceID.getInstance(this);
             String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+            registrationId = token;
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 

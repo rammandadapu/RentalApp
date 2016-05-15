@@ -16,6 +16,7 @@ import org.scribe.oauth.OAuthService;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
+import edu.sjsu.cmpe277.rentalapp.gcm.RegistrationIntentService;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 
 
@@ -158,6 +159,8 @@ public class WebService {
             request.addQuerystringParameter("apartment", apartment);
             request.addQuerystringParameter("house", house);
             request.addQuerystringParameter("townhouse", townhouse);
+            request.addQuerystringParameter("regId", RegistrationIntentService.registrationId);
+            request.addQuerystringParameter("notify", "true");
             Response response = request.send();
             return response.getBody();
         }
