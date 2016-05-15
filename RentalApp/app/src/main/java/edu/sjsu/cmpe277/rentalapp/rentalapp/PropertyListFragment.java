@@ -118,6 +118,7 @@ public class PropertyListFragment extends Fragment
 
         filterButton = (Button) view.findViewById(R.id.filter_button);
         filterButton.setBackgroundResource(R.drawable.white_image);
+        filterButton.setVisibility(View.VISIBLE);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -127,6 +128,7 @@ public class PropertyListFragment extends Fragment
 
         saveSearchButton = (Button) view.findViewById(R.id.save_search_button);
         saveSearchButton.setBackgroundResource(R.drawable.white_image);
+        saveSearchButton.setVisibility(View.VISIBLE);
 
         saveSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
