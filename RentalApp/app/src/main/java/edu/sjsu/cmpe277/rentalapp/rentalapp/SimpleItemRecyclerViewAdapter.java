@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +51,12 @@ public class SimpleItemRecyclerViewAdapter
         holder.mRentView.setText(format.format(Integer.parseInt(map.get(DBHandler.TABLE_PROPERTY_PRICE))));
         holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
         holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BED) + "bd   " + map.get(DBHandler.TABLE_PROPERTY_BATH) + "ba");
-        if (null != map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
-            download(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL), holder.mImageView);
+        if (null != map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)){
+            Picasso.with(activity).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
+                    .resize(256,256)
+                    .into(holder.mImageView);
+        }
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,12 +80,7 @@ public class SimpleItemRecyclerViewAdapter
         });
     }
 
-    private void download(String url, ImageView imageView) {
-        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
-        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-        imageView.setImageDrawable(downloadedDrawable);
-        task.execute(url);
-    }
+
 
     @Override
     public int getItemCount() {
