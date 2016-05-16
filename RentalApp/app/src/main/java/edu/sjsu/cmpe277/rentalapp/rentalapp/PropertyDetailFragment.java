@@ -221,11 +221,12 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
                                         @Override
                                         public void onBitmapFailed(Drawable errorDrawable) {
+                                            Toast.makeText(getActivity(),"Image is too large to load",Toast.LENGTH_LONG).show();
                                             System.out.print("failinggg....");
                                         }
                                     };
 
-                                    Picasso.with(getContext()).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)).resize(256,256).into(target);
+                                    Picasso.with(getContext()).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)).resize(256, 256).into(target);
                                 }
                                    // drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
 
