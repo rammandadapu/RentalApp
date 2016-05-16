@@ -41,7 +41,7 @@
         android:layout_height="1dp"
         android:id="@+id/line1"
         android:background="#8d8d8d"
-        android:layout_below="@id/filter_button" />
+        android:layout_above="@id/filter_button" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

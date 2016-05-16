@@ -8,7 +8,7 @@
     android:weightSum="1">
 
     <Button
-        android:layout_width="193dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:id="@+id/filter_button"
         android:text="@string/action_filter"
@@ -18,12 +18,22 @@
         android:longClickable="false" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:id="@+id/dummy"
+        android:text=""
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/filter_button"
+        android:visibility="gone"
+        android:longClickable="false" />
+
+    <Button
+        android:layout_width="160dp"
         android:layout_height="50dp"
         android:id="@+id/save_search_button"
         android:text="@string/action_save_search"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/filter_button"
+        android:layout_alignParentRight="true"
         android:visibility="gone"
         android:longClickable="false" />
 
@@ -32,7 +42,7 @@
         android:layout_height="1dp"
         android:id="@+id/line1"
         android:background="#8d8d8d"
-        android:layout_below="@id/filter_button" />
+        android:layout_above="@id/filter_button" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -45,7 +55,7 @@
         tools:context=".rentalapp.PropertyListActivity"
         tools:listitem="@layout/property_list_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/filter_button" />
+        android:layout_above="@id/filter_button"/>
 
     <TextView
         android:id="@+id/empty_view"
@@ -54,7 +64,6 @@
         android:gravity="center"
         android:visibility="gone"
         android:text="@string/no_data_available" />
-
 
 
 </RelativeLayout>

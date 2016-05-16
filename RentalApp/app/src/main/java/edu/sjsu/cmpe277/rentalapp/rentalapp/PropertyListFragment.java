@@ -82,6 +82,7 @@ public class PropertyListFragment extends Fragment
 
     Button filterButton;
     Button saveSearchButton;
+    Button dummy;
 
     TextView savedSearchName;
     TextView savedSearchFilter;
@@ -129,6 +130,10 @@ public class PropertyListFragment extends Fragment
         saveSearchButton = (Button) view.findViewById(R.id.save_search_button);
         saveSearchButton.setBackgroundResource(R.drawable.white_image);
         saveSearchButton.setVisibility(View.VISIBLE);
+
+        dummy = (Button) view.findViewById(R.id.dummy);
+        dummy.setBackgroundResource(R.drawable.white_image);
+        dummy.setVisibility(View.VISIBLE);
 
         saveSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

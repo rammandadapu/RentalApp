@@ -6,7 +6,7 @@
         android:layout_width="fill_parent"
         android:layout_height="120dp"
         android:id="@+id/property_image_list"
-        android:src="@mipmap/apartment"
+        android:src="@mipmap/buildings"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

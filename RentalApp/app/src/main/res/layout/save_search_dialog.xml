@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="7dp">
 
     <TextView
     android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:text="Name"
         style="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/search_name_dialog"
-        android:layout_below="@id/name_label" />
+        android:layout_below="@id/name_label"
+        android:paddingBottom="3dp" />
 
     <View
         android:layout_width="fill_parent"
@@ -36,7 +38,8 @@
         android:text="Filters"
         android:id="@+id/filter_label"
         style="@style/TextAppearance.AppCompat.Title"
-        android:layout_below="@id/line1" />
+        android:layout_below="@id/line1"
+        android:paddingTop="3dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +48,8 @@
         android:text="Filters"
         style="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/filter_dialog"
-        android:layout_below="@id/filter_label" />
+        android:layout_below="@id/filter_label"
+        android:paddingBottom="3dp" />
 
     <View
         android:layout_width="fill_parent"
@@ -61,7 +65,8 @@
         android:text="Allow notifications"
         android:id="@+id/notification_label"
         style="@style/TextAppearance.AppCompat.Title"
-        android:layout_below="@id/line2" />
+        android:layout_below="@id/line2"
+        android:paddingTop="3dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -69,6 +74,8 @@
         android:id="@+id/notification_checkbox"
         android:layout_alignTop="@+id/line2"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="3dp"
+        android:paddingRight="10dp" />
 
 </RelativeLayout>
