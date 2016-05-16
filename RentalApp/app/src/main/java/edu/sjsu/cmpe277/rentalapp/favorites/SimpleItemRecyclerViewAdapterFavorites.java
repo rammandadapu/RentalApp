@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.sjsu.cmpe277.rentalapp.R;
 import edu.sjsu.cmpe277.rentalapp.dummy.DummyContent;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.DownloadedDrawable;
-import edu.sjsu.cmpe277.rentalapp.rentalapp.ImageDownloaderTask;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.NavActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailActivity;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
@@ -53,7 +52,10 @@ public class SimpleItemRecyclerViewAdapterFavorites
         holder.mAddressView.setText(map.get(DBHandler.TABLE_PROPERTY_ADDRESS));
         holder.mBedBathView.setText(map.get(DBHandler.TABLE_PROPERTY_BEDBATH));
         if (null != map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
-            download(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL), holder.mImageView);
+            Picasso.with(context).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
+                    .resize(256,256)
+                    .into(holder.mImageView);
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +65,7 @@ public class SimpleItemRecyclerViewAdapterFavorites
                     arguments.putString(PropertyDetailFragment.ARG_ITEM_ID, ((HashMap<String, String>) mValues.get(position)).get(DBHandler.TABLE_PROPERTY_ID));
                     PropertyDetailFragment fragment = new PropertyDetailFragment();
                     fragment.setArguments(arguments);
-                    ((NavActivity)context).getSupportFragmentManager().beginTransaction()
+                    ((NavActivity) context).getSupportFragmentManager().beginTransaction()
                             .replace(R.id.property_detail_container, fragment)
                             .commit();
                 } else {
@@ -76,12 +78,7 @@ public class SimpleItemRecyclerViewAdapterFavorites
             }
         });
     }
-    private void download(String url, ImageView imageView) {
-        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
-        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
-        imageView.setImageDrawable(downloadedDrawable);
-        task.execute(url);
-    }
+
 
     @Override
     public int getItemCount() {

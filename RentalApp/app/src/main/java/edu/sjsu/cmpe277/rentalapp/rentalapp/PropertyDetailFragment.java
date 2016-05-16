@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,16 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
@@ -204,8 +203,31 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
 
                             if (appBarLayout != null) {
                                 appBarLayout.setTitle(map.get(DBHandler.TABLE_PROPERTY_NAME).toString());
-                                if(null!=map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
-                                    drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
+                                if(null!=map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)){
+                                    appBarLayout.getBackground();
+
+                                    Target target = new Target() {
+                                        @Override
+                                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                           ImageView imageView=new ImageView(getContext());
+                                            imageView.setImageBitmap(bitmap);
+                                            appBarLayout.setBackground(imageView.getDrawable());
+                                        }
+
+                                        @Override
+                                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                            System.out.print("onPreloading....");
+                                        }
+
+                                        @Override
+                                        public void onBitmapFailed(Drawable errorDrawable) {
+                                            System.out.print("failinggg....");
+                                        }
+                                    };
+
+                                    Picasso.with(getContext()).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)).resize(256,256).into(target);
+                                }
+                                   // drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
 
                             }
 
@@ -232,32 +254,6 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
-    private void drawableFromUrl(final String url) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                InputStream input = null;
-                try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                    connection.connect();
-                    input = connection.getInputStream();
-                } catch (Exception ex) {
-                    System.out.print(ex);
-
-                }
-                final Bitmap bitmap = BitmapFactory.decodeStream(input);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        appBarLayout.setBackground(new BitmapDrawable(getResources(), bitmap));
-                    }
-                });
-                return null;
-            };
-
-        }.execute();
-    }
 
     private void toggleFavouriteImage(boolean flag) {
         if (flag)
