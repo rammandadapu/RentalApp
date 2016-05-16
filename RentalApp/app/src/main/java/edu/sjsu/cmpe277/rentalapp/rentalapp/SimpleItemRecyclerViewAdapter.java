@@ -56,6 +56,9 @@ public class SimpleItemRecyclerViewAdapter
                     .resize(256,256)
                     .into(holder.mImageView);
         }
+        else {
+            holder.mImageView.setImageResource(R.mipmap.apartment);
+        }
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

@@ -55,6 +55,8 @@ public class SimpleItemRecyclerViewAdapterFavorites
             Picasso.with(context).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL))
                     .resize(256,256)
                     .into(holder.mImageView);
+        else
+            holder.mImageView.setImageResource(R.mipmap.apartment);
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
