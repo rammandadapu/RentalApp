@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -192,7 +195,12 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             if (!"null".equalsIgnoreCase(imageUrl))
                 imageUrl=json.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
             if(null!=imageUrl)
-                download(WebService.baseURL + "download/" + imageUrl, imageView);
+            {
+                setResultImage(Uri.parse(WebService.baseURL + "download/" + imageUrl));
+            }
+                /*Picasso.with(getActivity()).load(WebService.baseURL + "download/" + imageUrl)
+                        .resize(512,256)
+                        .into(imageView);*/
 
 
 
@@ -306,22 +314,37 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(RESULT_IMAGE==requestCode && Activity.RESULT_OK==resultCode && null!=data){
-
-            try {
-                ImageUtility imageUtility=new ImageUtility(getActivity());
-                imageUrl= imageUtility.getPath(data.getData());
-                bitmap = imageUtility.getBitmap(imageUrl, 256, 256);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (IOException ex){
-                Toast.makeText(getContext(),"Can not read file location",Toast.LENGTH_LONG);
-                System.out.print(ex);
-            }
-
+            setResultImage( data.getData());
         }
+    }
+    private void setResultImage(final Uri uri){
+
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                bitmap.getWidth();
+                bitmap.getHeight();
+                imageView.setImageBitmap(bitmap);
+                ImageUtility imageUtility=new ImageUtility(getActivity());
+                imageUrl= imageUtility.getPath(uri);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                System.out.print("onPreloading....");
+
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Toast.makeText(getActivity(),"Attached Image is too large to load",Toast.LENGTH_LONG).show();
+                System.out.print("failinggg....");
+            }
+        };
+        Picasso.with(getContext()).load(uri).resize(512,512).into(target);
     }
 
 
