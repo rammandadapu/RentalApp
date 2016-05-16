@@ -49,7 +49,7 @@ app.post('/postproperty', upload.array('photos', 12), function (req, res, next) 
 	});
 app.get('/download/:id',fileupload.download);
 app.put('/property/:pid/update/', upload.array('photos', 12), function (req, res, next) {
-	console.log(req.param("pid"))
+	console.log(req.param("pid"));
 	properties.updateProperty(req,res);
 	});
 app.post('/test',function(req,res){console.log(req.body);res.end();});

@@ -83,8 +83,10 @@ exports.updateProperty=function(req,res){
 		    console.log('Connection established to', url);
 		    var collection = db.collection('property');		    		   
 
-		    var newPost  = JSON.parse(req.body.post);	
+		    var newPost  = JSON.parse(req.body.property);	
 		    var id  = req.param("pid");	
+		    if(req.files)
+		    	newPost["imageUrl"]=req.files[0].filename;
 		    //console.log(id);
 		    
 		    var query  = {};
@@ -93,12 +95,12 @@ exports.updateProperty=function(req,res){
 		    	//change to search all the text			   
 		    	query["_id"] = new ObjectId(id);	  
 		    }
-		    
+		    console.log(newPost);
 		    collection.update(query,newPost,function (err, result) {
 		      if (err) {
-		        console.log(err);
+		        console.log(req.files);
 		      } else{
-		    	  console.log(result);	
+		    	  //console.log(result);	
 		    	  getOwnerEmail(id,function(email){
 			    	  mailcomponent.sendMailHelper(function(response){
 			    		  res.send("OK");

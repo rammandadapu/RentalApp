@@ -101,8 +101,8 @@ public class WebService {
                 e.printStackTrace();
             }
         }
-        params.put("property",prepareJson(property));
-        client.post(context, baseURL+"postproperty", params, new AsyncHttpResponseHandler() {
+        params.put("property", prepareJson(property));
+        client.post(context, baseURL + "postproperty", params, new AsyncHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 System.out.print("Failed..");
@@ -115,6 +115,39 @@ public class WebService {
         });
 
         return "";
+    }
+
+    public void updateProperty(Property property, String propertyId,Context context) {
+        String requestStr = baseURL+"property/" + propertyId+"/update/";
+       /* OAuthRequest request = new OAuthRequest(Verb.PUT, requestStr);
+        request.addBodyParameter("post", prepareJson(property));
+        request.send();*/
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        if(null!=property.getImageUrl()) {
+            try {
+                File files = new File(property.getImageUrl());
+                params.put("photos", files);
+                params.put("photos", new File(property.getImageUrl()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        params.put("property",prepareJson(property));
+        client.put(context, requestStr, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                System.out.print("Failed..");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                System.out.print("Success..");
+            }
+        });
+
+
+        //return response.getBody();
     }
 
     /***
@@ -176,13 +209,7 @@ public class WebService {
         return response.getBody();
     }
 
-    public void updateProperty(Property property, String propertyId) {
-        String requestStr = baseURL+"property/" + propertyId+"/update/";
-        OAuthRequest request = new OAuthRequest(Verb.PUT, requestStr);
-        request.addBodyParameter("post", prepareJson(property));
-        request.send();
-        //return response.getBody();
-    }
+
 
     public String addSavedSearch(String email, String name, String keyword, String location, String priceLow, String priceHigh,
                                  String condo, String apartment, String house, String townhouse, String notify) {

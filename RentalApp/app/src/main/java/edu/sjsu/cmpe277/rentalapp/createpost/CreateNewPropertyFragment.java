@@ -40,6 +40,8 @@ import edu.sjsu.cmpe277.rentalapp.imageutility.ImageUtility;
 import edu.sjsu.cmpe277.rentalapp.localdbmanager.DBHandler;
 import edu.sjsu.cmpe277.rentalapp.pojo.GlobalPojo;
 import edu.sjsu.cmpe277.rentalapp.pojo.Property;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.DownloadedDrawable;
+import edu.sjsu.cmpe277.rentalapp.rentalapp.ImageDownloaderTask;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.PropertyDetailFragment;
 import edu.sjsu.cmpe277.rentalapp.rentalapp.WebService;
 
@@ -187,12 +189,25 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
             stateEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSSTATE));
             zipCodeEditText.setText(json.getJSONObject(DBHandler.TABLE_PROPERTY_ADDRESS).getString(DBHandler.TABLE_PROPERTY_ADDRESSZIP));
             noOfViews=json.getInt(DBHandler.TABLE_PROPERTY_VIEWCOUNT);
+            if (!"null".equalsIgnoreCase(imageUrl))
+                imageUrl=json.getString(DBHandler.TABLE_PROPERTY_IMAGE_URL);
+            if(null!=imageUrl)
+                download(WebService.baseURL + "download/" + imageUrl, imageView);
+
+
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void download(String url, ImageView imageView) {
+        ImageDownloaderTask task = new ImageDownloaderTask(imageView);
+        DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+        imageView.setImageDrawable(downloadedDrawable);
+        task.execute(url);
     }
 
     private void getUIReferance(View view) {
@@ -321,26 +336,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
                 new WebService().postProperty(getContext(),property);
                 //new CreatePostTask(getContext()).execute(property);
             } else {
-                new AsyncTask<Property, String, String>() {
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        showProgressDialog();
-
-                    }
-
-                    @Override
-                    protected String doInBackground(Property... params) {
-                        new WebService().updateProperty(params[0], propertyId);
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        hideProgressDialog();
-                    }
-                }.execute(property);
+                new WebService().updateProperty(property,propertyId,getContext());
 
             }
 
