@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,6 +16,33 @@
     
     -->
 
+    <Button
+        android:layout_width="193dp"
+        android:layout_height="50dp"
+        android:id="@+id/filter_button"
+        android:text="@string/action_filter"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:longClickable="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/save_search_button"
+        android:text="@string/action_save_search"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/filter_button"
+        android:visibility="gone"
+        android:longClickable="false" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/line1"
+        android:background="#8d8d8d"
+        android:layout_below="@id/filter_button" />
+
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/property_list"
@@ -24,6 +51,8 @@
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/filter_button"
         tools:context=".rentalapp.PropertyListActivity"
         tools:listitem="@layout/property_list_content" />
 
@@ -39,6 +68,6 @@
         android:id="@+id/property_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_toRightOf="@id/property_list" />
 
-</LinearLayout>
+</RelativeLayout>

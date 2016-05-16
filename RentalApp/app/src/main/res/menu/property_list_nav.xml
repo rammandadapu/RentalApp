@@ -10,9 +10,9 @@
         app:actionViewClass="android.widget.SearchView"
         />
 
-    <!--item
-        android:id="@+id/sort"
-        android:icon="@drawable/ic_sort_white_24dp"
-        android:title="@string/action_filter"
-        app:showAsAction="always" /-->
+    <item
+        android:id="@+id/curr_location"
+        android:icon="@mipmap/ic_my_location"
+        android:title="@string/action_my_location"
+        app:showAsAction="always" />
 </menu>

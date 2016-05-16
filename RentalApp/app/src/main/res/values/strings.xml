@@ -19,6 +19,7 @@
 
     <string name="action_filter">Filter</string>
     <string name="action_save_search">Save Search</string>
+    <string name="action_my_location">Current location</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

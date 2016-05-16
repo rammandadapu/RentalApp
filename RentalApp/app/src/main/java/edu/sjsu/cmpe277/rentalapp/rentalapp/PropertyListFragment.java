@@ -206,16 +206,6 @@ public class PropertyListFragment extends Fragment
 
             location.setMaxWidth(Integer.MAX_VALUE);
             location.setQuery(locationFilter, true);
-
-            location.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean queryTextFocused) {
-                    if(!queryTextFocused) {
-                        setLocationFilterToCurrentCity();
-                        location.setQuery(locationFilter, false);
-                    }
-                }
-            });
         }
     }
 
@@ -243,6 +233,8 @@ public class PropertyListFragment extends Fragment
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(location.getWindowToken(), 0);
 
+        location.clearFocus();
+
         return true;
     }
 
@@ -254,8 +246,8 @@ public class PropertyListFragment extends Fragment
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.sort) {
-            showDialog();
+        if (id == R.id.curr_location) {
+            setLocationFilterToCurrentCity();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -286,7 +278,7 @@ public class PropertyListFragment extends Fragment
                 saveFilterValues();
                 locationFilter = location.getQuery().toString();
                 if(TextUtils.isEmpty(locationFilter)) {
-                    Toast.makeText(getContext(),"Please enter a location",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please enter a location", Toast.LENGTH_LONG).show();
                 }
                 else {
                     startSearch();
@@ -395,10 +387,12 @@ public class PropertyListFragment extends Fragment
             if(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
                 locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
                 System.out.println("LOCATIONNNNNNNN:" + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
+                //Toast.makeText(getContext(),locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString(),Toast.LENGTH_LONG).show();
             }
             else {
                 locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                        LocationManager.GPS_PROVIDER, 10, 2, locationListener);
+                //Toast.makeText(getContext(),"location not available, waiting for location manager",Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -501,12 +495,13 @@ public class PropertyListFragment extends Fragment
             String latitude = "Latitude: " + loc.getLatitude();
 
             System.out.println("LOCATIONNNNNNNN:" + loc.toString());
+            //Toast.makeText(getContext(),loc.toString(),Toast.LENGTH_LONG).show();
             locationFilter = getCityNameFromLocation(loc);
             if(location != null)
                 location.setQuery(locationFilter,false);
 
         /*------- To get city name from coordinates -------- */
-            String cityName = null;
+            /*String cityName = null;
             Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
             List<Address> addresses;
             try {
@@ -521,14 +516,18 @@ public class PropertyListFragment extends Fragment
                 e.printStackTrace();
             }
             String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
-                    + cityName;
+                    + cityName;*/
         }
 
         @Override
-        public void onProviderDisabled(String provider) {}
+        public void onProviderDisabled(String provider) {
+
+        }
 
         @Override
-        public void onProviderEnabled(String provider) {}
+        public void onProviderEnabled(String provider) {
+
+        }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {}
