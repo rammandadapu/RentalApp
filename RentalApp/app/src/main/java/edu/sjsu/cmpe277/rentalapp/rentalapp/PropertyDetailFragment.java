@@ -85,6 +85,28 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("title", appBarLayout.getTitle().toString());
+
+    }
+
+
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(null!=savedInstanceState){
+            if(null==appBarLayout)
+                appBarLayout=(CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+            if(null!=appBarLayout)
+                appBarLayout.setTitle(savedInstanceState.getString("title"));
+        }
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
