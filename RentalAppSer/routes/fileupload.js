@@ -5,6 +5,7 @@ var constants = require('./constants');
 var mailcomponent = require('./mailcomponent');
 var mongodb = require('mongodb');
 var path = require('path');
+var notifications = require('./notifications');
 var mongoUrl=constants.MongoURL;
 var MongoClient = mongodb.MongoClient;
 
