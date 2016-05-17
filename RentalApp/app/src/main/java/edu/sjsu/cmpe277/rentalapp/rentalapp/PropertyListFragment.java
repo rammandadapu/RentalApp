@@ -400,8 +400,12 @@ public class PropertyListFragment extends Fragment
                 //Toast.makeText(getContext(),locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString(),Toast.LENGTH_LONG).show();
             }
             else {
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 10, 2, locationListener);
+                locationFilter = "San Jose";
+                if(location != null) {
+                    location.setQuery(locationFilter,false);
+                }
+                /*locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 10, 2, locationListener);*/
                 //Toast.makeText(getContext(),"location not available, waiting for location manager",Toast.LENGTH_LONG).show();
             }
         }
