@@ -17,27 +17,27 @@
     -->
 
     <Button
-        android:layout_width="193dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:id="@+id/filter_button"
         android:text="@string/action_filter"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:longClickable="false" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:id="@+id/save_search_button"
         android:text="@string/action_save_search"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/filter_button"
-        android:visibility="gone"
+        android:visibility="visible"
         android:longClickable="false" />
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="400dp"
         android:layout_height="1dp"
         android:id="@+id/line1"
         android:background="#8d8d8d"
@@ -49,7 +49,7 @@
         android:name="edu.sjsu.cmpe277.rentalapp.PropertyListFragment"
         android:layout_marginLeft="5dp"
         android:layout_width="@dimen/item_width"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         app:layoutManager="LinearLayoutManager"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/filter_button"

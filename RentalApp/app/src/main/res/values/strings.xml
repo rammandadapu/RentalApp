@@ -105,7 +105,7 @@
     <!--end apartment-->
 
     <string name="post_success">Posted Successfully</string>
-    <string name="post_fail">Fail to Submit. Please try again.!</string>
+    <string name="post_fail">Failed to submit. Please try again.!</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

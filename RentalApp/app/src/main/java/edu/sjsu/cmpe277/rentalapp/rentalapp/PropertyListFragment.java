@@ -132,8 +132,10 @@ public class PropertyListFragment extends Fragment
         saveSearchButton.setVisibility(View.VISIBLE);
 
         dummy = (Button) view.findViewById(R.id.dummy);
-        dummy.setBackgroundResource(R.drawable.white_image);
-        dummy.setVisibility(View.VISIBLE);
+        if(dummy != null) {
+            dummy.setBackgroundResource(R.drawable.white_image);
+            dummy.setVisibility(View.VISIBLE);
+        }
 
         saveSearchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -206,7 +208,7 @@ public class PropertyListFragment extends Fragment
 
             location.setIconifiedByDefault(false);
             //searchView.setSubmitButtonEnabled(true);
-            location.setQueryHint("Location");
+            location.setQueryHint("City/Zip");
             location.setOnQueryTextListener(this);
 
             location.setMaxWidth(Integer.MAX_VALUE);
