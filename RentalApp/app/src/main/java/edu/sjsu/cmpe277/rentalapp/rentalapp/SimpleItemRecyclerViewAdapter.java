@@ -57,7 +57,7 @@ public class SimpleItemRecyclerViewAdapter
                     .into(holder.mImageView);
         }
         else {
-            holder.mImageView.setImageResource(R.mipmap.apartment);
+            holder.mImageView.setImageResource(R.mipmap.buildings);
         }
 
 

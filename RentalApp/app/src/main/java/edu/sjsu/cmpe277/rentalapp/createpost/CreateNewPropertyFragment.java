@@ -318,6 +318,8 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if(RESULT_IMAGE==requestCode && Activity.RESULT_OK==resultCode && null!=data){
             setResultImage( data.getData());
+            ImageUtility imageUtility=new ImageUtility(getActivity());
+            imageUrl= imageUtility.getPath(data.getData());
         }
     }
     private void setResultImage(final Uri uri){
@@ -328,8 +330,7 @@ public class CreateNewPropertyFragment extends Fragment implements View.OnClickL
                 bitmap.getWidth();
                 bitmap.getHeight();
                 imageView.setImageBitmap(bitmap);
-                ImageUtility imageUtility=new ImageUtility(getActivity());
-                imageUrl= imageUtility.getPath(uri);
+
             }
 
             @Override

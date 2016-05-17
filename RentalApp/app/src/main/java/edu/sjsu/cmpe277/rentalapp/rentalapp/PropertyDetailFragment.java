@@ -210,7 +210,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                                     Target target = new Target() {
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                           ImageView imageView=new ImageView(getContext());
+
+                                            ImageView imageView=new ImageView(getContext());
                                             imageView.setImageBitmap(bitmap);
                                             appBarLayout.setBackground(imageView.getDrawable());
                                         }
@@ -226,7 +227,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
                                             System.out.print("failinggg....");
                                         }
                                     };
-
+                                    if(null!=appBarLayout)
                                     Picasso.with(getContext()).load(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL)).resize(256, 256).into(target);
                                 }
                                    // drawableFromUrl(WebService.baseURL + "download/" + map.get(DBHandler.TABLE_PROPERTY_IMAGE_URL));
@@ -360,8 +361,10 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     private void togglePropertyStatus() {
         if (STATUS_AVAILABLE.equalsIgnoreCase(propertStatus)) {
             propertStatus = STATUS_SOLD;
+            Toast.makeText(getContext(), "Marked as Sold out", Toast.LENGTH_SHORT).show();
         } else {
             propertStatus = STATUS_AVAILABLE;
+            Toast.makeText(getContext(), "Marked as Available", Toast.LENGTH_SHORT).show();
         }
         handleSoldAvailableButton();
         postChangeToDB(propertStatus);
@@ -379,7 +382,7 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.button_post_cancelled:
                 togglePropertyStatus();
-                Toast.makeText(getContext(), "Request Submitted", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.button_post_edit:
                 showEditScreen();

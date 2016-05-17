@@ -28,9 +28,12 @@ public class ImageUtility {
         String[] projection = { MediaStore.Images.Media.DATA };
 
         Cursor cursor = activity.managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+        if(null!=cursor) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return null;
     }
 
     public Bitmap getBitmap(String filePath,int width,int height) throws FileNotFoundException {

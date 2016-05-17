@@ -56,7 +56,7 @@ public class SimpleItemRecyclerViewAdapterFavorites
                     .resize(256,256)
                     .into(holder.mImageView);
         else
-            holder.mImageView.setImageResource(R.mipmap.apartment);
+            holder.mImageView.setImageResource(R.mipmap.buildings);
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
