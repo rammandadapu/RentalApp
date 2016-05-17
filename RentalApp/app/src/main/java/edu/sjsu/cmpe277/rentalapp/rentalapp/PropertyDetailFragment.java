@@ -86,7 +86,8 @@ public class PropertyDetailFragment extends Fragment implements View.OnClickList
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("title", appBarLayout.getTitle().toString());
+        if(null!=appBarLayout)
+            outState.putString("title", appBarLayout.getTitle().toString());
 
     }
 

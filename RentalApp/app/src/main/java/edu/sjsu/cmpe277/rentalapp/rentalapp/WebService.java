@@ -30,13 +30,12 @@ import edu.sjsu.cmpe277.rentalapp.pojo.Property;
 
 public class WebService {
 
-    private static final String SERVER_URL = "http://54.67.127.61:1337/";
+    private static final String SERVER_URL = "http://52.9.217.97:1337/";
     private static final String LOCAL_URL = "http://127.0.0.1:1337/";
     private static final String MOBILE_URL = "http://10.0.2.2:1337/";
     public static String baseURL;
     private static boolean localMode = false;
-    OAuthService service;
-    HttpURLConnection urlConnectiØon;
+
 
     public WebService() {
         if(localMode) {
