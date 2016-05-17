@@ -393,6 +393,9 @@ public class PropertyListFragment extends Fragment
         else {
             if(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
                 locationFilter = getCityNameFromLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+                if(location != null) {
+                    location.setQuery(locationFilter,false);
+                }
                 System.out.println("LOCATIONNNNNNNN:" + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString());
                 //Toast.makeText(getContext(),locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString(),Toast.LENGTH_LONG).show();
             }
